@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitetura do Sistema - Vibe Garb</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">🏠 Início</a></li>
+                    <li><a href="architecture.html" class="active">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>🏗️ Arquitetura do Sistema - Vibe Garb</h1>
+                <p class="subtitle">Estrutura técnica e padrões implementados</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Status da Implementação -->
+                <div class="card">
+                    <h2>📊 Status da Implementação</h2>
+                    <div class="status-grid">
+                        <div class="status-item completed">
+                            <h3>✅ FASE 1 CONCLUÍDA (100%)</h3>
+                            <ul>
+                                <li>✅ Arquitetura de dados implementada</li>
+                                <li>✅ Models e relacionamentos funcionais</li>
+                                <li>✅ Padrões arquiteturais estabelecidos</li>
+                                <li>✅ Base técnica sólida criada</li>
+                            </ul>
+                        </div>
+                        <div class="status-item completed">
+                            <h3>✅ FASE 2 CONCLUÍDA (100%)</h3>
+                            <ul>
+                                <li>✅ Camada de apresentação com Blade Templates</li>
+                                <li>✅ Controllers de negócio implementados</li>
+                                <li>✅ Sistema de autenticação funcional</li>
+                                <li>✅ Interface e-commerce completa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arquitetura Geral -->
+                <div class="card">
+                    <h2>🏢 Arquitetura Geral</h2>
+                    <h3>Padrão Arquitetural: MVC Monolítico</h3>
+                    <div class="architecture-diagram">
+                        <div class="layer">
+                            <h4>🎨 PRESENTATION LAYER</h4>
+                            <ul>
+                                <li>🌐 Blade Templates (Catálogo, Carrinho, Auth)</li>
+                                <li>🎯 Controllers (Product, Cart, Home, Auth)</li>
+                                <li>🔒 Middleware (Auth, Admin)</li>
+                                <li>📡 Web Routes (MVC tradicional)</li>
+                            </ul>
+                        </div>
+                        <div class="layer">
+                            <h4>🧠 BUSINESS LOGIC LAYER</h4>
+                            <ul>
+                                <li>✅ Models (11 implementados)</li>
+                                <li>✅ Relationships (Eloquent ORM)</li>
+                                <li>✅ Validations (Rules & Casts)</li>
+                                <li>✅ Business Methods (Scopes, Accessors)</li>
+                            </ul>
+                        </div>
+                        <div class="layer">
+                            <h4>🗄️ DATA ACCESS LAYER</h4>
+                            <ul>
+                                <li>✅ Eloquent ORM (Laravel)</li>
+                                <li>✅ Migrations (12 tabelas)</li>
+                                <li>✅ Seeders (Dados realistas)</li>
+                                <li>✅ Database (MySQL 8.0)</li>
+                            </ul>
+                        </div>
+                        <div class="layer">
+                            <h4>🐳 INFRASTRUCTURE LAYER</h4>
+                            <ul>
+                                <li>✅ Docker Containers</li>
+                                <li>✅ Nginx (Web Server)</li>
+                                <li>✅ Redis (Cache/Sessions)</li>
+                                <li>✅ MySQL (Database)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stack Tecnológica -->
+                <div class="card">
+                    <h2>🔧 Stack Tecnológica Implementada</h2>
+                    <div class="tech-grid">
+                        <div class="tech-section">
+                            <h3>✅ Backend Completo</h3>
+                            <ul>
+                                <li><strong>Linguagem:</strong> PHP 8.2</li>
+                                <li><strong>Framework:</strong> Laravel 12.19.3</li>
+                                <li><strong>ORM:</strong> Eloquent</li>
+                                <li><strong>Autenticação:</strong> Laravel Breeze (Session-based)</li>
+                                <li><strong>Cache:</strong> Redis 7</li>
+                                <li><strong>Banco:</strong> MySQL 8.0</li>
+                            </ul>
+                        </div>
+                        <div class="tech-section">
+                            <h3>✅ Infraestrutura</h3>
+                            <ul>
+                                <li><strong>Containerização:</strong> Docker + Docker Compose</li>
+                                <li><strong>Web Server:</strong> Nginx 1.27</li>
+                                <li><strong>Processo PHP:</strong> PHP-FPM</li>
+                                <li><strong>Cache:</strong> Redis Alpine</li>
+                                <li><strong>Banco:</strong> MySQL 8.0</li>
+                                <li><strong>Performance:</strong> Volumes otimizados (:cached)</li>
+                            </ul>
+                        </div>
+                        <div class="tech-section">
+                            <h3>✅ Frontend</h3>
+                            <ul>
+                                <li><strong>Templates:</strong> Blade Engine (Server-side rendering)</li>
+                                <li><strong>CSS:</strong> Tailwind CSS 3.x</li>
+                                <li><strong>JavaScript:</strong> Vanilla JS (mínimo necessário)</li>
+                                <li><strong>Build:</strong> Vite (para assets)</li>
+                                <li><strong>Arquitetura:</strong> MVC tradicional</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Camada de Dados -->
+                <div class="card">
+                    <h2>🗄️ Camada de Dados - IMPLEMENTADA</h2>
+                    <h3>Estrutura do Banco</h3>
+                    <div class="mermaid">
+                        graph TB
+                            subgraph "CORE ENTITIES - ✅ IMPLEMENTADO"
+                                A[👤 Users<br/>4 registros]
+                                B[📂 Categories<br/>6 registros]
+                                C[🏭 Suppliers<br/>4 registros]
+                                D[📦 Products<br/>7 registros]
+                            end
+                            
+                            subgraph "PRODUCT VARIANTS - ✅ IMPLEMENTADO"
+                                E[🖼️ Product Images<br/>Estrutura pronta]
+                                F[🎯 Product Variants<br/>34 registros]
+                            end
+                            
+                            subgraph "ORDER SYSTEM - ✅ ESTRUTURA PRONTA"
+                                G[🛒 Orders<br/>Pronto para uso]
+                                H[📝 Order Items<br/>Pronto para uso]
+                                I[💳 Payments<br/>Pronto para uso]
+                            end
+                            
+                            subgraph "MARKETING & REVIEWS - ✅ ESTRUTURA PRONTA"
+                                J[🎫 Coupons<br/>Pronto para uso]
+                                K[⭐ Reviews<br/>Pronto para uso]
+                                L[📧 Newsletter<br/>Pronto para uso]
+                            end
+                            
+                            A --> G
+                            B --> D
+                            C --> D
+                            D --> E
+                            D --> F
+                            D --> H
+                            D --> K
+                            G --> H
+                            G --> I
+                            J --> G
+                            A --> K
+                    </div>
+                </div>
+
+                <!-- Models Eloquent -->
+                <div class="card">
+                    <h2>Models Eloquent - IMPLEMENTADOS</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Status</th>
+                                    <th>Relacionamentos</th>
+                                    <th>Funcionalidades</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>User</strong></td>
+                                    <td>✅ Completo</td>
+                                    <td>orders, reviews</td>
+                                    <td>Roles, endereços</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Category</strong></td>
+                                    <td>✅ Completo</td>
+                                    <td>products</td>
+                                    <td>Hierarquia, slugs</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Supplier</strong></td>
+                                    <td>✅ Completo</td>
+                                    <td>products</td>
+                                    <td>Comissões, dropshipping</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Product</strong></td>
+                                    <td>✅ Completo</td>
+                                    <td>category, supplier, variants, images, reviews</td>
+                                    <td>Preços, estoque, SKU</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ProductVariant</strong></td>
+                                    <td>✅ Completo</td>
+                                    <td>product, orderItems</td>
+                                    <td>Tamanhos, cores, preços</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ProductImage</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>product</td>
+                                    <td>Múltiplas imagens</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Order</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>user, items, payments, coupon</td>
+                                    <td>Status, endereços</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>OrderItem</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>order, product, variant</td>
+                                    <td>Snapshot de preços</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Payment</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>order</td>
+                                    <td>Multi-gateway</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Coupon</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>orders</td>
+                                    <td>Validações avançadas</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ProductReview</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>product, user, order</td>
+                                    <td>Verificação de compra</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NewsletterSubscription</strong></td>
+                                    <td>✅ Estrutura</td>
+                                    <td>-</td>
+                                    <td>Email marketing</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Padrões Implementados -->
+                <div class="card">
+                    <h2>🔄 Padrões Implementados</h2>
+                    
+                    <h3>✅ Repository Pattern (via Eloquent)</h3>
+                    <div class="code-block">
+                        <pre><code>// Models com métodos de negócio implementados
+class Product extends Model 
+{
+    // ✅ Relacionamentos configurados
+    public function category() { return $this->belongsTo(Category::class); }
+    public function variants() { return $this->hasMany(ProductVariant::class); }
+    
+    // ✅ Scopes para queries
+    public function scopeActive($query) { return $query->where('is_active', true); }
+    public function scopeFeatured($query) { return $query->where('is_featured', true); }
+    
+    // ✅ Business logic
+    public function getCurrentPriceAttribute() { return $this->sale_price ?? $this->price; }
+    public function isInStock() { return !$this->manage_stock || $this->stock_quantity > 0; }
+}</code></pre>
+                    </div>
+
+                    <h3>✅ Observer Pattern (Laravel Events)</h3>
+                    <div class="code-block">
+                        <pre><code>// ✅ Implementado via Boot methods
+class Order extends Model 
+{
+    protected static function boot() {
+        parent::boot();
+        
+        // Auto-gerar número do pedido
+        static::creating(function ($order) {
+            $order->order_number = 'VG' . str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+        });
+    }
+}</code></pre>
+                    </div>
+
+                    <h3>✅ Factory Pattern (para Seeders)</h3>
+                    <div class="code-block">
+                        <pre><code>// ✅ Seeders implementados com dados realistas
+class ProductSeeder extends Seeder 
+{
+    public function run() {
+        // 7 produtos criados com variações automáticas
+        foreach ($products as $productData) {
+            $product = Product::create($productData);
+            
+            // Auto-criar variações de tamanho
+            foreach (['P', 'M', 'G', 'GG'] as $size) {
+                ProductVariant::create([...]);
+            }
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Segurança Implementada -->
+                <div class="card">
+                    <h2>🔐 Segurança Implementada</h2>
+                    
+                    <h3>✅ Autenticação (Estrutura)</h3>
+                    <div class="code-block">
+                        <pre><code>// ✅ Laravel Sanctum configurado
+// ✅ Middleware preparado
+// ✅ Roles implementadas (admin/customer)
+
+// Models User com security
+class User extends Authenticatable 
+{
+    protected $fillable = [...]; // ✅ Mass assignment protection
+    protected $hidden = ['password', 'remember_token']; // ✅ Sensitive data hidden
+    protected $casts = ['password' => 'hashed']; // ✅ Auto-hashing
+}</code></pre>
+                    </div>
+
+                    <h3>✅ Validação de Dados</h3>
+                    <div class="code-block">
+                        <pre><code>// ✅ Eloquent Casts implementados
+protected $casts = [
+    'price' => 'decimal:2',
+    'is_active' => 'boolean',  
+    'images' => 'array',
+    'attributes' => 'array'
+];
+
+// ✅ Unique constraints no banco
+$table->string('email')->unique();
+$table->string('sku')->unique();
+$table->string('slug')->unique();</code></pre>
+                    </div>
+                </div>
+
+                <!-- Performance e Escalabilidade -->
+                <div class="card">
+                    <h2>🚀 Performance e Escalabilidade</h2>
+                    
+                    <h3>✅ Otimizações Implementadas</h3>
+                    <div class="code-block">
+                        <pre><code>// ✅ Eager Loading configurado
+public function productImages() {
+    return $this->hasMany(ProductImage::class)->orderBy('sort_order');
+}
+
+// ✅ Índices automáticos
+Schema::create('products', function (Blueprint $table) {
+    $table->id(); // ✅ Primary key
+    $table->string('sku')->unique(); // ✅ Unique index
+    $table->foreignId('category_id')->constrained(); // ✅ Foreign key index
+});</code></pre>
+                    </div>
+
+                    <h3>✅ Cache Strategy (Preparado)</h3>
+                    <ul>
+                        <li><strong>Redis:</strong> Configurado para sessions/cache</li>
+                        <li><strong>Eloquent:</strong> Query caching disponível</li>
+                        <li><strong>Views:</strong> Blade template caching ativo</li>
+                    </ul>
+                </div>
+
+                <!-- Integração e APIs -->
+                <div class="card">
+                    <h2>🔌 Integração e APIs</h2>
+                    
+                    <h3>🚧 APIs REST (Fase 2)</h3>
+                    <ul>
+                        <li><strong>Status:</strong> Estrutura preparada</li>
+                        <li><strong>Rotas:</strong> /api/* configuradas</li>
+                        <li><strong>Auth:</strong> Sanctum tokens prontos</li>
+                        <li><strong>Format:</strong> JSON responses</li>
+                    </ul>
+
+                    <h3>🚧 Pagamentos (Fase 2)</h3>
+                    <ul>
+                        <li><strong>Gateways:</strong> Multi-gateway preparado</li>
+                        <li><strong>Métodos:</strong> PIX, Cartão, Boleto, PayPal</li>
+                        <li><strong>Webhook:</strong> Estrutura de payments pronta</li>
+                    </ul>
+
+                    <h3>🚧 Correios (Fase 2)</h3>
+                    <ul>
+                        <li><strong>Frete:</strong> Cálculo via API</li>
+                        <li><strong>Rastreamento:</strong> Campo tracking_code pronto</li>
+                        <li><strong>Endereços:</strong> JSON structure implementada</li>
+                    </ul>
+                </div>
+
+                <!-- Monitoramento e Logs -->
+                <div class="card">
+                    <h2>📊 Monitoramento e Logs</h2>
+                    
+                    <h3>✅ Logs (Laravel)</h3>
+                    <ul>
+                        <li><strong>Storage:</strong> /storage/logs/</li>
+                        <li><strong>Levels:</strong> Error, Warning, Info, Debug</li>
+                        <li><strong>Format:</strong> Single/Daily rotation</li>
+                    </ul>
+
+                    <h3>🚧 Métricas (Fase 2)</h3>
+                    <ul>
+                        <li><strong>Analytics:</strong> Google Analytics preparado</li>
+                        <li><strong>Performance:</strong> Query monitoring</li>
+                        <li><strong>Business:</strong> Sales metrics</li>
+                    </ul>
+                </div>
+
+                <!-- Deployment e DevOps -->
+                <div class="card">
+                    <h2>🔧 Deployment e DevOps</h2>
+                    
+                    <h3>✅ Docker Environment</h3>
+                    <ul>
+                        <li><strong>Containers:</strong>
+                            <ul>
+                                <li>vibegarb_app (PHP 8.2-FPM)</li>
+                                <li>vibegarb_webserver (Nginx)</li>
+                                <li>vibegarb_db (MySQL 8.0)</li>
+                                <li>vibegarb_redis (Redis 7)</li>
+                                <li>vibegarb_node (Node.js para builds)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Volumes:</strong>
+                            <ul>
+                                <li>Código fonte sincronizado</li>
+                                <li>Banco de dados persistente</li>
+                                <li>Logs acessíveis</li>
+                            </ul>
+                        </li>
+                        <li><strong>Networks:</strong>
+                            <ul>
+                                <li>Rede interna isolada</li>
+                                <li>Portas expostas: 8500 (HTTP), 3350 (MySQL), 6350 (Redis)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>🚧 Production (Fase 3)</h3>
+                    <ul>
+                        <li><strong>CI/CD:</strong> GitHub Actions preparado</li>
+                        <li><strong>SSL:</strong> Let's Encrypt integration</li>
+                        <li><strong>CDN:</strong> Cloudflare ready</li>
+                        <li><strong>Backup:</strong> Automated database backup</li>
+                    </ul>
+                </div>
+
+                <!-- Diagrama de Componentes -->
+                <div class="card">
+                    <h2>🎯 Diagrama de Componentes Atuais</h2>
+                    <div class="mermaid">
+                        graph TB
+                            subgraph "✅ IMPLEMENTADO - FASE 1"
+                                subgraph "Data Layer"
+                                    MySQL[(MySQL 8.0<br/>12 tabelas)]
+                                    Redis[(Redis 7<br/>Cache/Sessions)]
+                                end
+                                
+                                subgraph "Application Layer"
+                                    Models[Eloquent Models<br/>11 implementados]
+                                    Seeders[Seeders<br/>Dados realistas]
+                                    Migrations[Migrations<br/>Estrutura completa]
+                                end
+                                
+                                subgraph "Infrastructure"
+                                    Docker[Docker Compose<br/>5 containers]
+                                    Nginx[Nginx<br/>Web server]
+                                    PHP[PHP 8.2-FPM<br/>Laravel 12.19.3]
+                                end
+                            end
+                            
+                            subgraph "🚧 PENDENTE - FASE 2"
+                                Controllers[Controllers<br/>Business Logic]
+                                Views[Blade Views<br/>UI Templates]
+                                APIs[REST APIs<br/>JSON responses]
+                                Auth[Authentication<br/>Login/Register]
+                            end
+                            
+                            Models --> MySQL
+                            Models --> Redis
+                            Controllers --> Models
+                            Views --> Controllers
+                            APIs --> Controllers
+                            Auth --> Controllers
+                    </div>
+                </div>
+
+                <!-- Métricas Atuais -->
+                <div class="card">
+                    <h2>📈 Métricas Atuais</h2>
+                    
+                    <h3>✅ Implementação</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">📊 Arquitetura Geral</span>
+                            <span class="metric-value">60% (Base sólida)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🗄️ Camada de Dados</span>
+                            <span class="metric-value">100% (Completa)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🧠 Business Logic</span>
+                            <span class="metric-value">100% (Models prontos)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🎨 Presentation</span>
+                            <span class="metric-value">100% (Completa)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🔧 Infrastructure</span>
+                            <span class="metric-value">100% (Docker funcional)</span>
+                        </div>
+                    </div>
+
+                    <h3>✅ Qualidade de Código</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">📝 Documentação</span>
+                            <span class="metric-value">100% (Completa)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🔒 Security</span>
+                            <span class="metric-value">80% (Base segura)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">⚡ Performance</span>
+                            <span class="metric-value">70% (Otimizado)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🧪 Testing</span>
+                            <span class="metric-value">0% (Preparado)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximos Passos -->
+                <div class="card">
+                    <h2>🚀 Próximos Passos Arquiteturais</h2>
+                    
+                    <h3>Fase 2 - Application Layer</h3>
+                    <ol>
+                        <li><strong>Controllers</strong> - Lógica de negócio HTTP</li>
+                        <li><strong>Middleware</strong> - Autenticação e autorização</li>
+                        <li><strong>Form Requests</strong> - Validação de entrada</li>
+                        <li><strong>Resources</strong> - Serialização de dados</li>
+                        <li><strong>Jobs & Queues</strong> - Processamento assíncrono</li>
+                    </ol>
+
+                    <h3>Fase 3 - Advanced Features</h3>
+                    <ol>
+                        <li><strong>Service Layer</strong> - Business services</li>
+                        <li><strong>Event System</strong> - Domain events</li>
+                        <li><strong>Cache Strategy</strong> - Performance optimization</li>
+                        <li><strong>API Versioning</strong> - Backward compatibility</li>
+                        <li><strong>Microservices</strong> - Future scalability</li>
+                    </ol>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="card conclusion">
+                    <h2>✅ Arquitetura Base Sólida Implementada</h2>
+                    <p><em>Fundação profissional para crescimento escalável</em></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html> 

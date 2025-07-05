@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo Dropshipping - VibeGarb</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="../public/favicon.ico">
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../public/favicon.ico" alt="VibeGarb" class="logo">
+                <p>Documentação do Sistema</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <h3>🚀 Início Rápido</h3>
+                    <ul>
+                        <li><a href="index.html">Dashboard</a></li>
+                        <li><a href="installation.html">Instalação</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>📦 Dropshipping</h3>
+                    <ul>
+                        <li><a href="dropshipping-model.html" class="active">Modelo Dropshipping</a></li>
+                        <li><a href="checkout-implementation.html">Checkout</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>🏗️ Referência Técnica</h3>
+                    <ul>
+                        <li><a href="architecture.html">Arquitetura</a></li>
+                        <li><a href="database.html">Banco de Dados</a></li>
+                        <li><a href="development.html">Guia de Desenvolvimento</a></li>
+                        <li><a href="build.html">Build & Deploy</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>📖 MVP & Status</h3>
+                    <ul>
+                        <li><a href="mvp-plan.html">Plano MVP</a></li>
+                        <li><a href="current-status.html">Status Atual</a></li>
+                        <li><a href="phase2-completion.html">Conclusão Fase 2</a></li>
+                        <li><a href="mvp-migrations.html">MVP Migrations</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>🛠️ Suporte</h3>
+                    <ul>
+                        <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Modelo de Dropshipping - Vibe Garb E-commerce</h1>
+                <p class="subtitle">V1 - Operação Manual com Fornecedor Único (Dimona)</p>
+            </header>
+            <section>
+                <h2>📋 Resumo do Modelo de Negócio (V1)</h2>
+                <ol>
+                    <li><b>Cliente Compra na Loja:</b> O cliente escolhe um produto, personaliza se necessário, e realiza o pagamento do valor final (produto + frete) no site Vibe Garb.</li>
+                    <li><b>Admin Recebe o Pedido:</b> O pedido aparece no Dashboard de Dropshipping com status <code>paid</code> (pago).</li>
+                    <li><b>Admin Processa o Pedido Manualmente:</b> O administrador acessa o portal do fornecedor (Dimona), insere os detalhes do pedido (produto, quantidade, dados do cliente) e efetua o pagamento do custo de produção + frete do fornecedor.</li>
+                    <li><b>Fornecedor Produz e Envia:</b> A Dimona produz a peça e a envia diretamente para o endereço do cliente final.</li>
+                    <li><b>Admin Gerencia o Pós-venda:</b> Quando o fornecedor disponibiliza o código de rastreio, o admin o insere no sistema da Vibe Garb para notificar o cliente (funcionalidade futura).</li>
+                </ol>
+            </section>
+            <section>
+                <h2>🔄 Fluxo de Trabalho na Plataforma (V1)</h2>
+                
+                <div class="mermaid">
+graph TD
+    subgraph "Site Vibe Garb"
+        A[Cliente finaliza a compra] --> B[Pedido é criado com status 'paid'];
+        B --> C["Pedido aparece no Dashboard de Dropshipping"];
+    end
+
+    subgraph "Admin (Processo Manual)"
+        C --> D{Admin};
+        D -- "1. Acessa o portal da Dimona" --> E[Site da Dimona];
+        D -- "2. Copia os dados do pedido" --> F[Insere dados do pedido manualmente na Dimona];
+        D -- "3. Efetua o pagamento à Dimona" --> G[Paga o custo do produto];
+        D -- "4. Volta ao dashboard da Vibe Garb" --> H[Marca o pedido como 'Enviado ao Fornecedor'];
+    end
+
+    subgraph "Fornecedor (Dimona)"
+        F --> I[Recebe e produz o pedido];
+        I --> J[Envia o produto para o cliente final];
+        J --> K[Fornece o código de rastreio para o Admin];
+    end
+
+    subgraph "Pós-Venda (Futuro)"
+        K --> L{Admin};
+        L -- "Insere o código de rastreio no sistema Vibe Garb" --> M[Status do pedido atualizado para 'Enviado'];
+        M --> N[Cliente é notificado por e-mail com o rastreio];
+    end
+                </div>
+
+                <h3>Status de Pedido Relevantes para a V1</h3>
+                <ul>
+                    <li><code>paid</code>: Cliente pagou, pedido aguardando processamento pelo admin. É o gatilho para a ação.</li>
+                    <li><code>processing_supplier</code>: (Sugestão de novo status) Admin já iniciou o processo no site da Dimona, mas ainda não concluiu/pagou.</li>
+                    <li><code>sent_to_supplier</code>: Admin já fez e pagou o pedido no portal da Dimona. Aguardando produção e envio.</li>
+                    <li><code>shipped</code>: O fornecedor já enviou o produto e o código de rastreio foi inserido no sistema.</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h2>🚀 Próximas Etapas e Visão Futura</h2>
+                <p>A versão 1 deste fluxo é <strong>intencionalmente manual</strong> para validar o modelo de negócio com baixo custo de desenvolvimento. O objetivo é evoluir para uma automação completa.</p>
+                <ol>
+                    <li><strong>Fase 1 (Atual):</strong> Implementar o Dashboard de Dropshipping para listar pedidos <code>paid</code> e permitir ao admin marcá-los como <code>sent_to_supplier</code>.</li>
+                    <li><strong>Fase 2 (Curto Prazo):</strong> Implementar a funcionalidade de adicionar o código de rastreio do fornecedor ao pedido e notificar o cliente.</li>
+                    <li><strong>Fase 3 (Médio/Longo Prazo - API):</strong> Integrar com a <strong>API da Dimona</strong> para:
+                        <ul>
+                            <li>Enviar pedidos automaticamente assim que forem pagos.</li>
+                            <li>Sincronizar o status da produção (ex: "em produção", "pronto para envio").</li>
+                            <li>Receber o código de rastreio automaticamente.</li>
+                            <li>Automatizar o fluxo de ponta a ponta, minimizando a intervenção manual.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+            <section>
+                <h2>💰 Cálculo Financeiro Automático</h2>
+                <p><b>Fórmula de Lucro:</b></p>
+                <pre>Preço Final (Cliente) = Preço de Venda + Frete Cliente
+Custo Total (Fábrica) = Custo de Produção + Frete Fábrica
+Margem de Lucro = Preço Final - Custo Total</pre>
+                <p><b>Exemplo Prático:</b></p>
+                <ul>
+                    <li><b>Produto:</b> Camiseta Premium</li>
+                    <li><b>Preço de Venda:</b> R$ 89,90</li>
+                    <li><b>Frete Cliente:</b> R$ 15,90</li>
+                    <li><b>Preço Final:</b> R$ 105,80</li>
+                    <li><b>Custo Produção:</b> R$ 45,00</li>
+                    <li><b>Frete Fábrica:</b> R$ 12,00</li>
+                    <li><b>Custo Total:</b> R$ 57,00</li>
+                    <li><b>Margem de Lucro:</b> R$ 48,80 (46% de lucro)</li>
+                </ul>
+            </section>
+            <section>
+                <h2>🗄️ Estrutura do Banco de Dados</h2>
+                <h3>Tabela Products (Campos de Dropshipping)</h3>
+                <pre><code>cost_price DECIMAL(10,2) -- Custo de produção na fábrica
+production_days INTEGER -- Prazo de produção em dias
+supplier_id INTEGER -- ID da fábrica fornecedora</code></pre>
+                <h3>Tabela Orders (Campos de Dropshipping)</h3>
+                <pre><code>production_cost DECIMAL(10,2) -- Custo total de produção
+supplier_shipping_cost DECIMAL(10,2) -- Frete que a fábrica cobra
+profit_margin DECIMAL(10,2) -- Margem de lucro calculada
+production_days INTEGER -- Prazo de produção
+estimated_production_date DATE -- Data estimada de produção
+estimated_shipping_date DATE -- Data estimada de envio
+estimated_delivery_date DATE -- Data estimada de entrega
+production_status ENUM -- Status da produção
+supplier_status ENUM -- Status com a fábrica
+supplier_order_number VARCHAR -- Número do pedido na fábrica
+supplier_notes TEXT -- Observações para a fábrica
+supplier_tracking_code VARCHAR -- Código de rastreio da fábrica
+supplier_tracking_url VARCHAR -- URL de rastreio
+supplier_paid BOOLEAN -- Se já pagou a fábrica
+supplier_payment_date DATE -- Data do pagamento
+supplier_payment_amount DECIMAL(10,2) -- Valor pago</code></pre>
+            </section>
+            <section>
+                <h2>🎯 Status dos Pedidos</h2>
+                <h3>Status de Pagamento (Cliente)</h3>
+                <ul>
+                    <li>pending - Aguardando pagamento</li>
+                    <li>processing - Processando pagamento</li>
+                    <li>completed - Pago</li>
+                    <li>failed - Falhou</li>
+                    <li>cancelled - Cancelado</li>
+                </ul>
+                <h3>Status de Produção</h3>
+                <ul>
+                    <li>pending - Aguardando confirmação</li>
+                    <li>confirmed - Confirmado com fábrica</li>
+                    <li>in_production - Em produção</li>
+                    <li>ready_to_ship - Pronto para envio</li>
+                    <li>shipped - Enviado pela fábrica</li>
+                    <li>delivered - Entregue ao cliente</li>
+                </ul>
+                <h3>Status com Fábrica</h3>
+                <ul>
+                    <li>pending - Aguardando envio à fábrica</li>
+                    <li>confirmed - Confirmado pela fábrica</li>
+                    <li>paid - Pago à fábrica</li>
+                    <li>in_production - Em produção na fábrica</li>
+                    <li>shipped - Enviado pela fábrica</li>
+                </ul>
+            </section>
+            <section>
+                <h2>🛠️ Funcionalidades Implementadas</h2>
+                <ul>
+                    <li>Cálculo automático de custos e margens</li>
+                    <li>Dashboard com estatísticas financeiras</li>
+                    <li>Lista de pedidos prontos para fábrica</li>
+                    <li>Acompanhamento de produção</li>
+                    <li>Gestão de pagamentos à fábrica</li>
+                    <li>Atualização de códigos de rastreio</li>
+                    <li>Rastreamento de receita total</li>
+                    <li>Controle de custos de produção</li>
+                    <li>Relatórios financeiros</li>
+                    <li>Exportação de pedidos para fábrica</li>
+                    <li>Controle de pagamentos</li>
+                    <li>Tracking de envios</li>
+                </ul>
+            </section>
+            <section>
+                <h2>📊 Dashboard de Dropshipping</h2>
+                <ul>
+                    <li>Total de Pedidos</li>
+                    <li>Pedidos Pendentes</li>
+                    <li>Em Produção</li>
+                    <li>Prontos para Envio</li>
+                    <li>Receita Total</li>
+                    <li>Lucro Total</li>
+                    <li>Não Pagos à Fábrica</li>
+                </ul>
+                <p>Funcionalidades: Filtros por status, busca por número de pedido, exportação de dados, relatórios financeiros, acompanhamento de prazos.</p>
+            </section>
+            <section>
+                <h2>🔧 APIs e Integrações</h2>
+                <h3>APIs Internas</h3>
+                <ul>
+                    <li>GET /admin/dropshipping/dashboard - Dashboard principal</li>
+                    <li>GET /admin/dropshipping/ready-for-supplier - Pedidos prontos</li>
+                    <li>GET /admin/dropshipping/in-production - Em produção</li>
+                    <li>POST /admin/dropshipping/confirm-supplier - Confirmar com fábrica</li>
+                    <li>POST /admin/dropshipping/mark-paid - Marcar como pago</li>
+                    <li>POST /admin/dropshipping/update-tracking - Atualizar rastreio</li>
+                </ul>
+                <h3>Integrações Futuras</h3>
+                <ul>
+                    <li>API da fábrica para envio automático de pedidos</li>
+                    <li>Webhook para atualizações de status</li>
+                    <li>Sistema de pagamento automático à fábrica</li>
+                    <li>Notificações automáticas de status</li>
+                </ul>
+            </section>
+            <section>
+                <h2>📈 Vantagens do Modelo Implementado</h2>
+                <ul>
+                    <li>Automatização: cálculo automático de custos, prazos e status</li>
+                    <li>Transparência: cliente informado sobre produção sob demanda e prazos</li>
+                    <li>Controle financeiro: margem de lucro automática, controle de pagamentos, relatórios</li>
+                    <li>Escalabilidade: pronto para múltiplas fábricas e fornecedores</li>
+                </ul>
+            </section>
+            <section>
+                <h2>💡 Dicas de Operação</h2>
+                <ul>
+                    <li>Gestão de prazos: informe prazos realistas, comunique produção sob demanda, acompanhe pedidos</li>
+                    <li>Controle financeiro: monitore margens, mantenha reservas, analise rentabilidade</li>
+                    <li>Relacionamento com fábricas: comunicação clara, documente acordos, tenha alternativas</li>
+                </ul>
+            </section>
+            <!-- Footer -->
+            <footer class="content-footer">
+                <p>&copy; 2025 VibeGarb - E-commerce Dropshipping</p>
+                <p>Documentação atualizada em: <span id="lastUpdate"></span></p>
+            </footer>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html> 

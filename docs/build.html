@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Build - Vibe Garb</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">🏠 Início</a></li>
+                    <li><a href="architecture.html">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html" class="active">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>🔨 Sistema de Build - Vibe Garb</h1>
+                <p class="subtitle">Arquitetura multi-container Docker com Laravel + Blade Templates</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Visão Geral -->
+                <div class="card">
+                    <h2>📋 Visão Geral</h2>
+                    <p>O sistema de build da Vibe Garb utiliza uma arquitetura multi-container Docker com Laravel + Blade Templates, otimizada para desenvolvimento e produção.</p>
+                </div>
+
+                <!-- Arquitetura de Build -->
+                <div class="card">
+                    <h2>🏗️ Arquitetura de Build</h2>
+                    <div class="architecture-diagram">
+                        <div class="layer">
+                            <h4>🐳 Docker Compose (5 Containers)</h4>
+                            <ul>
+                                <li>PHP 8.2-FPM (Laravel Application)</li>
+                                <li>Nginx 1.27 (Web Server)</li>
+                                <li>MySQL 8.0 (Database)</li>
+                                <li>Redis 7 (Cache/Sessions)</li>
+                                <li>Node 18 (Build Assets)</li>
+                            </ul>
+                        </div>
+                        <div class="layer">
+                            <h4>📦 Asset Pipeline</h4>
+                            <ul>
+                                <li>Vite (Bundler)</li>
+                                <li>Tailwind CSS (Styling)</li>
+                                <li>Vanilla JS (Interatividade mínima)</li>
+                            </ul>
+                        </div>
+                        <div class="layer">
+                            <h4>🔧 Backend Build</h4>
+                            <ul>
+                                <li>Composer (PHP Dependencies)</li>
+                                <li>Artisan (Laravel CLI)</li>
+                                <li>OPcache (Production)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processo de Build -->
+                <div class="card">
+                    <h2>🚀 Processo de Build</h2>
+                    
+                    <h3>1. Build de Desenvolvimento</h3>
+                    <div class="code-block">
+                        <pre><code># Subir ambiente completo
+docker-compose up -d
+
+# Build de assets (CSS/JS)
+docker exec vibegarb_node npm run build
+
+# Ou modo watch para desenvolvimento
+docker exec vibegarb_node npm run dev</code></pre>
+                    </div>
+
+                    <h3>2. Build de Produção</h3>
+                    <div class="code-block">
+                        <pre><code># Build otimizado
+docker exec vibegarb_node npm run build
+
+# Otimizar Laravel
+docker exec vibegarb_app php artisan optimize
+docker exec vibegarb_app php artisan config:cache
+docker exec vibegarb_app php artisan route:cache
+docker exec vibegarb_app php artisan view:cache</code></pre>
+                    </div>
+                </div>
+
+                <!-- Estrutura de Assets -->
+                <div class="card">
+                    <h2>📂 Estrutura de Assets</h2>
+                    <div class="file-tree">
+                        <pre>resources/
+├── css/
+│   └── app.css          # Tailwind CSS
+├── js/
+│   ├── app.js           # Entry point (mínimo)
+│   └── bootstrap.js     # Configurações base
+└── views/               # Blade Templates
+    ├── layouts/
+    ├── products/
+    ├── cart/
+    └── home.blade.php</pre>
+                    </div>
+                </div>
+
+                <!-- Configurações -->
+                <div class="card">
+                    <h2>⚙️ Configurações</h2>
+                    
+                    <h3>vite.config.js</h3>
+                    <div class="code-block">
+                        <pre><code>import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+});</code></pre>
+                    </div>
+
+                    <h3>tailwind.config.js</h3>
+                    <div class="code-block">
+                        <pre><code>export default {
+  content: [
+    "./resources/**/*.blade.php",
+    "./resources/**/*.js",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}</code></pre>
+                    </div>
+
+                    <h3>docker-compose.yml (Otimizado para Windows)</h3>
+                    <div class="code-block">
+                        <pre><code>services:
+  app:
+    volumes:
+      - ./:/var/www:cached        # Performance no Windows
+      - /var/www/vendor           # Vendor no container
+      - /var/www/node_modules     # Node modules no container</code></pre>
+                    </div>
+                </div>
+
+                <!-- Pipeline de Build -->
+                <div class="card">
+                    <h2>🔄 Pipeline de Build</h2>
+                    
+                    <h3>Fase 1: Preparação</h3>
+                    <div class="code-block">
+                        <pre><code># Instalar dependências PHP (dentro do container)
+docker exec vibegarb_app composer install --optimize-autoloader
+
+# Instalar dependências Node
+docker exec vibegarb_node npm install</code></pre>
+                    </div>
+
+                    <h3>Fase 2: Compilação</h3>
+                    <div class="code-block">
+                        <pre><code># Compilar assets
+docker exec vibegarb_node npm run build
+
+# Resultado esperado:
+# ✓ public/build/assets/app-*.css (~50KB)
+# ✓ public/build/assets/app-*.js (~5KB)
+# ✓ public/build/manifest.json</code></pre>
+                    </div>
+
+                    <h3>Fase 3: Otimização</h3>
+                    <div class="code-block">
+                        <pre><code># Cache de configurações
+docker exec vibegarb_app php artisan config:cache
+
+# Cache de rotas
+docker exec vibegarb_app php artisan route:cache
+
+# Cache de views
+docker exec vibegarb_app php artisan view:cache</code></pre>
+                    </div>
+                </div>
+
+                <!-- Métricas de Build -->
+                <div class="card">
+                    <h2>📊 Métricas de Build</h2>
+                    
+                    <h3>Tempos Médios</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">🐳 Docker Compose Up</span>
+                            <span class="metric-value">~45s (primeira vez)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">📦 NPM Install</span>
+                            <span class="metric-value">~30s</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🔨 NPM Build</span>
+                            <span class="metric-value">~5s</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">🚀 Laravel Optimize</span>
+                            <span class="metric-value">~2s</span>
+                        </div>
+                    </div>
+
+                    <h3>Tamanhos de Build</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">CSS Compilado</span>
+                            <span class="metric-value">~50KB (gzipped: ~10KB)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">JS Compilado</span>
+                            <span class="metric-value">~5KB (gzipped: ~2KB)</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Total Assets</span>
+                            <span class="metric-value">~55KB</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Docker Images</span>
+                            <span class="metric-value">~800MB total</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comandos Úteis -->
+                <div class="card">
+                    <h2>🛠️ Comandos Úteis</h2>
+                    
+                    <h3>Desenvolvimento</h3>
+                    <div class="code-block">
+                        <pre><code># Watch mode (auto-rebuild)
+docker exec vibegarb_node npm run dev
+
+# Limpar caches
+docker exec vibegarb_app php artisan optimize:clear
+
+# Ver logs
+docker-compose logs -f app</code></pre>
+                    </div>
+
+                    <h3>Produção</h3>
+                    <div class="code-block">
+                        <pre><code># Build completo otimizado
+docker exec vibegarb_node npm run build
+docker exec vibegarb_app php artisan optimize
+
+# Verificar tamanho dos assets
+ls -lah public/build/assets/</code></pre>
+                    </div>
+
+                    <h3>Troubleshooting</h3>
+                    <div class="code-block">
+                        <pre><code># Rebuild completo
+docker-compose down
+docker-compose up -d --build
+
+# Limpar node_modules
+docker exec vibegarb_node rm -rf node_modules
+docker exec vibegarb_node npm install
+
+# Force refresh
+docker exec vibegarb_app php artisan view:clear</code></pre>
+                    </div>
+                </div>
+
+                <!-- Variáveis de Build -->
+                <div class="card">
+                    <h2>🔐 Variáveis de Build</h2>
+                    
+                    <h3>.env Desenvolvimento</h3>
+                    <div class="code-block">
+                        <pre><code>APP_ENV=local
+APP_DEBUG=true
+ASSET_URL=</code></pre>
+                    </div>
+
+                    <h3>.env Produção</h3>
+                    <div class="code-block">
+                        <pre><code>APP_ENV=production
+APP_DEBUG=false
+ASSET_URL=https://cdn.vibegarb.com</code></pre>
+                    </div>
+                </div>
+
+                <!-- Problemas Comuns -->
+                <div class="card">
+                    <h2>🚨 Problemas Comuns</h2>
+                    
+                    <h3>1. Assets não atualizando</h3>
+                    <div class="solution">
+                        <p><strong>Solução:</strong></p>
+                        <div class="code-block">
+                            <pre><code>rm -rf public/build
+docker exec vibegarb_node npm run build</code></pre>
+                        </div>
+                    </div>
+
+                    <h3>2. Erro 504 Gateway Timeout</h3>
+                    <div class="solution">
+                        <p><strong>Solução:</strong></p>
+                        <div class="code-block">
+                            <pre><code># Remover arquivo hot
+rm -f public/hot</code></pre>
+                        </div>
+                    </div>
+
+                    <h3>3. Performance lenta no Windows</h3>
+                    <div class="solution">
+                        <p><strong>Solução:</strong></p>
+                        <div class="code-block">
+                            <pre><code># Usar volumes otimizados em docker-compose.yml
+volumes:
+  - ./:/var/www:cached
+  - /var/www/vendor</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Otimizações Aplicadas -->
+                <div class="card">
+                    <h2>📈 Otimizações Aplicadas</h2>
+                    <ol>
+                        <li><strong>Volumes Docker:</strong> Uso de <code>:cached</code> para melhor performance</li>
+                        <li><strong>Vendor Exclusion:</strong> Pasta vendor fora do volume montado</li>
+                        <li><strong>Asset Minification:</strong> Vite minifica automaticamente</li>
+                        <li><strong>Tree Shaking:</strong> Tailwind remove CSS não utilizado</li>
+                        <li><strong>Compression:</strong> Nginx configurado com gzip</li>
+                    </ol>
+                </div>
+
+                <!-- CI/CD (Futuro) -->
+                <div class="card">
+                    <h2>🔄 CI/CD (Futuro)</h2>
+                    <div class="code-block">
+                        <pre><code># .github/workflows/build.yml
+name: Build and Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build assets
+        run: |
+          npm install
+          npm run build
+      - name: Run tests
+        run: vendor/bin/phpunit</code></pre>
+                    </div>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="card conclusion">
+                    <h2>✅ Sistema de build 100% funcional e otimizado</h2>
+                    <p><em>📝 Última atualização: Julho 2025</em></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

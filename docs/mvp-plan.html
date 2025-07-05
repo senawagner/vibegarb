@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano MVP - Vibe Garb E-commerce</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">🏠 Início</a></li>
+                    <li><a href="architecture.html">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="phase2-completion.html">✅ Fase 2</a></li>
+                    <li><a href="mvp-plan.html" class="active">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>🚀 Plano MVP - Vibe Garb E-commerce</h1>
+                <p class="subtitle">Estratégia para criar um e-commerce funcional com dropshipping</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Visão Geral -->
+                <div class="card">
+                    <h2>📋 Visão Geral do MVP</h2>
+                    <p><strong>Objetivo:</strong> Criar um e-commerce funcional para venda de camisetas com dropshipping, utilizando arquitetura MVC tradicional com Laravel + Blade Templates.</p>
+                    <p><strong>Prazo Total:</strong> 4 Fases</p>
+                </div>
+
+                <!-- Estratégia MVP -->
+                <div class="card">
+                    <h2>🎯 Estratégia MVP</h2>
+                    
+                    <h3>Princípios</h3>
+                    <ul>
+                        <li><strong>Simplicidade:</strong> MVC tradicional ao invés de SPA</li>
+                        <li><strong>Performance:</strong> Otimizado para carregamento rápido</li>
+                        <li><strong>Escalabilidade:</strong> Base sólida para crescimento</li>
+                        <li><strong>Manutenibilidade:</strong> Código limpo e documentado</li>
+                    </ul>
+                </div>
+
+                <!-- Status das Fases -->
+                <div class="card">
+                    <h2>�� Fases do MVP</h2>
+                    <ul>
+                        <li><strong>Fase 1:</strong> Fundação técnica (infraestrutura, banco de dados, seeders, migrations)</li>
+                        <li><strong>Fase 2:</strong> Interface e-commerce (catálogo, navegação, autenticação, carrinho)</li>
+                        <li><strong>Fase 3:</strong> Checkout e pagamentos (formulário, cálculo de frete, integração de pagamento, resumo do pedido)</li>
+                        <li><strong>Fase 4:</strong> Painel administrativo (gestão de produtos, categorias, pedidos, exportação, controle dropshipping)</li>
+                    </ul>
+                </div>
+
+                <!-- FASE 1: Fundação Técnica -->
+                <div class="card">
+                    <h2>✅ FASE 1: Fundação Técnica (COMPLETA)</h2>
+                    
+                    <h3>Infraestrutura</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Docker Compose</strong> com 5 containers
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>PHP 8.2</strong> + Laravel 12.19.3
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>MySQL 8.0</strong> + Redis 7
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Nginx</strong> otimizado
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Volumes Docker</strong> otimizados para Windows
+                        </div>
+                    </div>
+
+                    <h3>Base de Dados</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>12 tabelas</strong> relacionais
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>11 Models Eloquent</strong> implementados
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Relacionamentos complexos</strong>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Seeders</strong> com dados realistas
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Migrations</strong> versionadas
+                        </div>
+                    </div>
+
+                    <h3>Modelos Implementados</h3>
+                    <div class="models-grid">
+                        <div class="model-item">
+                            <strong>✅ User</strong> (auth + roles)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ Category</strong> (hierárquica)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ Supplier</strong> (dropshipping)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ Product</strong> (com variações)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ ProductVariant</strong> (cores/tamanhos)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ ProductImage</strong> (galeria)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ Order</strong> (pedidos)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ OrderItem</strong> (itens)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ Payment</strong> (multi-gateway)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ Coupon</strong> (descontos)
+                        </div>
+                        <div class="model-item">
+                            <strong>✅ ProductReview</strong> (avaliações)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FASE 2: Interface E-commerce -->
+                <div class="card">
+                    <h2>✅ FASE 2: Interface E-commerce (COMPLETA)</h2>
+                    
+                    <h3>Frontend Implementado</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Blade Templates:</strong> Server-side rendering
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Tailwind CSS:</strong> Framework utilitário
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Design Responsivo:</strong> Mobile-first
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>JavaScript Mínimo:</strong> Vanilla JS apenas onde necessário
+                        </div>
+                    </div>
+
+                    <h3>Funcionalidades Ativas</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Homepage:</strong> Hero section + produtos destaque
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Catálogo:</strong> Listagem com filtros avançados
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Detalhes:</strong> Página produto com variações
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Carrinho:</strong> Persistente com cálculos automáticos
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Busca:</strong> Sistema de busca em tempo real
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Autenticação:</strong> Login/registro/perfil
+                        </div>
+                    </div>
+
+                    <h3>Filtros Disponíveis</h3>
+                    <div class="filters-grid">
+                        <div class="filter-item">✅ Por categoria (6 categorias)</div>
+                        <div class="filter-item">✅ Por faixa de preço</div>
+                        <div class="filter-item">✅ Por linha de qualidade</div>
+                        <div class="filter-item">✅ Por público-alvo</div>
+                        <div class="filter-item">✅ Ordenação múltipla</div>
+                        <div class="filter-item">✅ Busca textual</div>
+                    </div>
+
+                    <h3>Carrinho Inteligente</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Validação de variações</strong> (cor/tamanho)
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Controle de quantidade</strong> (1-10)
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Cálculo automático de frete</strong>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Frete grátis</strong> acima de R$200
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Desconto 5%</strong> para PIX
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Persistência na sessão</strong>
+                        </div>
+                    </div>
+
+                    <h3>Dados Disponíveis</h3>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <strong>7 produtos</strong> com variações completas
+                        </div>
+                        <div class="data-item">
+                            <strong>34 variações</strong> de tamanho/cor
+                        </div>
+                        <div class="data-item">
+                            <strong>6 categorias</strong> organizadas
+                        </div>
+                        <div class="data-item">
+                            <strong>4 fornecedores</strong> para dropshipping
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FASE 3: Checkout e Pagamentos -->
+                <div class="card">
+                    <h2>⏳ FASE 3: Checkout e Pagamentos (PENDENTE)</h2>
+                    
+                    <h3>🎯 Objetivos da Fase 3</h3>
+                    
+                    <h4>Checkout Process</h4>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Formulário Checkout:</strong> Dados pessoais + endereço</div>
+                        <div class="task-item pending">[ ] <strong>Cálculo Frete:</strong> Integração API Correios</div>
+                        <div class="task-item pending">[ ] <strong>Resumo Pedido:</strong> Confirmação antes pagamento</div>
+                        <div class="task-item pending">[ ] <strong>Seleção Pagamento:</strong> PIX, Cartão, Boleto</div>
+                    </div>
+
+                    <h4>Integração Pagamentos</h4>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>PIX:</strong> Geração QR Code + webhook</div>
+                        <div class="task-item pending">[ ] <strong>Cartão:</strong> Gateway de pagamento</div>
+                        <div class="task-item pending">[ ] <strong>Boleto:</strong> Geração automática</div>
+                        <div class="task-item pending">[ ] <strong>Webhook:</strong> Confirmação automática</div>
+                    </div>
+
+                    <h4>Validações</h4>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>CEP:</strong> Validação e busca endereço</div>
+                        <div class="task-item pending">[ ] <strong>Estoque:</strong> Verificação disponibilidade</div>
+                        <div class="task-item pending">[ ] <strong>Cupons:</strong> Sistema de desconto</div>
+                        <div class="task-item pending">[ ] <strong>Email:</strong> Confirmação pedido</div>
+                    </div>
+
+                    <h3>📋 Tarefas Específicas Fase 3</h3>
+                    
+                    <h4>Backend</h4>
+                    <div class="code-block">
+                        <pre><code>// CheckoutController
+- [ ] processCheckout()
+- [ ] calculateShipping()
+- [ ] createOrder()
+- [ ] processPayment()
+
+// PaymentController  
+- [ ] processPix()
+- [ ] processCard()
+- [ ] processBoleto()
+- [ ] handleWebhook()</code></pre>
+                    </div>
+
+                    <h4>Frontend</h4>
+                    <div class="code-block">
+                        <pre><code>// Views necessárias
+- [ ] checkout/index.blade.php
+- [ ] checkout/payment.blade.php
+- [ ] checkout/success.blade.php
+- [ ] orders/tracking.blade.php</code></pre>
+                    </div>
+
+                    <h4>Integrações</h4>
+                    <div class="integration-list">
+                        <div class="integration-item">[ ] <strong>API Correios:</strong> Cálculo frete</div>
+                        <div class="integration-item">[ ] <strong>API Mercado Pago:</strong> Pagamentos</div>
+                        <div class="integration-item">[ ] <strong>API ViaCEP:</strong> Busca endereços</div>
+                        <div class="integration-item">[ ] <strong>Email Service:</strong> Confirmações</div>
+                    </div>
+                </div>
+
+                <!-- FASE 4: Painel Administrativo -->
+                <div class="card">
+                    <h2>⏳ FASE 4: Painel Administrativo (PENDENTE)</h2>
+                    
+                    <h3>🎯 Objetivos da Fase 4</h3>
+                    
+                    <h4>Gestão Produtos</h4>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>CRUD Completo:</strong> Criar/editar/excluir produtos</div>
+                        <div class="task-item pending">[ ] <strong>Upload Imagens:</strong> Múltiplas imagens por produto</div>
+                        <div class="task-item pending">[ ] <strong>Gestão Estoque:</strong> Controle entrada/saída</div>
+                        <div class="task-item pending">[ ] <strong>Variações:</strong> Gerenciar cores/tamanhos</div>
+                    </div>
+
+                    <h4>Gestão Pedidos</h4>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Lista Pedidos:</strong> Filtros e busca</div>
+                        <div class="task-item pending">[ ] <strong>Detalhes Pedido:</strong> Informações completas</div>
+                        <div class="task-item pending">[ ] <strong>Status Tracking:</strong> Atualização status</div>
+                        <div class="task-item pending">[ ] <strong>Etiquetas:</strong> Geração para envio</div>
+                    </div>
+
+                    <h4>Relatórios</h4>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Vendas:</strong> Gráficos por período</div>
+                        <div class="task-item pending">[ ] <strong>Produtos:</strong> Mais vendidos</div>
+                        <div class="task-item pending">[ ] <strong>Clientes:</strong> Perfil de compra</div>
+                        <div class="task-item pending">[ ] <strong>Financeiro:</strong> Receitas e comissões</div>
+                    </div>
+
+                    <h3>📋 Estrutura Admin</h3>
+                    <div class="file-tree">
+                        <pre>admin/
+├── dashboard.blade.php     # Overview geral
+├── products/
+│   ├── index.blade.php     # Lista produtos
+│   ├── create.blade.php    # Criar produto
+│   └── edit.blade.php      # Editar produto
+├── orders/
+│   ├── index.blade.php     # Lista pedidos
+│   └── show.blade.php      # Detalhes pedido
+└── reports/
+    └── sales.blade.php     # Relatórios vendas</pre>
+                    </div>
+                </div>
+
+                <!-- Stack Tecnológica Final -->
+                <div class="card">
+                    <h2>🔧 Stack Tecnológica Final</h2>
+                    
+                    <h3>Backend</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <strong>PHP:</strong> 8.2
+                        </div>
+                        <div class="tech-item">
+                            <strong>Framework:</strong> Laravel 12.19.3
+                        </div>
+                        <div class="tech-item">
+                            <strong>Database:</strong> MySQL 8.0
+                        </div>
+                        <div class="tech-item">
+                            <strong>Cache:</strong> Redis 7
+                        </div>
+                        <div class="tech-item">
+                            <strong>Auth:</strong> Laravel Breeze (Session)
+                        </div>
+                        <div class="tech-item">
+                            <strong>Queue:</strong> Redis (para emails)
+                        </div>
+                    </div>
+
+                    <h3>Frontend</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <strong>Templates:</strong> Blade Engine
+                        </div>
+                        <div class="tech-item">
+                            <strong>CSS:</strong> Tailwind CSS 3.x
+                        </div>
+                        <div class="tech-item">
+                            <strong>JavaScript:</strong> Vanilla (mínimo)
+                        </div>
+                        <div class="tech-item">
+                            <strong>Build:</strong> Vite 5.x
+                        </div>
+                        <div class="tech-item">
+                            <strong>Architecture:</strong> MVC tradicional
+                        </div>
+                    </div>
+
+                    <h3>Infraestrutura</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <strong>Containerização:</strong> Docker Compose
+                        </div>
+                        <div class="tech-item">
+                            <strong>Web Server:</strong> Nginx 1.27
+                        </div>
+                        <div class="tech-item">
+                            <strong>Process Manager:</strong> PHP-FPM
+                        </div>
+                        <div class="tech-item">
+                            <strong>Performance:</strong> OPcache + Redis
+                        </div>
+                        <div class="tech-item">
+                            <strong>Volumes:</strong> Otimizados (:cached)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronograma e Métricas -->
+                <div class="card">
+                    <h2>📊 Cronograma e Métricas</h2>
+                    
+                    <h3>Tempo Estimado por Fase</h3>
+                    <div class="timeline">
+                        <div class="timeline-item completed">
+                            <span class="timeline-phase">✅ Fase 1</span>
+                            <span class="timeline-time">~40 horas (Completa)</span>
+                        </div>
+                        <div class="timeline-item completed">
+                            <span class="timeline-phase">✅ Fase 2</span>
+                            <span class="timeline-time">~60 horas (Completa)</span>
+                        </div>
+                        <div class="timeline-item pending">
+                            <span class="timeline-phase">⏳ Fase 3</span>
+                            <span class="timeline-time">~50 horas (Pendente)</span>
+                        </div>
+                        <div class="timeline-item pending">
+                            <span class="timeline-phase">⏳ Fase 4</span>
+                            <span class="timeline-time">~40 horas (Pendente)</span>
+                        </div>
+                    </div>
+
+                    <h3>Métricas de Qualidade</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Performance:</strong> < 1s carregamento
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Mobile-first:</strong> 100% responsivo
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>SEO-friendly:</strong> Server-side rendering
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Segurança:</strong> CSRF + Validações
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Escalabilidade:</strong> Arquitetura sólida
+                        </div>
+                    </div>
+
+                    <h3>Estado Atual dos Entregáveis</h3>
+                    <div class="deliverables">
+                        <div class="deliverable-item">
+                            <span class="deliverable-label">📊 Base Técnica</span>
+                            <span class="deliverable-status completed">100% ✅</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="deliverable-label">🎨 Interface</span>
+                            <span class="deliverable-status completed">100% ✅</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="deliverable-label">🛒 E-commerce Básico</span>
+                            <span class="deliverable-status completed">100% ✅</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="deliverable-label">💳 Pagamentos</span>
+                            <span class="deliverable-status pending">0% ⏳</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="deliverable-label">🏢 Admin Panel</span>
+                            <span class="deliverable-status pending">20% ⏳</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximos Passos Imediatos -->
+                <div class="card">
+                    <h2>🚀 Próximos Passos Imediatos</h2>
+                    
+                    <h3>Para Fase 3 (Checkout)</h3>
+                    <ol>
+                        <li><strong>Configurar Gateway:</strong> Mercado Pago ou similar</li>
+                        <li><strong>API Correios:</strong> Integração para frete</li>
+                        <li><strong>Formulário Checkout:</strong> UX otimizada</li>
+                        <li><strong>Testes de Pagamento:</strong> Ambiente sandbox</li>
+                    </ol>
+
+                    <h3>Para Fase 4 (Admin)</h3>
+                    <ol>
+                        <li><strong>Middleware Admin:</strong> Controle acesso</li>
+                        <li><strong>CRUD Produtos:</strong> Interface administrativa</li>
+                        <li><strong>Upload Files:</strong> Imagens produtos</li>
+                        <li><strong>Dashboard:</strong> KPIs principais</li>
+                    </ol>
+                </div>
+
+                <!-- Critérios de Sucesso MVP -->
+                <div class="card">
+                    <h2>✅ Critérios de Aceite do MVP</h2>
+                    <ul>
+                        <li>Todas as fases implementadas e testadas manualmente</li>
+                        <li>Checkout funcional com pelo menos um método de pagamento</li>
+                        <li>Painel admin permite controle manual de pedidos dropshipping</li>
+                        <li>Documentação técnica e operacional disponível</li>
+                    </ul>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="card conclusion">
+                    <h2>📝 Documento vivo - Atualizado conforme progresso</h2>
+                    <p><em>🔄 Última revisão: Julho 2025</em></p>
+                    <p><em>🎯 Próxima entrega: Fase 3 - Sistema de Checkout</em></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

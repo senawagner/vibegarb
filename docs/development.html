@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Desenvolvimento - Vibe Garb</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">🏠 Início</a></li>
+                    <li><a href="architecture.html">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html" class="active">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>🚀 Guia de Desenvolvimento - Vibe Garb</h1>
+                <p class="subtitle">Workflows e práticas para desenvolvimento eficiente</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Status do Desenvolvimento -->
+                <div class="card">
+                    <h2>🎯 Status do Desenvolvimento</h2>
+                    
+                    <div class="phase-status">
+                        <div class="phase completed">
+                            <h3>✅ FASE 1 - CONCLUÍDA (100%)</h3>
+                            <p><strong>Base Técnica Implementada</strong></p>
+                            <ul>
+                                <li>🗄️ Estrutura de banco completa</li>
+                                <li>🏗️ Models Eloquent funcionais</li>
+                                <li>🌱 Seeders com dados realistas</li>
+                                <li>🐳 Ambiente Docker estável</li>
+                                <li>🎨 Homepage moderna implementada</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="phase completed">
+                            <h3>✅ FASE 2 - CONCLUÍDA (100%)</h3>
+                            <p><strong>Sistema de Catálogo MVP</strong></p>
+                            <ul>
+                                <li>🛍️ ProductController com filtros avançados</li>
+                                <li>🎨 Pages Vue.js (Index + Show) funcionais</li>
+                                <li>🔍 Sistema de busca e filtros</li>
+                                <li>📱 Interface responsiva completa</li>
+                                <li>🔗 Integração homepage → catálogo</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="phase pending">
+                            <h3>🚧 FASE 3 - EM PLANEJAMENTO (0%)</h3>
+                            <p><strong>Carrinho e Checkout</strong></p>
+                            <ul>
+                                <li>🛒 Sistema de carrinho</li>
+                                <li>💳 Processo de checkout</li>
+                                <li>📧 E-mails transacionais</li>
+                                <li>🔗 Cálculo de frete</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arquitetura Implementada -->
+                <div class="card">
+                    <h2>🏗️ Arquitetura Implementada</h2>
+                    
+                    <h3>Models e Relacionamentos</h3>
+                    <div class="code-block">
+                        <pre><code>// ✅ IMPLEMENTADOS - Prontos para uso
+
+User::class          // Usuários (admin/customer)
+├── orders()         // 1:N - Pedidos do usuário
+└── reviews()        // 1:N - Avaliações feitas
+
+Category::class      // Categorias de produtos  
+└── products()       // 1:N - Produtos da categoria
+
+Supplier::class      // Fornecedores (dropshipping)
+└── products()       // 1:N - Produtos do fornecedor
+
+Product::class       // Produtos principais
+├── category()       // N:1 - Categoria
+├── supplier()       // N:1 - Fornecedor  
+├── variants()       // 1:N - Variações
+├── images()         // 1:N - Imagens
+└── reviews()        // 1:N - Avaliações
+
+Order::class         // Pedidos
+├── user()           // N:1 - Cliente
+├── items()          // 1:N - Itens do pedido
+├── payments()       // 1:N - Pagamentos
+└── coupon()         // N:1 - Cupom usado</code></pre>
+                    </div>
+
+                    <h3>Estrutura de Pastas Atual</h3>
+                    <div class="file-tree">
+                        <pre>app/
+├── 📁 Models/              # ✅ 11 Models implementados
+│   ├── User.php           # ✅ Roles, endereços
+│   ├── Category.php       # ✅ Slugs, hierarquia
+│   ├── Supplier.php       # ✅ Comissões
+│   ├── Product.php        # ✅ Preços, estoque, SKU
+│   ├── ProductVariant.php # ✅ Tamanhos, cores
+│   ├── ProductImage.php   # ✅ Múltiplas imagens
+│   ├── Order.php          # ✅ Status, endereços
+│   ├── OrderItem.php      # ✅ Snapshot preços
+│   ├── Payment.php        # ✅ Multi-gateway
+│   ├── Coupon.php         # ✅ Validações
+│   ├── ProductReview.php  # ✅ Verificação compra
+│   └── NewsletterSubscription.php # ✅ Email marketing
+│
+├── 📁 Http/
+│   ├── Controllers/       # 🚧 Para implementar
+│   └── Middleware/        # 🚧 Autenticação
+│
+└── 📁 Services/           # 🚧 Lógica de negócio</pre>
+                    </div>
+                </div>
+
+                <!-- Ambiente de Desenvolvimento -->
+                <div class="card">
+                    <h2>🔧 Ambiente de Desenvolvimento</h2>
+                    
+                    <h3>Stack Tecnológica Atual</h3>
+                    <ul>
+                        <li><strong>Backend:</strong> Laravel 12.19.3 + PHP 8.2</li>
+                        <li><strong>Frontend:</strong> Blade Templates + Tailwind CSS</li>
+                        <li><strong>Banco:</strong> MySQL 8.0</li>
+                        <li><strong>Cache:</strong> Redis 7</li>
+                        <li><strong>Infraestrutura:</strong> Docker Compose</li>
+                    </ul>
+
+                    <h3>Arquitetura MVC Tradicional</h3>
+                    <div class="architecture-flow">
+                        <p><strong>Request → Route → Controller → Model → View (Blade) → Response</strong></p>
+                    </div>
+                </div>
+
+                <!-- Setup Inicial -->
+                <div class="card">
+                    <h2>🛠️ Setup Inicial</h2>
+                    
+                    <h3>1. Pré-requisitos</h3>
+                    <ul>
+                        <li>Docker Desktop instalado</li>
+                        <li>Git configurado</li>
+                        <li>Editor de código (VS Code recomendado)</li>
+                    </ul>
+
+                    <h3>2. Primeira Instalação</h3>
+                    <div class="code-block">
+                        <pre><code># Clone e entre no diretório
+git clone <repo> && cd vibegarb
+
+# Configure ambiente
+cp .env.example .env
+
+# Edite o .env com as configurações corretas:
+DB_CONNECTION=mysql
+DB_HOST=db
+SESSION_DRIVER=file
+CACHE_DRIVER=redis
+APP_DEBUG=false
+
+# Suba os containers
+docker-compose up -d
+
+# Instale dependências
+docker exec vibegarb_app composer install --optimize-autoloader
+docker exec vibegarb_node npm install
+
+# Configure Laravel
+docker exec vibegarb_app php artisan key:generate
+docker exec vibegarb_app php artisan migrate --seed
+
+# Build assets
+docker exec vibegarb_node npm run build
+
+# Otimize para desenvolvimento
+docker exec vibegarb_app php artisan optimize</code></pre>
+                    </div>
+                </div>
+
+                <!-- Estrutura de Desenvolvimento -->
+                <div class="card">
+                    <h2>🏗️ Estrutura de Desenvolvimento</h2>
+                    
+                    <h3>Controllers</h3>
+                    <div class="code-block">
+                        <pre><code>// app/Http/Controllers/ProductController.php
+class ProductController extends Controller
+{
+    public function index(Request $request)
+    {
+        $products = Product::with(['category', 'variants'])
+            ->when($request->search, function($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(12);
+
+        return view('products.index', compact('products'));
+    }
+}</code></pre>
+                    </div>
+
+                    <h3>Views (Blade Templates)</h3>
+                    <div class="code-block">
+                        <pre><code>{{-- resources/views/products/index.blade.php --}}
+@extends('layouts.app')
+
+@section('content')
+<div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-6">Produtos</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        @foreach($products as $product)
+            @include('products.card', ['product' => $product])
+        @endforeach
+    </div>
+</div>
+@endsection</code></pre>
+                    </div>
+
+                    <h3>Rotas</h3>
+                    <div class="code-block">
+                        <pre><code>// routes/web.php
+Route::prefix('produtos')->name('products.')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('/{product:slug}', [ProductController::class, 'show'])->name('show');
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Frontend Development -->
+                <div class="card">
+                    <h2>🎨 Frontend Development</h2>
+                    
+                    <h3>Asset Pipeline</h3>
+                    <div class="code-block">
+                        <pre><code>// resources/js/app.js (simplificado)
+import './bootstrap';
+import '../css/app.css';
+
+// JavaScript vanilla para interações mínimas</code></pre>
+                    </div>
+
+                    <h3>Tailwind CSS</h3>
+                    <div class="code-block">
+                        <pre><code>/* resources/css/app.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Componentes customizados */
+@layer components {
+    .btn-primary {
+        @apply bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700;
+    }
+}</code></pre>
+                    </div>
+
+                    <h3>Build Commands</h3>
+                    <div class="code-block">
+                        <pre><code># Desenvolvimento (watch mode)
+docker exec vibegarb_node npm run dev
+
+# Produção (otimizado)
+docker exec vibegarb_node npm run build</code></pre>
+                    </div>
+                </div>
+
+                <!-- Desenvolvimento de Models -->
+                <div class="card">
+                    <h2>🗄️ Desenvolvimento de Models</h2>
+                    
+                    <h3>Model Base</h3>
+                    <div class="code-block">
+                        <pre><code>// app/Models/Product.php
+class Product extends Model
+{
+    protected $fillable = [
+        'name', 'slug', 'description', 'price', 'category_id'
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'is_active' => 'boolean',
+    ];
+
+    // Relacionamentos
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
+    // Business Logic
+    public function getCurrentPriceAttribute()
+    {
+        return $this->sale_price ?? $this->price;
+    }
+
+    // Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Workflows de Desenvolvimento -->
+                <div class="card">
+                    <h2>🔧 Workflows de Desenvolvimento</h2>
+                    
+                    <h3>1. Adicionando Nova Funcionalidade</h3>
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <h4>1. Criar Migration</h4>
+                            <div class="code-block">
+                                <pre><code>docker exec vibegarb_app php artisan make:migration create_feature_table</code></pre>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h4>2. Criar Model</h4>
+                            <div class="code-block">
+                                <pre><code>docker exec vibegarb_app php artisan make:model Feature</code></pre>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h4>3. Criar Controller</h4>
+                            <div class="code-block">
+                                <pre><code>docker exec vibegarb_app php artisan make:controller FeatureController</code></pre>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h4>4. Criar Views</h4>
+                            <div class="code-block">
+                                <pre><code>mkdir resources/views/features
+touch resources/views/features/index.blade.php</code></pre>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h4>5. Adicionar Rotas</h4>
+                            <div class="code-block">
+                                <pre><code>Route::resource('features', FeatureController::class);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>2. Testando Funcionalidades</h3>
+                    <div class="code-block">
+                        <pre><code># Acessar tinker para testes
+docker exec -it vibegarb_app php artisan tinker
+
+# Exemplos de teste
+>>> $product = Product::first()
+>>> $product->variants
+>>> User::factory(10)->create()</code></pre>
+                    </div>
+
+                    <h3>3. Debugging</h3>
+                    <div class="code-block">
+                        <pre><code># Ver logs Laravel
+docker exec vibegarb_app tail -f storage/logs/laravel.log
+
+# Ver logs Nginx
+docker logs vibegarb_webserver
+
+# Debug de queries
+# No .env: DB_QUERY_LOG=true</code></pre>
+                    </div>
+                </div>
+
+                <!-- Gerenciamento de Dependências -->
+                <div class="card">
+                    <h2>📦 Gerenciamento de Dependências</h2>
+                    
+                    <h3>PHP (Composer)</h3>
+                    <div class="code-block">
+                        <pre><code># Adicionar pacote
+docker exec vibegarb_app composer require package/name
+
+# Atualizar dependências
+docker exec vibegarb_app composer update
+
+# Autoload otimizado
+docker exec vibegarb_app composer dump-autoload -o</code></pre>
+                    </div>
+
+                    <h3>JavaScript (NPM)</h3>
+                    <div class="code-block">
+                        <pre><code># Adicionar pacote
+docker exec vibegarb_node npm install package-name
+
+# Atualizar pacotes
+docker exec vibegarb_node npm update</code></pre>
+                    </div>
+                </div>
+
+                <!-- Boas Práticas -->
+                <div class="card">
+                    <h2>🎯 Boas Práticas</h2>
+                    
+                    <h3>Code Style</h3>
+                    <div class="code-block">
+                        <pre><code># Instalar Pint (Laravel Formatter)
+docker exec vibegarb_app composer require laravel/pint --dev
+
+# Formatar código
+docker exec vibegarb_app ./vendor/bin/pint</code></pre>
+                    </div>
+
+                    <h3>Blade Templates</h3>
+                    <div class="code-block">
+                        <pre><code>{{-- Usar componentes para reutilização --}}
+@component('components.card')
+    @slot('title', $product->name)
+    @slot('content')
+        <p>{{ $product->description }}</p>
+    @endslot
+@endcomponent
+
+{{-- Escapar dados automaticamente --}}
+{{ $product->name }} <!-- Safe -->
+{!! $product->html_content !!} <!-- Unsafe, só use se necessário --></code></pre>
+                    </div>
+
+                    <h3>Controllers</h3>
+                    <div class="code-block">
+                        <pre><code>// Manter controllers enxutos
+class ProductController extends Controller
+{
+    public function index(Request $request)
+    {
+        $products = $this->getFilteredProducts($request);
+        return view('products.index', compact('products'));
+    }
+
+    private function getFilteredProducts(Request $request)
+    {
+        return Product::active()
+            ->filter($request->only(['search', 'category']))
+            ->paginate(12);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Deploy e Produção -->
+                <div class="card">
+                    <h2>🔄 Deploy e Produção</h2>
+                    
+                    <h3>Build para Produção</h3>
+                    <div class="code-block">
+                        <pre><code># 1. Otimizar assets
+docker exec vibegarb_node npm run build
+
+# 2. Otimizar Laravel
+docker exec vibegarb_app php artisan optimize
+docker exec vibegarb_app php artisan config:cache
+docker exec vibegarb_app php artisan route:cache
+docker exec vibegarb_app php artisan view:cache
+
+# 3. Configurar .env para produção
+APP_ENV=production
+APP_DEBUG=false</code></pre>
+                    </div>
+
+                    <h3>Configuração Docker Produção</h3>
+                    <div class="code-block">
+                        <pre><code># docker-compose.prod.yml
+services:
+  app:
+    environment:
+      - APP_ENV=production
+    volumes:
+      - ./:/var/www:cached,ro  # Read-only para segurança</code></pre>
+                    </div>
+                </div>
+
+                <!-- Troubleshooting -->
+                <div class="card">
+                    <h2>🚨 Troubleshooting</h2>
+                    
+                    <h3>Problemas Comuns</h3>
+                    
+                    <h4>1. Assets não carregando</h4>
+                    <div class="solution">
+                        <div class="code-block">
+                            <pre><code>rm -rf public/build
+docker exec vibegarb_node npm run build</code></pre>
+                        </div>
+                    </div>
+
+                    <h4>2. Erro de permissão</h4>
+                    <div class="solution">
+                        <div class="code-block">
+                            <pre><code>docker exec vibegarb_app chown -R www-data:www-data storage</code></pre>
+                        </div>
+                    </div>
+
+                    <h4>3. Cache problems</h4>
+                    <div class="solution">
+                        <div class="code-block">
+                            <pre><code>docker exec vibegarb_app php artisan optimize:clear</code></pre>
+                        </div>
+                    </div>
+
+                    <h4>4. Performance lenta</h4>
+                    <div class="solution">
+                        <div class="code-block">
+                            <pre><code># Verificar se .env tem configurações otimizadas:
+APP_DEBUG=false
+SESSION_DRIVER=file
+CACHE_DRIVER=redis</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoramento -->
+                <div class="card">
+                    <h2>📊 Monitoramento</h2>
+                    
+                    <h3>Logs Importantes</h3>
+                    <div class="code-block">
+                        <pre><code># Laravel logs
+docker exec vibegarb_app tail -f storage/logs/laravel.log
+
+# Nginx access logs
+docker logs vibegarb_webserver
+
+# Container status
+docker-compose ps</code></pre>
+                    </div>
+
+                    <h3>Performance Metrics</h3>
+                    <div class="code-block">
+                        <pre><code># Tempo de inicialização
+docker exec vibegarb_app php artisan tinker --execute="echo microtime(true) - LARAVEL_START;"
+
+# Status dos containers
+docker stats --no-stream</code></pre>
+                    </div>
+                </div>
+
+                <!-- Configurações IDE -->
+                <div class="card">
+                    <h2>🔧 Configurações IDE</h2>
+                    
+                    <h3>VS Code Extensions Recomendadas</h3>
+                    <ul>
+                        <li>Laravel Blade Snippets</li>
+                        <li>Laravel Extra Intellisense</li>
+                        <li>PHP Intelephense</li>
+                        <li>Tailwind CSS IntelliSense</li>
+                        <li>Docker</li>
+                    </ul>
+
+                    <h3>Settings.json</h3>
+                    <div class="code-block">
+                        <pre><code>{
+    "blade.format.enable": true,
+    "tailwindCSS.includeLanguages": {
+        "blade": "html"
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="card conclusion">
+                    <h2>✅ Base Sólida Pronta - Desenvolvimento Ágil Possível</h2>
+                    <p><em>📝 Última atualização: Julho 2025</em></p>
+                    <p><em>🎯 Foco: Desenvolvimento com Blade Templates + Laravel MVC</em></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

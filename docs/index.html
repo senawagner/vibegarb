@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação Vibe Garb - E-commerce Dropshipping</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="active">🏠 Início</a></li>
+                    <li><a href="architecture.html">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                    <li><a href="update.html">📦 Update</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>🏠 Documentação Vibe Garb</h1>
+                <p class="subtitle">E-commerce Dropshipping com Laravel + Blade Templates</p>
+                <p class="version">v2.1 - Julho 2025</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Visão Geral -->
+                <div class="card">
+                    <h2>🎯 Visão Geral do Projeto</h2>
+                    <p>O <strong>Vibe Garb</strong> é um e-commerce moderno desenvolvido em Laravel 12, focado no modelo de negócio dropshipping para venda de camisetas. O projeto utiliza arquitetura MVC tradicional com Blade Templates, oferecendo performance otimizada e facilidade de manutenção.</p>
+                </div>
+
+                <!-- Status Atual -->
+                <div class="card">
+                    <h2>📊 Status Atual</h2>
+                    <div class="status-overview">
+                        <div class="status-item completed">
+                            <h3>✅ FASE 1: Fundação (100%)</h3>
+                            <p>Infraestrutura técnica completa</p>
+                        </div>
+                        <div class="status-item completed">
+                            <h3>✅ FASE 2: Interface (100%)</h3>
+                            <p>E-commerce público funcional</p>
+                        </div>
+                        <div class="status-item completed">
+                            <h3>✅ FASE 3: Checkout (100%)</h3>
+                            <p>Checkout e pagamentos implementados e funcionando</p>
+                        </div>
+                        <div class="status-item completed">
+                            <h3>✅ FASE 4: Admin (100%)</h3>
+                            <p>Painel administrativo implementado e operacional</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stack Tecnológica -->
+                <div class="card">
+                    <h2>🔧 Stack Tecnológica</h2>
+                    <div class="tech-stack">
+                        <div class="tech-section">
+                            <h3>Backend</h3>
+                            <ul>
+                                <li><strong>PHP:</strong> 8.2</li>
+                                <li><strong>Framework:</strong> Laravel 12.19.3</li>
+                                <li><strong>Database:</strong> MySQL 8.0</li>
+                                <li><strong>Cache:</strong> Redis 7</li>
+                                <li><strong>Auth:</strong> Laravel Breeze</li>
+                            </ul>
+                        </div>
+                        <div class="tech-section">
+                            <h3>Frontend</h3>
+                            <ul>
+                                <li><strong>Templates:</strong> Blade Engine</li>
+                                <li><strong>CSS:</strong> Tailwind CSS 3.x</li>
+                                <li><strong>JavaScript:</strong> Vanilla JS</li>
+                                <li><strong>Build:</strong> Vite 5.x</li>
+                            </ul>
+                        </div>
+                        <div class="tech-section">
+                            <h3>Infraestrutura</h3>
+                            <ul>
+                                <li><strong>Containerização:</strong> Docker Compose</li>
+                                <li><strong>Web Server:</strong> Nginx 1.27</li>
+                                <li><strong>Process Manager:</strong> PHP-FPM</li>
+                                <li><strong>Performance:</strong> OPcache + Redis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funcionalidades Implementadas -->
+                <div class="card">
+                    <h2>✅ Funcionalidades Implementadas</h2>
+                    
+                    <h3>🏪 E-commerce Público</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Homepage responsiva</strong> com hero section
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Catálogo de produtos</strong> com filtros avançados
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Página de produto</strong> com variações
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Carrinho de compras</strong> persistente
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Sistema de busca</strong> em tempo real
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Autenticação completa</strong> com registro/login
+                        </div>
+                    </div>
+
+                    <h3>🔧 Painel Administrativo</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Dashboard admin</strong> com métricas
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Gestão de produtos</strong> CRUD completo
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Gestão de categorias</strong> hierárquica
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <strong>Visualização de pedidos</strong> (estrutura)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados do Sistema -->
+                <div class="card">
+                    <h2>📊 Dados do Sistema</h2>
+                    <div class="data-overview">
+                        <div class="data-item">
+                            <span class="data-number">12</span>
+                            <span class="data-label">tabelas implementadas</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-number">11</span>
+                            <span class="data-label">models Eloquent</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-number">7</span>
+                            <span class="data-label">produtos cadastrados</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-number">34</span>
+                            <span class="data-label">variações de produtos</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-number">6</span>
+                            <span class="data-label">categorias organizadas</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-number">4</span>
+                            <span class="data-label">fornecedores dropshipping</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documentação Disponível -->
+                <div class="card">
+                    <h2>📚 Documentação Disponível</h2>
+                    <div class="docs-grid">
+                        <div class="doc-item">
+                            <h3>🏗️ <a href="architecture.html">Arquitetura</a></h3>
+                            <p>Estrutura técnica e padrões implementados</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>🗄️ <a href="database.html">Banco de Dados</a></h3>
+                            <p>Estrutura completa e relacionamentos</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>🚀 <a href="development.html">Desenvolvimento</a></h3>
+                            <p>Guia de desenvolvimento e workflows</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>🔨 <a href="build.html">Sistema de Build</a></h3>
+                            <p>Arquitetura multi-container Docker</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>💳 <a href="checkout-implementation.html">Checkout</a></h3>
+                            <p>Sistema de checkout implementado</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>📊 <a href="current-status.html">Status Atual</a></h3>
+                            <p>Estado atual do projeto</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>✅ <a href="mvp-plan.html">Plano MVP</a></h3>
+                            <p>Estratégia para e-commerce funcional</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>🔧 <a href="mvp-migrations.html">Migrações MVP</a></h3>
+                            <p>Ajustes para modelo dropshipping</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>🛠️ <a href="troubleshooting.html">Troubleshooting</a></h3>
+                            <p>Guia completo de resolução de problemas</p>
+                        </div>
+                        <div class="doc-item">
+                            <h3>📦 <a href="dropshipping-model.html">Modelo Dropshipping</a></h3>
+                            <p>Regras de negócio e fluxo de pedidos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximos Passos -->
+                <div class="card">
+                    <h2>🎯 Próximos Passos</h2>
+                    
+                    <h3>Fase 3: Checkout e Pagamentos (Prioridade Alta)</h3>
+                    <div class="next-steps">
+                        <div class="step-item">
+                            <span class="step-number">1</span>
+                            <strong>Formulário de checkout</strong> completo
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">2</span>
+                            <strong>Integração de pagamentos</strong> (PIX, Cartão, Boleto)
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">3</span>
+                            <strong>Cálculo de frete</strong> via API Correios
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">4</span>
+                            <strong>Confirmação de pedidos</strong> por email
+                        </div>
+                    </div>
+
+                    <h3>Fase 4: Completar Admin (Prioridade Média)</h3>
+                    <div class="next-steps">
+                        <div class="step-item">
+                            <span class="step-number">1</span>
+                            <strong>Upload de imagens</strong> para produtos
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">2</span>
+                            <strong>Relatórios de vendas</strong> com gráficos
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">3</span>
+                            <strong>Gestão de usuários</strong> e permissões
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">4</span>
+                            <strong>Sistema de notificações</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acesso ao Sistema -->
+                <div class="card">
+                    <h2>🔗 Acesso ao Sistema</h2>
+                    
+                    <h3>URLs de Acesso</h3>
+                    <div class="access-links">
+                        <div class="link-item">
+                            <strong>🌐 E-commerce Público:</strong>
+                            <a href="http://localhost:8500" target="_blank">http://localhost:8500</a>
+                        </div>
+                        <div class="link-item">
+                            <strong>🔧 Painel Admin:</strong>
+                            <a href="http://localhost:8500/admin" target="_blank">http://localhost:8500/admin</a>
+                        </div>
+                        <div class="link-item">
+                            <strong>📊 Status Docker:</strong>
+                            <code>docker-compose ps</code>
+                        </div>
+                    </div>
+
+                    <h3>Credenciais de Teste</h3>
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <strong>👤 Admin:</strong>
+                            <code>admin@vibegarb.com</code> / <code>password</code>
+                        </div>
+                        <div class="credential-item">
+                            <strong>👤 Cliente:</strong>
+                            <code>cliente@teste.com</code> / <code>password</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comandos Úteis -->
+                <div class="card">
+                    <h2>🛠️ Comandos Úteis</h2>
+                    
+                    <h3>Docker</h3>
+                    <div class="code-block">
+                        <pre><code># Subir ambiente
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f app
+
+# Rebuild
+docker-compose down && docker-compose up -d --build</code></pre>
+                    </div>
+
+                    <h3>Laravel</h3>
+                    <div class="code-block">
+                        <pre><code># Limpar cache
+docker exec vibegarb_app php artisan optimize:clear
+
+# Executar migrations
+docker exec vibegarb_app php artisan migrate --seed
+
+# Build assets
+docker exec vibegarb_node npm run build</code></pre>
+                    </div>
+
+                    <h3>Desenvolvimento</h3>
+                    <div class="code-block">
+                        <pre><code># Watch mode para assets
+docker exec vibegarb_node npm run dev
+
+# Acessar container
+docker exec -it vibegarb_app bash
+
+# Tinker para testes
+docker exec vibegarb_app php artisan tinker</code></pre>
+                    </div>
+                </div>
+
+                <!-- Métricas de Qualidade -->
+                <div class="card">
+                    <h2>📈 Métricas de Qualidade</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Performance:</strong> < 1s carregamento
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Responsividade:</strong> 100% mobile-first
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>SEO:</strong> Server-side rendering
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Segurança:</strong> CSRF + Validações
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Escalabilidade:</strong> Arquitetura sólida
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-icon">✅</span>
+                            <strong>Manutenibilidade:</strong> Código limpo
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="card conclusion">
+                    <h2>🎉 Projeto Vibe Garb - Status Operacional</h2>
+                    <p><strong>✅ Base técnica sólida implementada</strong></p>
+                    <p><strong>✅ E-commerce funcional para usuários finais</strong></p>
+                    <p><strong>✅ Painel administrativo para gestão</strong></p>
+                    <p><strong>✅ Performance otimizada e estabilidade garantida</strong></p>
+                    <p><strong>✅ Documentação completa e atualizada</strong></p>
+                    <p><em>🚀 Pronto para desenvolvimento das próximas funcionalidades!</em></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

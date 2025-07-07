@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'dimona' => [
+        'domain' => env('DIMONA_API_DOMAIN', 'https://camisadimona.com.br'),
+        'key' => env('DIMONA_API_KEY'),
+    ],
+
+    'mailgun' => [
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
+        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
+    ],
+
 ];

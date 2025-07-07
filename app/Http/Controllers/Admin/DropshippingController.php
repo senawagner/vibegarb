@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\DimonaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DropshippingController extends Controller
 {
@@ -31,6 +33,19 @@ class DropshippingController extends Controller
             ->get();
 
         return view('admin.dropshipping.dashboard', compact('stats', 'recentOrders'));
+    }
+
+    /**
+     * Lista de todos os pedidos de dropshipping
+     */
+    public function index()
+    {
+        $orders = Order::with('user')
+            ->where('status', 'paid')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('admin.dropshipping.orders', compact('orders'));
     }
 
     /**
@@ -78,9 +93,68 @@ class DropshippingController extends Controller
      */
     public function show(Order $order)
     {
-        $order->load(['user', 'items.product', 'items.product.images']);
+        $order->load(['user', 'items.product', 'items.product.productImages']);
         
         return view('admin.dropshipping.show', compact('order'));
+    }
+
+    /**
+     * Envia um pedido específico para o fornecedor (Dimona) via API.
+     */
+    public function sendToSupplier(Order $order, DimonaService $dimonaService)
+    {
+        // 1. Validar se o pedido pode ser enviado (status 'pago' e ainda não enviado)
+        if ($order->status !== 'paid' || !is_null($order->sent_to_supplier_at)) {
+            return back()->with('error', 'Este pedido não está apto para ser enviado para produção.');
+        }
+
+        try {
+            // 2. Chamar o serviço que encapsula a lógica da API
+            Log::info("Iniciando envio do pedido {$order->order_number} para a Dimona.");
+            $dimonaResponse = $dimonaService->sendOrder($order);
+
+            // 3. Verificar a resposta e atualizar o pedido local
+            if (isset($dimonaResponse['order'])) {
+                $order->update([
+                    'supplier_order_id' => $dimonaResponse['order'],
+                    'sent_to_supplier_at' => now(),
+                    'status' => 'in_production',
+                    'supplier_status' => 'sent', // Status indicando que foi enviado
+                ]);
+
+                Log::info("Pedido {$order->order_number} enviado com sucesso para a Dimona.", [
+                    'dimona_order_id' => $dimonaResponse['order']
+                ]);
+
+                return back()->with('success', "Pedido enviado para produção! ID Dimona: {$dimonaResponse['order']}");
+            } else {
+                 Log::warning('Resposta da API da Dimona não continha o ID do pedido.', [
+                    'order_number' => $order->order_number,
+                    'response' => $dimonaResponse
+                ]);
+                return back()->with('error', 'Resposta inesperada do fornecedor. O pedido não foi enviado.');
+            }
+
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            // Erro específico de HTTP (ex: 401, 422, 500)
+            Log::error('Erro de requisição HTTP ao enviar pedido para a Dimona.', [
+                'order_number' => $order->order_number,
+                'status_code' => $e->response->status(),
+                'response_body' => $e->response->body(),
+                'error_message' => $e->getMessage()
+            ]);
+            
+            return back()->with('error', 'Erro na comunicação com o fornecedor (' . $e->response->status() . '). Verifique os logs.');
+
+        } catch (Exception $e) {
+            // Outros erros (ex: timeout, erro de configuração)
+            Log::error('Falha geral ao enviar pedido para a Dimona.', [
+                'order_number' => $order->order_number,
+                'error_message' => $e->getMessage()
+            ]);
+            
+            return back()->with('error', 'Ocorreu uma falha inesperada. Tente novamente mais tarde.');
+        }
     }
 
     /**
@@ -126,6 +200,8 @@ class DropshippingController extends Controller
             'production_status' => 'required|in:confirmed,in_production,ready_to_ship,shipped'
         ]);
 
+        // Lógica de integração com a API foi movida para o método sendToSupplier
+        // Este método agora só atualiza status internos
         $order->update([
             'production_status' => $request->production_status
         ]);

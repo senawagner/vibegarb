@@ -6,8 +6,11 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\User;
+use App\Services\DimonaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -231,33 +234,76 @@ class AdminController extends Controller
     }
 
     /**
-     * Simular pedidos (temporário)
+     * Listar pedidos
      */
     public function orders()
     {
-        // Por enquanto vamos simular alguns pedidos
-        $orders = collect([
-            [
-                'id' => 'VG-2025-0001',
-                'customer_name' => 'João Silva',
-                'customer_email' => 'joao@email.com',
-                'total' => 79.90,
-                'status' => 'pending',
-                'payment_method' => 'pix',
-                'created_at' => now()->subHours(2),
-            ],
-            [
-                'id' => 'VG-2025-0002',
-                'customer_name' => 'Maria Santos',
-                'customer_email' => 'maria@email.com',
-                'total' => 159.80,
-                'status' => 'paid',
-                'payment_method' => 'boleto',
-                'created_at' => now()->subHours(5),
-            ],
-        ]);
+        // Busca todos os pedidos reais do banco de dados, ordenados pelo mais recente
+        $orders = Order::with('items.product')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
 
         return view('admin.orders.index', compact('orders'));
+    }
+
+    /**
+     * Envia o pedido para produção, integrando com o DimonaService.
+     */
+    public function sendOrderToProduction(Order $order, DimonaService $dimonaService)
+    {
+        // 1. Validar se o pedido pode ser enviado (status 'pago' e ainda não enviado)
+        if ($order->status !== 'paid' || !is_null($order->sent_to_supplier_at)) {
+            return back()->with('error', 'Este pedido não está apto para ser enviado para produção.');
+        }
+
+        try {
+            // 2. Chamar o serviço que encapsula a lógica da API
+            Log::info("Iniciando envio do pedido {$order->order_number} para a Dimona.");
+            $dimonaResponse = $dimonaService->sendOrder($order);
+
+            // 3. Verificar a resposta e atualizar o pedido local
+            // A API da Dimona retorna um JSON como: {"order":"064-435-556"}
+            if (isset($dimonaResponse['order'])) {
+                $order->update([
+                    'supplier_order_id' => $dimonaResponse['order'],
+                    'sent_to_supplier_at' => now(),
+                    'status' => 'in_production',
+                    'supplier_status' => 'sent', // Um status mais claro
+                ]);
+
+                Log::info("Pedido {$order->order_number} enviado com sucesso para a Dimona.", [
+                    'dimona_order_id' => $dimonaResponse['order']
+                ]);
+
+                return back()->with('success', "Pedido enviado para produção! ID Dimona: {$dimonaResponse['order']}");
+            } else {
+                 Log::warning('Resposta da API da Dimona não continha o ID do pedido.', [
+                    'order_number' => $order->order_number,
+                    'response' => $dimonaResponse
+                ]);
+                return back()->with('error', 'Resposta inesperada do fornecedor. O pedido não foi enviado.');
+            }
+
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            // Erro específico de HTTP (ex: 401, 422, 500)
+            Log::error('Erro de requisição HTTP ao enviar pedido para a Dimona.', [
+                'order_number' => $order->order_number,
+                'status_code' => $e->response->status(),
+                'response_body' => $e->response->body(),
+                'error_message' => $e->getMessage()
+            ]);
+            
+            return back()->with('error', 'Erro na comunicação com o fornecedor (' . $e->response->status() . '). Verifique os logs.');
+
+        } catch (Exception $e) {
+            // Outros erros (ex: timeout, erro de configuração)
+            Log::error('Falha geral ao enviar pedido para a Dimona.', [
+                'order_number' => $order->order_number,
+                'error_message' => $e->getMessage()
+            ]);
+            
+            return back()->with('error', 'Ocorreu uma falha inesperada. Tente novamente mais tarde.');
+        }
     }
 
     /**

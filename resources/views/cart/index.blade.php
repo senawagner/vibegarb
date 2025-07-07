@@ -50,7 +50,9 @@
                             <div class="flex items-center justify-between">
                                 <!-- Controle de Quantidade -->
                                 <div class="flex items-center space-x-2">
-                                    <button onclick="updateQuantity('{{ $item['key'] }}', {{ $item['quantity'] - 1 }})" 
+                                    <button data-cart-action="decrease" 
+                                            data-item-key="{{ $item['key'] }}" 
+                                            data-current-quantity="{{ $item['quantity'] }}"
                                             class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300 transition {{ $item['quantity'] <= 1 ? 'opacity-50 cursor-not-allowed' : '' }}"
                                             {{ $item['quantity'] <= 1 ? 'disabled' : '' }}>
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,7 +62,9 @@
                                     
                                     <span class="w-12 text-center font-medium">{{ $item['quantity'] }}</span>
                                     
-                                    <button onclick="updateQuantity('{{ $item['key'] }}', {{ $item['quantity'] + 1 }})" 
+                                    <button data-cart-action="increase" 
+                                            data-item-key="{{ $item['key'] }}" 
+                                            data-current-quantity="{{ $item['quantity'] }}"
                                             class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300 transition {{ $item['quantity'] >= 10 ? 'opacity-50 cursor-not-allowed' : '' }}"
                                             {{ $item['quantity'] >= 10 ? 'disabled' : '' }}>
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +82,8 @@
                         </div>
 
                         <!-- Botão Remover -->
-                        <button onclick="removeItem('{{ $item['key'] }}')" 
+                        <button data-cart-action="remove" 
+                                data-item-key="{{ $item['key'] }}"
                                 class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -99,7 +104,7 @@
                             Continuar Comprando
                         </a>
                         
-                        <button onclick="clearCart()" 
+                        <button data-cart-action="clear"
                                 class="flex items-center justify-center px-6 py-3 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -162,19 +167,24 @@
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Calcular Frete</h3>
                     
-                    <form class="space-y-4">
+                    <form id="shipping-form" class="space-y-4">
+                        @csrf
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">CEP</label>
+                            <label for="zipcode" class="block text-sm font-medium text-gray-700 mb-2">CEP</label>
                             <div class="flex space-x-2">
-                                <input type="text" 
+                                <input type="text"
+                                       id="zipcode"
+                                       name="zipcode"
                                        placeholder="00000-000" 
                                        maxlength="9"
                                        class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500">
-                                <button type="button" 
+                                <button type="submit" 
+                                        id="calculate-shipping-btn"
                                         class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
                                     Calcular
                                 </button>
                             </div>
+                            <div id="shipping-error" class="text-red-500 text-sm mt-2"></div>
                         </div>
                         
                         <div class="text-sm text-gray-600">
@@ -255,86 +265,4 @@
         @endif
     </div>
 </div>
-
-@push('scripts')
-<script>
-function updateQuantity(itemKey, newQuantity) {
-    if (newQuantity < 1 || newQuantity > 10) return;
-    
-    fetch(`/carrinho/atualizar/${itemKey}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ quantity: newQuantity })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload(); // Recarregar para atualizar os cálculos
-        } else {
-            alert('Erro ao atualizar quantidade');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao atualizar quantidade');
-    });
-}
-
-function removeItem(itemKey) {
-    if (!confirm('Tem certeza que deseja remover este item?')) return;
-    
-    fetch(`/carrinho/remover/${itemKey}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        } else {
-            alert('Erro ao remover item');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao remover item');
-    });
-}
-
-function clearCart() {
-    if (!confirm('Tem certeza que deseja limpar todo o carrinho?')) return;
-    
-    fetch('/carrinho/limpar', {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        } else {
-            alert('Erro ao limpar carrinho');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao limpar carrinho');
-    });
-}
-
-// Formatação de CEP
-document.querySelector('input[placeholder="00000-000"]').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    value = value.replace(/(\d{5})(\d)/, '$1-$2');
-    e.target.value = value;
-});
-</script>
-@endpush
 @endsection 

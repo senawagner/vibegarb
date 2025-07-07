@@ -205,25 +205,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            
-                            <!-- Cálculo de Frete -->
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm font-medium text-blue-900">Calcular Frete</span>
-                                    <button type="button" 
-                                            id="calculate-shipping-btn"
-                                            class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition duration-300">
-                                        Calcular
-                                    </button>
-                                </div>
-                                <div id="shipping-result" class="mt-2 hidden">
-                                    <div class="text-sm text-blue-800">
-                                        <span id="shipping-cost-display"></span> - 
-                                        <span id="shipping-days-display"></span>
-                                    </div>
-                                </div>
-                                <div id="shipping-loading" class="hidden text-sm text-blue-600 mt-2">Calculando frete...</div>
-                            </div>
                         </div>
                     </div>
 
@@ -268,228 +249,185 @@
                             </label>
                         </div>
                         @error('payment_method')
-                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
 
+                </div>
+                
                 <!-- Resumo do Pedido -->
-                <div class="space-y-6">
-                    <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6 sticky top-28">
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">Resumo do Pedido</h2>
                         
-                        <!-- Itens -->
-                        <div class="space-y-3 mb-4">
+                        <div class="space-y-3">
                             @foreach($cartItems as $item)
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-2xl">👕</div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900 truncate">{{ $item['name'] }}</p>
-                                    <p class="text-xs text-gray-600">{{ $item['color'] }} • {{ $item['size'] }} • Qtd: {{ $item['quantity'] }}</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <img src="{{ $item->image ?? '/images/default-product.png' }}" alt="{{ $item->name }}" class="w-12 h-12 object-cover rounded-md mr-3">
+                                        <div>
+                                            <p class="font-medium text-gray-800">{{ $item->name }}</p>
+                                            <p class="text-sm text-gray-500">{{ $item->color }} - {{ $item->size }}</p>
+                                            <p class="text-sm text-gray-500">Qtd: {{ $item->quantity }}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 font-semibold">R$ {{ number_format($item->quantity * $item->unit_price, 2, ',', '.') }}</p>
                                 </div>
-                                <div class="text-sm font-medium text-gray-900">{{ $item['formatted_total'] }}</div>
-                            </div>
                             @endforeach
                         </div>
-
-                        <!-- Cálculos -->
-                        <div class="border-t pt-4 space-y-2">
-                            <div class="flex justify-between text-sm">
+                        
+                        <hr class="my-4">
+                        
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
                                 <span class="text-gray-600">Subtotal</span>
-                                <span>{{ $cartSummary['formatted_subtotal'] }}</span>
+                                <span class="font-semibold text-gray-800">{{ $cartSummary['formatted_subtotal'] }}</span>
                             </div>
-                            <div class="flex justify-between text-sm">
+                            <div class="flex justify-between">
                                 <span class="text-gray-600">Frete</span>
-                                <span id="shipping-display">{{ $cartSummary['formatted_shipping'] }}</span>
+                                <span class="font-semibold text-gray-800">{{ $cartSummary['formatted_shipping'] }}</span>
                             </div>
-                            <div class="flex justify-between text-lg font-bold border-t pt-2">
-                                <span>Total</span>
-                                <span id="total-display">{{ $cartSummary['formatted_total'] }}</span>
+                            <div class="flex justify-between text-green-600" id="pix-discount-summary" style="display: none;">
+                                <span class="text-gray-600">Desconto (PIX)</span>
+                                <span class="font-semibold text-green-600">- R$ {{ number_format($cartSummary['pix_discount'], 2, ',', '.') }}</span>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Botão Finalizar -->
-                    <button type="submit" 
-                            id="submit-btn"
-                            class="w-full bg-purple-600 text-white py-4 px-6 rounded-lg text-lg font-semibold hover:bg-purple-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Confirmar Pedido
-                    </button>
-
-                    <!-- Segurança -->
-                    <div class="bg-gray-50 p-4 rounded-lg text-center">
-                        <div class="flex items-center justify-center space-x-4 text-sm text-gray-600">
-                            <div class="flex items-center">
-                                <svg class="w-4 h-4 mr-1 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                Compra Segura
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-4 h-4 mr-1 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                </svg>
-                                SSL Criptografado
+                            <div class="flex justify-between text-lg font-bold">
+                                <span class="text-gray-900">Total</span>
+                                <span class="text-purple-700" id="total-price">{{ $cartSummary['formatted_total'] }}</span>
                             </div>
                         </div>
+
+                        <hr class="my-4">
+
+                        <button type="submit" 
+                                id="submit-checkout-btn"
+                                class="w-full bg-purple-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-purple-700 transition duration-300 flex items-center justify-center">
+                            <span id="submit-text">Finalizar Compra</span>
+                            <svg id="submit-loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
+
             </div>
         </form>
     </div>
 </div>
+@endsection
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Função para formatar CEP
-    function formatZipcode(input) {
-        let value = input.value.replace(/\D/g, '');
-        if (value.length > 5) {
-            value = value.replace(/^(\d{5})(\d{1,3})/, '$1-$2');
-        }
-        input.value = value;
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    const searchZipcodeBtn = document.getElementById('search-zipcode-btn');
+    const zipcodeField = document.getElementById('zipcode');
+    const addressField = document.getElementById('address');
+    const neighborhoodField = document.getElementById('neighborhood');
+    const cityField = document.getElementById('city');
+    const stateField = document.getElementById('state');
+    const loadingDiv = document.getElementById('zipcode-loading');
+    const errorDiv = document.getElementById('zipcode-error');
 
-    // Aplicar formatação no CEP
-    const zipcodeInput = document.getElementById('zipcode');
-    zipcodeInput.addEventListener('input', function() {
-        formatZipcode(this);
-    });
+    const clearAddressFields = () => {
+        addressField.value = '';
+        neighborhoodField.value = '';
+        cityField.value = '';
+        stateField.value = '';
+    };
 
-    // Buscar CEP
-    document.getElementById('search-zipcode-btn').addEventListener('click', function() {
-        const zipcode = zipcodeInput.value.replace(/\D/g, '');
-        
+    const searchZipcode = async () => {
+        const zipcode = zipcodeField.value.replace(/\D/g, ''); 
         if (zipcode.length !== 8) {
-            showZipcodeError('CEP deve ter 8 dígitos');
+            errorDiv.textContent = 'CEP inválido. Por favor, digite 8 números.';
+            errorDiv.classList.remove('hidden');
+            clearAddressFields();
             return;
         }
 
-        showZipcodeLoading(true);
-        hideZipcodeError();
+        loadingDiv.classList.remove('hidden');
+        errorDiv.classList.add('hidden');
+        
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${zipcode}/json/`);
+            const data = await response.json();
 
-        fetch('{{ route("checkout.search_zipcode") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') || document.querySelector('[name="_token"]').value
-            },
-            body: JSON.stringify({ zipcode: zipcode })
-        })
-        .then(response => response.json())
-        .then(data => {
-            showZipcodeLoading(false);
-            
-            if (data.error) {
-                showZipcodeError(data.error);
-                return;
+            if (data.erro) {
+                errorDiv.textContent = 'CEP não encontrado. Verifique e tente novamente.';
+                errorDiv.classList.remove('hidden');
+                clearAddressFields();
+            } else {
+                addressField.value = data.logradouro;
+                neighborhoodField.value = data.bairro;
+                cityField.value = data.localidade;
+                stateField.value = data.uf;
             }
-
-            // Preencher campos
-            document.getElementById('address').value = data.address || '';
-            document.getElementById('neighborhood').value = data.neighborhood || '';
-            document.getElementById('city').value = data.city || '';
-            document.getElementById('state').value = data.state || '';
-            
-            // Auto-calcular frete
-            calculateShipping();
-        })
-        .catch(error => {
-            showZipcodeLoading(false);
-            showZipcodeError('Erro ao buscar CEP');
-        });
-    });
-
-    // Calcular frete
-    document.getElementById('calculate-shipping-btn').addEventListener('click', calculateShipping);
-
-    function calculateShipping() {
-        const zipcode = zipcodeInput.value.replace(/\D/g, '');
-        
-        if (zipcode.length !== 8) {
-            alert('Informe um CEP válido para calcular o frete');
-            return;
+        } catch (error) {
+            console.error('Erro ao buscar CEP:', error);
+            errorDiv.textContent = 'Erro ao buscar CEP. Tente novamente mais tarde.';
+            errorDiv.classList.remove('hidden');
+            clearAddressFields();
+        } finally {
+            loadingDiv.classList.add('hidden');
         }
+    };
 
-        document.getElementById('shipping-loading').classList.remove('hidden');
-        document.getElementById('shipping-result').classList.add('hidden');
+    if (searchZipcodeBtn) {
+        searchZipcodeBtn.addEventListener('click', searchZipcode);
+    }
 
-        fetch('{{ route("checkout.calculate_shipping") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') || document.querySelector('[name="_token"]').value
-            },
-            body: JSON.stringify({ zipcode: zipcode })
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('shipping-loading').classList.add('hidden');
-            document.getElementById('shipping-result').classList.remove('hidden');
+    if (zipcodeField) {
+        zipcodeField.addEventListener('input', () => {
+            let value = zipcodeField.value.replace(/\D/g, '');
+            if (value.length > 5) {
+                value = value.slice(0, 5) + '-' + value.slice(5, 8);
+            }
+            zipcodeField.value = value;
             
-            document.getElementById('shipping-cost-display').textContent = data.formatted_cost;
-            document.getElementById('shipping-days-display').textContent = data.shipping_days;
-            document.getElementById('shipping-display').textContent = data.formatted_cost;
-            
-            // Atualizar total baseado na forma de pagamento selecionada
-            updateTotalDisplay();
-        })
-        .catch(error => {
-            document.getElementById('shipping-loading').classList.add('hidden');
-            alert('Erro ao calcular frete');
+            if (value.replace(/\D/g, '').length === 8) {
+                searchZipcode();
+            }
         });
     }
 
-    // Atualizar preço total baseado na forma de pagamento selecionada
-    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
-        radio.addEventListener('change', updateTotalDisplay);
+    const checkoutForm = document.getElementById('checkout-form');
+    const submitBtn = document.getElementById('submit-checkout-btn');
+    const submitText = document.getElementById('submit-text');
+    const submitLoading = document.getElementById('submit-loading');
+
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', () => {
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            submitLoading.classList.remove('hidden');
+        });
+    }
+
+    // Lógica para mostrar/esconder desconto do PIX
+    const paymentMethodRadios = document.querySelectorAll('input[name="payment_method"]');
+    const pixDiscountSummary = document.getElementById('pix-discount-summary');
+    const totalPriceEl = document.getElementById('total-price');
+    const originalTotal = '{{ $cartSummary['formatted_total'] }}';
+    const pixTotal = '{{ $cartSummary['formatted_pix_total'] }}';
+
+    paymentMethodRadios.forEach(radio => {
+        radio.addEventListener('change', (event) => {
+            if (event.target.value === 'pix') {
+                pixDiscountSummary.style.display = 'flex';
+                totalPriceEl.textContent = pixTotal;
+            } else {
+                pixDiscountSummary.style.display = 'none';
+                totalPriceEl.textContent = originalTotal;
+            }
+        });
     });
 
-    function updateTotalDisplay() {
-        const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
-        const totalDisplay = document.getElementById('total-display');
-        
-        if (selectedPayment && selectedPayment.value === 'pix') {
-            totalDisplay.textContent = '{{ $cartSummary["formatted_pix_total"] }}';
-        } else {
-            totalDisplay.textContent = '{{ $cartSummary["formatted_total"] }}';
-        }
+    // Estado inicial
+    if (document.querySelector('input[name="payment_method"]:checked')?.value === 'pix') {
+        pixDiscountSummary.style.display = 'flex';
+        totalPriceEl.textContent = pixTotal;
     }
 
-    function showZipcodeLoading(show) {
-        const loading = document.getElementById('zipcode-loading');
-        if (show) {
-            loading.classList.remove('hidden');
-        } else {
-            loading.classList.add('hidden');
-        }
-    }
-
-    function showZipcodeError(message) {
-        const error = document.getElementById('zipcode-error');
-        error.textContent = message;
-        error.classList.remove('hidden');
-    }
-
-    function hideZipcodeError() {
-        document.getElementById('zipcode-error').classList.add('hidden');
-    }
-
-    // Validação antes de enviar
-    document.getElementById('checkout-form').addEventListener('submit', function(e) {
-        const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
-        if (!paymentMethod) {
-            e.preventDefault();
-            alert('Selecione uma forma de pagamento');
-            return;
-        }
-
-        // Desabilitar botão para evitar duplo clique
-        document.getElementById('submit-btn').disabled = true;
-        document.getElementById('submit-btn').textContent = 'Processando...';
-    });
 });
 </script>
-@endpush
-@endsection 
+@endpush 

@@ -9,6 +9,26 @@ class Order extends Model
 {
     use HasFactory;
 
+    // Constantes de Status
+    const STATUS_PENDING = 'pending';
+    const STATUS_PAID = 'paid';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_SHIPPED = 'shipped';
+    const STATUS_DELIVERED = 'delivered';
+    const STATUS_CANCELLED = 'cancelled';
+
+    public static function getStatuses(): array
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_PAID,
+            self::STATUS_PROCESSING,
+            self::STATUS_SHIPPED,
+            self::STATUS_DELIVERED,
+            self::STATUS_CANCELLED,
+        ];
+    }
+
     protected $fillable = [
         'order_number',
         'user_id',
@@ -36,7 +56,14 @@ class Order extends Model
         'tracking_code',
         'shipped_at',
         'delivered_at',
-        'notes'
+        'notes',
+        // Campos de Dropshipping
+        'production_cost',
+        'supplier_shipping_cost',
+        'profit_margin',
+        'production_days',
+        'production_status',
+        'supplier_status',
     ];
 
     protected $casts = [
@@ -44,6 +71,9 @@ class Order extends Model
         'shipping_cost' => 'decimal:2',
         'discount_amount' => 'decimal:2',
         'total_amount' => 'decimal:2',
+        'production_cost' => 'decimal:2',
+        'supplier_shipping_cost' => 'decimal:2',
+        'profit_margin' => 'decimal:2',
         'shipping_address' => 'array',
         'billing_address' => 'array',
         'shipped_at' => 'datetime',

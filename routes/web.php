@@ -67,6 +67,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     // Dropshipping Dashboard
     Route::prefix('dropshipping')->name('dropshipping.')->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\DropshippingController::class, 'dashboard'])->name('dashboard');
+        Route::get('/orders', [App\Http\Controllers\Admin\DropshippingController::class, 'index'])->name('orders');
         Route::get('/ready-for-supplier', [App\Http\Controllers\Admin\DropshippingController::class, 'readyForSupplier'])->name('ready_for_supplier');
         Route::get('/in-production', [App\Http\Controllers\Admin\DropshippingController::class, 'inProduction'])->name('in_production');
         Route::get('/shipped-by-supplier', [App\Http\Controllers\Admin\DropshippingController::class, 'shippedBySupplier'])->name('shipped_by_supplier');
@@ -74,6 +75,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         
         // Ações de pedidos
         Route::get('/orders/{order}', [App\Http\Controllers\Admin\DropshippingController::class, 'show'])->name('show_order');
+        
+        // Nova rota para enviar o pedido para o fornecedor
+        Route::post('/orders/{order}/send-to-supplier', [App\Http\Controllers\Admin\DropshippingController::class, 'sendToSupplier'])->name('send_to_supplier');
+
         Route::post('/orders/{order}/confirm-supplier', [App\Http\Controllers\Admin\DropshippingController::class, 'confirmWithSupplier'])->name('confirm_supplier');
         Route::post('/orders/{order}/mark-paid', [App\Http\Controllers\Admin\DropshippingController::class, 'markAsPaidToSupplier'])->name('mark_paid');
         Route::post('/orders/{order}/update-production-status', [App\Http\Controllers\Admin\DropshippingController::class, 'updateProductionStatus'])->name('update_production_status');

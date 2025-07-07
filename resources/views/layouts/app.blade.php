@@ -11,13 +11,17 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts with correto build paths -->
-        <link rel="stylesheet" href="/build/assets/app-CqPnkobs.css">
-        <script src="/build/assets/app-i7Ae5HK0.js" defer></script>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         @stack('styles')
     </head>
     <body class="font-sans antialiased bg-gray-50">
+        {{-- Container para Notificações Dinâmicas --}}
+        <div id="notification" class="hidden fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-lg text-white shadow-lg transition-all duration-500 transform -translate-y-full opacity-0">
+            <p id="notification-message"></p>
+        </div>
+
         <div class="min-h-screen bg-gray-100">
             <!-- Navigation -->
             <nav class="bg-white shadow-lg sticky top-0 z-50">
@@ -78,7 +82,15 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13h10m-4 8a2 2 0 100-4 2 2 0 000 4zm-4 0a2 2 0 100-4 2 2 0 000 4z"></path>
                                 </svg>
                                 <span class="ml-1">Carrinho</span>
-                                <span id="cart-count" class="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                                @php 
+                                    // Usar nosso próprio CartService para obter a contagem de itens
+                                    $cartService = new \App\Services\CartService(app('session'));
+                                    $cartItemCount = $cartService->getTotalQuantity();
+                                @endphp
+                                <span id="cart-count" 
+                                      class="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center {{ $cartItemCount > 0 ? '' : 'hidden' }}">
+                                    {{ $cartItemCount }}
+                                </span>
                             </a>
 
                             <!-- Authentication Links -->
@@ -203,34 +215,5 @@
         </div>
 
         @stack('scripts')
-        
-        <!-- JavaScript do Carrinho -->
-        <script>
-        // Função para atualizar contador do carrinho
-        function updateCartCount() {
-            fetch('{{ route("cart.count") }}')
-                .then(response => response.json())
-                .then(data => {
-                    const cartCount = document.getElementById('cart-count');
-                    if (cartCount) {
-                        cartCount.textContent = data.count || 0;
-                    }
-                })
-                .catch(error => {
-                    console.log('Erro ao atualizar contador:', error);
-                });
-        }
-
-        // Atualizar contador quando a página carrega
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-            
-            // Atualizar contador a cada 10 segundos (opcional)
-            setInterval(updateCartCount, 10000);
-        });
-
-        // Atualizar contador quando voltar para a página (tab focus)
-        window.addEventListener('focus', updateCartCount);
-        </script>
     </body>
 </html>

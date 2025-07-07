@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <!-- Endereço e Próximos Passos -->
+            <!-- Endereço e Ações -->
             <div class="space-y-6">
                 <!-- Endereço de Entrega -->
                 <div class="bg-white rounded-lg shadow-md p-6">
@@ -126,75 +126,6 @@
                             📧 {{ $order->customer_email }}<br>
                             📱 {{ $order->customer_phone }}
                         </p>
-                    </div>
-                </div>
-
-                <!-- Próximos Passos -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Próximos Passos</h2>
-                    
-                    <div class="space-y-4">
-                        <div class="flex items-start space-x-3">
-                            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-blue-600 font-bold text-xs">1</span>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="text-sm font-medium text-gray-900">Confirmação por E-mail</h3>
-                                <p class="text-xs text-gray-600">Você receberá um e-mail com os detalhes do seu pedido.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-3">
-                            <div class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-orange-600 font-bold text-xs">2</span>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="text-sm font-medium text-gray-900">Produção Personalizada</h3>
-                                <p class="text-xs text-gray-600">Sua peça será produzida especialmente para você em {{ $order->production_days ?? 5 }} dias úteis.</p>
-                            </div>
-                        </div>
-
-                        @if($order->payment_method === 'pix')
-                        <div class="flex items-start space-x-3">
-                            <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-green-600 font-bold text-xs">3</span>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="text-sm font-medium text-gray-900">Pagamento PIX</h3>
-                                <p class="text-xs text-gray-600">Realize o pagamento via PIX para confirmação automática.</p>
-                            </div>
-                        </div>
-                        @elseif($order->payment_method === 'boleto')
-                        <div class="flex items-start space-x-3">
-                            <div class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-orange-600 font-bold text-xs">3</span>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="text-sm font-medium text-gray-900">Pagamento do Boleto</h3>
-                                <p class="text-xs text-gray-600">Pague o boleto até a data de vencimento.</p>
-                            </div>
-                        </div>
-                        @endif
-
-                        <div class="flex items-start space-x-3">
-                            <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-purple-600 font-bold text-xs">4</span>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="text-sm font-medium text-gray-900">Envio Direto da Fábrica</h3>
-                                <p class="text-xs text-gray-600">Sua peça será enviada diretamente da fábrica para seu endereço.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-3">
-                            <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-green-600 font-bold text-xs">5</span>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="text-sm font-medium text-gray-900">Entrega</h3>
-                                <p class="text-xs text-gray-600">Receba sua peça exclusiva no endereço informado!</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

@@ -67,8 +67,8 @@
                 @if($product->productImages->count() > 1)
                 <div class="grid grid-cols-4 gap-2">
                     @foreach($product->productImages as $image)
-                    <button onclick="changeMainImage('{{ $image->image_url }}')" 
-                            class="aspect-square bg-gray-200 rounded-lg overflow-hidden hover:ring-2 hover:ring-purple-500 transition">
+                    <button data-image-url="{{ $image->image_url }}" 
+                            class="product-thumbnail aspect-square bg-gray-200 rounded-lg overflow-hidden hover:ring-2 hover:ring-purple-500 transition">
                         <img src="{{ $image->image_url }}" 
                              alt="{{ $product->name }}" 
                              class="w-full h-full object-cover">
@@ -158,7 +158,6 @@
                             
                             <!-- Guia de Tamanhos -->
                             <button type="button" 
-                                    onclick="openSizeGuide()" 
                                     class="text-sm text-purple-600 hover:text-purple-800 mt-2">
                                 📏 Guia de Tamanhos
                             </button>
@@ -170,7 +169,6 @@
                             <label class="block text-sm font-medium text-gray-700 mb-3">Quantidade</label>
                             <div class="flex items-center space-x-3">
                                 <button type="button" 
-                                        onclick="decreaseQuantity()" 
                                         class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300 transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
@@ -184,7 +182,6 @@
                                        max="10" 
                                        class="w-20 text-center border border-gray-300 rounded-lg py-2">
                                 <button type="button" 
-                                        onclick="increaseQuantity()" 
                                         class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300 transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -291,132 +288,4 @@
     </div>
 </div>
 
-<!-- Modal do Guia de Tamanhos -->
-<div id="size-guide-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold">Guia de Tamanhos</h3>
-                <button onclick="closeSizeGuide()" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <div class="space-y-4">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b">
-                            <th class="text-left py-2">Tamanho</th>
-                            <th class="text-left py-2">Peito (cm)</th>
-                            <th class="text-left py-2">Comprimento (cm)</th>
-                            <th class="text-left py-2">Ombro (cm)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b">
-                            <td class="py-2 font-medium">PP</td>
-                            <td class="py-2">88-92</td>
-                            <td class="py-2">68</td>
-                            <td class="py-2">42</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="py-2 font-medium">P</td>
-                            <td class="py-2">92-96</td>
-                            <td class="py-2">70</td>
-                            <td class="py-2">44</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="py-2 font-medium">M</td>
-                            <td class="py-2">96-100</td>
-                            <td class="py-2">72</td>
-                            <td class="py-2">46</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="py-2 font-medium">G</td>
-                            <td class="py-2">100-104</td>
-                            <td class="py-2">74</td>
-                            <td class="py-2">48</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="py-2 font-medium">GG</td>
-                            <td class="py-2">104-108</td>
-                            <td class="py-2">76</td>
-                            <td class="py-2">50</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <p class="text-sm text-gray-600">
-                    💡 <strong>Dica:</strong> Medidas podem variar ±2cm dependendo do modelo e tecido.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-<script>
-function changeMainImage(imageUrl) {
-    document.getElementById('main-image').src = imageUrl;
-}
-
-function increaseQuantity() {
-    const input = document.getElementById('quantity');
-    const currentValue = parseInt(input.value);
-    if (currentValue < 10) {
-        input.value = currentValue + 1;
-    }
-}
-
-function decreaseQuantity() {
-    const input = document.getElementById('quantity');
-    const currentValue = parseInt(input.value);
-    if (currentValue > 1) {
-        input.value = currentValue - 1;
-    }
-}
-
-function openSizeGuide() {
-    document.getElementById('size-guide-modal').classList.remove('hidden');
-}
-
-function closeSizeGuide() {
-    document.getElementById('size-guide-modal').classList.add('hidden');
-}
-
-// Fechar modal clicando fora
-document.getElementById('size-guide-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeSizeGuide();
-    }
-});
-
-// Validação do formulário
-document.getElementById('add-to-cart-form').addEventListener('submit', function(e) {
-    const colorSelected = document.querySelector('input[name="color"]:checked');
-    const sizeSelected = document.querySelector('input[name="size"]:checked');
-    
-    let errors = [];
-    
-    @if(count($availableColors) > 0)
-    if (!colorSelected) {
-        errors.push('Selecione uma cor');
-    }
-    @endif
-    
-    @if(count($availableSizes) > 0)
-    if (!sizeSelected) {
-        errors.push('Selecione um tamanho');
-    }
-    @endif
-    
-    if (errors.length > 0) {
-        e.preventDefault();
-        alert('Por favor:\n' + errors.join('\n'));
-    }
-});
-</script>
-@endpush
-@endsection 
+@endsection

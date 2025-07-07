@@ -88,28 +88,28 @@
                     @forelse($orders as $order)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-purple-600">{{ $order['id'] }}</div>
+                            <div class="text-sm font-medium text-purple-600">{{ $order->order_number }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ $order['customer_name'] }}</div>
-                            <div class="text-sm text-gray-500">{{ $order['customer_email'] }}</div>
+                            <div class="text-sm font-medium text-gray-900">{{ $order->customer_name }}</div>
+                            <div class="text-sm text-gray-500">{{ $order->customer_email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">R$ {{ number_format($order['total'], 2, ',', '.') }}</div>
+                            <div class="text-sm font-medium text-gray-900">R$ {{ number_format($order->total_amount, 2, ',', '.') }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                @if($order['payment_method'] === 'pix')
+                                @if($order->payment_method === 'pix')
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                         PIX
                                     </span>
-                                @elseif($order['payment_method'] === 'boleto')
+                                @elseif($order->payment_method === 'boleto')
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                         Boleto
                                     </span>
                                 @else
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                        {{ ucfirst($order['payment_method']) }}
+                                        {{ ucfirst($order->payment_method) }}
                                     </span>
                                 @endif
                             </div>
@@ -129,21 +129,21 @@
                                     'delivered' => 'Entregue',
                                 ];
                             @endphp
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $statusColors[$order['status']] ?? 'bg-gray-100 text-gray-800' }}">
-                                {{ $statusLabels[$order['status']] ?? ucfirst($order['status']) }}
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $statusColors[$order->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $order['created_at']->format('d/m/Y H:i') }}
+                            {{ $order->created_at->format('d/m/Y H:i') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center space-x-2">
-                                <button class="text-blue-600 hover:text-blue-900" title="Ver detalhes">
+                                <a href="{{ route('admin.dropshipping.show_order', $order) }}" class="text-blue-600 hover:text-blue-900" title="Ver detalhes">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                     </svg>
-                                </button>
+                                </a>
                                 
                                 <button class="text-purple-600 hover:text-purple-900" title="Editar status">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,6 +151,21 @@
                                     </svg>
                                 </button>
                                 
+                                <!-- Botão Enviar para Produção -->
+                                @if($order->status === 'paid')
+                                    <form action="{{ route('admin.dropshipping.update_production_status', $order) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="text-teal-600 hover:text-teal-900 disabled:text-gray-400 disabled:cursor-not-allowed" 
+                                                title="Enviar para Produção"
+                                                @if($order->sent_to_supplier_at) disabled @endif>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                @endif
+
                                 <button class="text-green-600 hover:text-green-900" title="Imprimir">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
@@ -220,7 +235,7 @@
                 </div>
                 <div class="ml-3">
                     <p class="text-sm font-medium text-gray-600">Enviados</p>
-                    <p class="text-lg font-semibold text-gray-900">0</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ $orders->where('status', 'shipped')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -235,7 +250,7 @@
                 <div class="ml-3">
                     <p class="text-sm font-medium text-gray-600">Faturamento</p>
                     <p class="text-lg font-semibold text-gray-900">
-                        R$ {{ number_format($orders->sum('total'), 2, ',', '.') }}
+                        R$ {{ number_format($orders->sum('total_amount'), 2, ',', '.') }}
                     </p>
                 </div>
             </div>

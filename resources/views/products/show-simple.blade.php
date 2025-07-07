@@ -94,11 +94,11 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-3">Quantidade</label>
                         <div class="flex items-center space-x-3">
-                            <button type="button" onclick="decreaseQty()" class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300">
+                            <button type="button" data-quantity-action="decrease" class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300">
                                 -
                             </button>
                             <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" class="w-20 text-center border border-gray-300 rounded-lg py-2">
-                            <button type="button" onclick="increaseQty()" class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300">
+                            <button type="button" data-quantity-action="increase" class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300">
                                 +
                             </button>
                         </div>
@@ -106,7 +106,7 @@
 
                     <!-- Botões -->
                     <div class="space-y-3">
-                        <button type="submit" class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition duration-300">
+                        <button type="submit" id="add-to-cart-form" class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition duration-300">
                             🛒 Adicionar ao Carrinho
                         </button>
                         <button type="button" class="w-full bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition duration-300">
@@ -163,33 +163,4 @@
         </div>
     </div>
 </div>
-
-<script>
-function increaseQty() {
-    const input = document.getElementById('quantity');
-    const current = parseInt(input.value);
-    if (current < 10) {
-        input.value = current + 1;
-    }
-}
-
-function decreaseQty() {
-    const input = document.getElementById('quantity');
-    const current = parseInt(input.value);
-    if (current > 1) {
-        input.value = current - 1;
-    }
-}
-
-// Validação do formulário
-document.querySelector('form').addEventListener('submit', function(e) {
-    const color = document.querySelector('input[name="color"]:checked');
-    const size = document.querySelector('input[name="size"]:checked');
-    
-    if (!color || !size) {
-        e.preventDefault();
-        alert('Por favor, selecione cor e tamanho!');
-    }
-});
-</script>
 @endsection 

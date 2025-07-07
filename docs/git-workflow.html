@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Workflow - Vibe Garb E-commerce</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">🏠 Início</a></li>
+                    <li><a href="architecture.html">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="session-implementations.html">📝 Implementações</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                    <li><a href="git-workflow.html" class="active">🔄 Git Workflow</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Git Workflow</h1>
+                <p class="subtitle">Fluxo de Branches e Controle de Versão</p>
+                <p class="date">Atualizado: 07 de Julho de 2025</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Visão Geral -->
+                <div class="card">
+                    <h2>Visão Geral do Git Flow</h2>
+                    <p>O projeto <strong>Vibe Garb</strong> utiliza o <strong>Git Flow</strong> simplificado com duas branches principais para garantir estabilidade e facilitar o desenvolvimento colaborativo.</p>
+                    
+                    <h3>Branches Principais</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">🚀</span>
+                            <div><strong>main</strong> - Branch de produção (código estável e testado)</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔧</span>
+                            <div><strong>develop</strong> - Branch de desenvolvimento (funcionalidades em progresso)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fluxo de Trabalho -->
+                <div class="card">
+                    <h2>Fluxo de Trabalho</h2>
+                    
+                    <h3>1. Desenvolvimento Diário</h3>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <strong>Trabalhar na develop</strong>
+                                <p>Todo desenvolvimento acontece na branch develop</p>
+                                <em>git checkout develop</em>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <strong>Commits Frequentes</strong>
+                                <p>Fazer commits pequenos e descritivos regularmente</p>
+                                <em>git add . && git commit -m "feat: nova funcionalidade"</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <strong>Push para Origin</strong>
+                                <p>Enviar mudanças para o GitHub regularmente</p>
+                                <em>git push origin develop</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>2. Release para Produção</h3>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <strong>Testes Completos</strong>
+                                <p>Validar todas as funcionalidades na develop</p>
+                                <em>Verificar se tudo está funcionando</em>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <strong>Merge para Main</strong>
+                                <p>Incorporar mudanças estáveis na main</p>
+                                <em>git checkout main && git merge develop</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <strong>Tag de Versão</strong>
+                                <p>Criar tag para marcar a versão</p>
+                                <em>git tag -a v1.0.0 -m "MVP Completo"</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <strong>Push Completo</strong>
+                                <p>Enviar main e tags para o GitHub</p>
+                                <em>git push origin main --tags</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comandos Essenciais -->
+                <div class="card">
+                    <h2>Comandos Essenciais</h2>
+                    
+                    <h3>Verificação de Status</h3>
+                    <div class="code-block">
+                        <pre><code># Ver branch atual e status
+git status
+
+# Ver todas as branches
+git branch -a
+
+# Ver histórico de commits
+git log --oneline -10</code></pre>
+                    </div>
+
+                    <h3>Navegação entre Branches</h3>
+                    <div class="code-block">
+                        <pre><code># Ir para develop
+git checkout develop
+
+# Ir para main
+git checkout main
+
+# Criar nova branch (se necessário)
+git checkout -b feature/nova-funcionalidade</code></pre>
+                    </div>
+
+                    <h3>Commits e Push</h3>
+                    <div class="code-block">
+                        <pre><code># Adicionar todas as mudanças
+git add .
+
+# Commit com mensagem descritiva
+git commit -m "feat: implementar checkout completo"
+
+# Push para branch atual
+git push origin develop
+
+# Push forçado (cuidado!)
+git push origin develop --force</code></pre>
+                    </div>
+
+                    <h3>Merge e Release</h3>
+                    <div class="code-block">
+                        <pre><code># Merge develop para main
+git checkout main
+git merge develop
+
+# Criar tag de versão
+git tag -a v1.0.0 -m "Versão 1.0.0 - MVP Completo"
+
+# Push da main com tags
+git push origin main --tags</code></pre>
+                    </div>
+                </div>
+
+                <!-- Convenções de Commit -->
+                <div class="card">
+                    <h2>Convenções de Commit</h2>
+                    <p>Utilizamos o padrão <strong>Conventional Commits</strong> para manter o histórico organizado:</p>
+                    
+                    <h3>Tipos de Commit</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✨</span>
+                            <div><strong>feat:</strong> Nova funcionalidade</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🐛</span>
+                            <div><strong>fix:</strong> Correção de bug</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📚</span>
+                            <div><strong>docs:</strong> Documentação</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎨</span>
+                            <div><strong>style:</strong> Formatação, CSS</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">♻️</span>
+                            <div><strong>refactor:</strong> Refatoração de código</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🧪</span>
+                            <div><strong>test:</strong> Testes</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔧</span>
+                            <div><strong>chore:</strong> Configurações, build</div>
+                        </div>
+                    </div>
+
+                    <h3>Exemplos de Mensagens</h3>
+                    <div class="code-block">
+                        <pre><code># Boas práticas
+feat: implementar sistema de checkout completo
+fix: corrigir erro de validação no carrinho
+docs: adicionar documentação da API Dimona
+style: padronizar CSS da documentação
+refactor: otimizar DimonaService
+test: adicionar testes para OrderCreationService
+chore: atualizar dependências do Docker
+
+# Evitar
+"ajustes"
+"correções"
+"update"
+"changes"</code></pre>
+                    </div>
+                </div>
+
+                <!-- Estado Atual -->
+                <div class="card">
+                    <h2>Estado Atual do Projeto</h2>
+                    
+                    <h3>Situação Atual</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">📍</span>
+                            <div><strong>Branch Ativa:</strong> develop</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔄</span>
+                            <div><strong>Mudanças Pendentes:</strong> MVP completo implementado</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <div><strong>Status:</strong> Pronto para commit e release</div>
+                        </div>
+                    </div>
+
+                    <h3>Próximos Passos Recomendados</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[⏳] <strong>Commit do MVP:</strong> Salvar todas as mudanças na develop</div>
+                        <div class="task-item pending">[⏳] <strong>Push Develop:</strong> Enviar para GitHub</div>
+                        <div class="task-item pending">[⏳] <strong>Merge para Main:</strong> Mover MVP para produção</div>
+                        <div class="task-item pending">[⏳] <strong>Tag v1.0.0:</strong> Marcar versão do MVP</div>
+                        <div class="task-item pending">[⏳] <strong>Continuar na Develop:</strong> Próximas funcionalidades</div>
+                    </div>
+                </div>
+
+                <!-- Cenários Comuns -->
+                <div class="card">
+                    <h2>Cenários Comuns</h2>
+                    
+                    <h3>Cenário 1: Desenvolvimento Normal</h3>
+                    <div class="code-block">
+                        <pre><code># Trabalhar na develop
+git checkout develop
+git pull origin develop
+
+# Fazer mudanças...
+git add .
+git commit -m "feat: nova funcionalidade"
+git push origin develop</code></pre>
+                    </div>
+
+                    <h3>Cenário 2: Release para Produção</h3>
+                    <div class="code-block">
+                        <pre><code># Finalizar develop
+git checkout develop
+git add .
+git commit -m "feat: MVP completo"
+git push origin develop
+
+# Merge para main
+git checkout main
+git pull origin main
+git merge develop
+git tag -a v1.0.0 -m "MVP Completo"
+git push origin main --tags
+
+# Voltar para develop
+git checkout develop</code></pre>
+                    </div>
+
+                    <h3>Cenário 3: Hotfix em Produção</h3>
+                    <div class="code-block">
+                        <pre><code># Criar hotfix da main
+git checkout main
+git checkout -b hotfix/correcao-critica
+
+# Fazer correção...
+git add .
+git commit -m "fix: correção crítica"
+
+# Merge para main
+git checkout main
+git merge hotfix/correcao-critica
+git tag -a v1.0.1 -m "Correção crítica"
+git push origin main --tags
+
+# Merge para develop também
+git checkout develop
+git merge hotfix/correcao-critica
+git push origin develop
+
+# Deletar branch hotfix
+git branch -d hotfix/correcao-critica</code></pre>
+                    </div>
+                </div>
+
+                <!-- Boas Práticas -->
+                <div class="card">
+                    <h2>Boas Práticas</h2>
+                    
+                    <h3>✅ Fazer</h3>
+                    <ul>
+                        <li>Commits pequenos e frequentes</li>
+                        <li>Mensagens descritivas usando convenções</li>
+                        <li>Testar antes de fazer merge para main</li>
+                        <li>Usar tags para versões importantes</li>
+                        <li>Manter develop sempre atualizada</li>
+                        <li>Fazer backup antes de operações complexas</li>
+                    </ul>
+
+                    <h3>❌ Evitar</h3>
+                    <ul>
+                        <li>Commits diretos na main</li>
+                        <li>Mensagens genéricas ("update", "fix")</li>
+                        <li>Commits gigantes com muitas mudanças</li>
+                        <li>Push forçado na main</li>
+                        <li>Trabalhar sem branch</li>
+                        <li>Esquecer de fazer pull antes de push</li>
+                    </ul>
+                </div>
+
+                <!-- Recuperação de Problemas -->
+                <div class="card">
+                    <h2>Recuperação de Problemas</h2>
+                    
+                    <h3>Problema: Commit Errado</h3>
+                    <div class="code-block">
+                        <pre><code># Desfazer último commit (mantém mudanças)
+git reset --soft HEAD~1
+
+# Desfazer último commit (remove mudanças)
+git reset --hard HEAD~1</code></pre>
+                    </div>
+
+                    <h3>Problema: Merge Conflitos</h3>
+                    <div class="code-block">
+                        <pre><code># Ver arquivos em conflito
+git status
+
+# Editar arquivos manualmente
+# Depois de resolver:
+git add .
+git commit -m "fix: resolver conflitos de merge"</code></pre>
+                    </div>
+
+                    <h3>Problema: Perder Mudanças</h3>
+                    <div class="code-block">
+                        <pre><code># Ver histórico de mudanças
+git reflog
+
+# Recuperar commit perdido
+git checkout [hash-do-commit]
+git checkout -b recuperacao
+git checkout develop
+git merge recuperacao</code></pre>
+                    </div>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="card conclusion">
+                    <h2>Resumo do Workflow</h2>
+                    <p>O <strong>Git Flow</strong> do Vibe Garb é simples e eficiente:</p>
+                    <ul>
+                        <li>✅ <strong>develop</strong> - Desenvolvimento contínuo</li>
+                        <li>✅ <strong>main</strong> - Código estável e testado</li>
+                        <li>✅ <strong>Tags</strong> - Versões importantes</li>
+                        <li>✅ <strong>Commits convencionais</strong> - Histórico organizado</li>
+                        <li>✅ <strong>Testes antes de merge</strong> - Qualidade garantida</li>
+                    </ul>
+                    <p><strong>Próximo passo:</strong> Commit do MVP na develop e merge para main com tag v1.0.0</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html> 

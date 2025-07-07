@@ -38,4 +38,10 @@ class ProductImage extends Model
     {
         return $query->orderBy('sort_order', 'asc');
     }
+
+    // Accessors
+    public function getImageUrlAttribute()
+    {
+        return $this->image_path;
+    }
 }

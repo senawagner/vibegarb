@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenvolvimento Seguro - Vibe Garb E-commerce</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Documentação</h2>
+                <p>Vibe Garb E-commerce</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">🏠 Início</a></li>
+                    <li><a href="architecture.html">🏗️ Arquitetura</a></li>
+                    <li><a href="database.html">🗄️ Banco de Dados</a></li>
+                    <li><a href="development.html">🚀 Desenvolvimento</a></li>
+                    <li><a href="build.html">🔨 Sistema de Build</a></li>
+                    <li><a href="checkout-implementation.html">💳 Checkout</a></li>
+                    <li><a href="current-status.html">📊 Status Atual</a></li>
+                    <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
+                    <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
+                    <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="session-implementations.html">📝 Implementações</a></li>
+                    <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                    <li><a href="git-workflow.html">🔄 Git Workflow</a></li>
+                    <li><a href="safe-development.html" class="active">🛡️ Desenvolvimento Seguro</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Desenvolvimento Seguro</h1>
+                <p class="subtitle">Estratégias para Mudanças Críticas sem Quebrar o Projeto</p>
+                <p class="date">Criado: 07 de Julho de 2025</p>
+            </header>
+
+            <div class="content-grid">
+                <!-- Problema a Resolver -->
+                <div class="card">
+                    <h2>Cenário: Mudanças Significativas na Estilização</h2>
+                    <p><strong>Desafio:</strong> Precisamos fazer mudanças significativas na página inicial da loja, mas da última vez isso quebrou todo o projeto.</p>
+                    
+                    <h3>Riscos Identificados</h3>
+                    <div class="error-box">
+                        <ul>
+                            <li><strong>CSS Breaking:</strong> Alterações podem quebrar layout existente</li>
+                            <li><strong>JavaScript Conflicts:</strong> Novos scripts podem conflitar</li>
+                            <li><strong>Responsividade:</strong> Mobile pode ficar comprometido</li>
+                            <li><strong>Performance:</strong> Assets grandes podem degradar performance</li>
+                            <li><strong>Funcionalidades:</strong> Checkout e carrinho podem parar de funcionar</li>
+                        </ul>
+                    </div>
+
+                    <h3>Solução: Desenvolvimento em Camadas</h3>
+                    <p>Implementaremos uma estratégia de <strong>3 ambientes</strong> com rollback seguro garantido.</p>
+                </div>
+
+                <!-- Estratégia de Branches -->
+                <div class="card">
+                    <h2>Estratégia 1: Feature Branches (Recomendada)</h2>
+                    
+                    <h3>Estrutura de Branches</h3>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <strong>feature/redesign-homepage</strong>
+                                <p>Branch específica para mudanças de estilo</p>
+                                <em>✅ Criada e ativa</em>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <strong>develop</strong>
+                                <p>Código estável para desenvolvimento</p>
+                                <em>🔒 Protegida - MVP v1.0.0</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <strong>homolog</strong>
+                                <p>Branch de homologação para testes</p>
+                                <em>🚀 Será criada para testes</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <strong>main</strong>
+                                <p>Produção estável</p>
+                                <em>🏆 MVP v1.0.0 protegido</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Fluxo de Trabalho Seguro</h3>
+                    <div class="code-block">
+                        <pre><code># 1. Trabalhar na feature
+git checkout feature/redesign-homepage
+# Fazer mudanças...
+git add .
+git commit -m "style: novo design da homepage"
+
+# 2. Testar localmente
+docker-compose up -d
+# Verificar se tudo funciona
+
+# 3. Push da feature
+git push origin feature/redesign-homepage
+
+# 4. Merge para homolog (quando pronto)
+git checkout homolog
+git merge feature/redesign-homepage
+
+# 5. Testar em homolog
+# Deploy em ambiente de teste
+
+# 6. Se aprovado, merge para develop
+git checkout develop
+git merge feature/redesign-homepage
+
+# 7. Se tudo ok, merge para main
+git checkout main
+git merge develop</code></pre>
+                    </div>
+                </div>
+
+                <!-- Estratégia de Ambientes -->
+                <div class="card">
+                    <h2>Estratégia 2: Ambientes Duplicados (Mais Seguro)</h2>
+                    
+                    <h3>Estrutura de Diretórios</h3>
+                    <div class="file-tree">
+                        <pre>C:\projetos_2025\
+├── vibegarb\           # 🔧 Desenvolvimento
+├── vibegarb-homolog\   # 🧪 Homologação  
+└── vibegarb-prod\      # 🚀 Produção</pre>
+                    </div>
+
+                    <h3>Configuração dos Ambientes</h3>
+                    <div class="config-grid">
+                        <div class="config-item">
+                            <div class="config-key">🔧 Desenvolvimento</div>
+                            <div class="config-description">
+                                <strong>Porta:</strong> 8000<br>
+                                <strong>Banco:</strong> vibegarb_dev<br>
+                                <strong>Debug:</strong> Ativo
+                            </div>
+                        </div>
+                        <div class="config-item">
+                            <div class="config-key">🧪 Homologação</div>
+                            <div class="config-description">
+                                <strong>Porta:</strong> 8001<br>
+                                <strong>Banco:</strong> vibegarb_homolog<br>
+                                <strong>Debug:</strong> Limitado
+                            </div>
+                        </div>
+                        <div class="config-item">
+                            <div class="config-key">🚀 Produção</div>
+                            <div class="config-description">
+                                <strong>Porta:</strong> 8002<br>
+                                <strong>Banco:</strong> vibegarb_prod<br>
+                                <strong>Debug:</strong> Desativado
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Comandos para Criar Ambientes</h3>
+                    <div class="code-block">
+                        <pre><code># Criar ambiente de homologação
+cd C:\projetos_2025
+git clone vibegarb vibegarb-homolog
+cd vibegarb-homolog
+
+# Configurar portas diferentes
+# Editar docker-compose.yml para usar porta 8001
+# Editar .env para banco vibegarb_homolog
+
+# Subir homolog
+docker-compose up -d
+
+# Criar ambiente de produção
+cd C:\projetos_2025
+git clone vibegarb vibegarb-prod
+cd vibegarb-prod
+
+# Configurar para produção
+# Porta 8002, banco vibegarb_prod</code></pre>
+                    </div>
+                </div>
+
+                <!-- Rollback Strategies -->
+                <div class="card">
+                    <h2>Estratégias de Rollback</h2>
+                    
+                    <h3>Rollback por Git (Rápido)</h3>
+                    <div class="code-block">
+                        <pre><code># Ver histórico de commits
+git log --oneline -10
+
+# Rollback para commit específico (soft)
+git reset --soft HEAD~1
+
+# Rollback completo (hard) - CUIDADO!
+git reset --hard [hash-do-commit]
+
+# Rollback de merge
+git revert -m 1 [hash-do-merge]
+
+# Voltar para develop segura
+git checkout develop
+git branch -D feature/redesign-homepage</code></pre>
+                    </div>
+
+                    <h3>Rollback por Backup (Seguro)</h3>
+                    <div class="code-block">
+                        <pre><code># Antes das mudanças - backup completo
+cp -r vibegarb vibegarb-backup-$(date +%Y%m%d)
+
+# Em caso de emergência
+rm -rf vibegarb
+mv vibegarb-backup-20250707 vibegarb
+cd vibegarb
+docker-compose up -d</code></pre>
+                    </div>
+
+                    <h3>Rollback por Branch</h3>
+                    <div class="code-block">
+                        <pre><code># Manter sempre branch estável
+git checkout develop  # Volta para versão estável
+git branch -D feature/redesign-homepage  # Remove branch problemática
+git push origin develop  # Atualiza remoto</code></pre>
+                    </div>
+                </div>
+
+                <!-- Processo de Testes -->
+                <div class="card">
+                    <h2>Processo de Testes Obrigatórios</h2>
+                    
+                    <h3>Checklist de Validação</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Homepage carrega:</strong> Sem erros 500/404</div>
+                        <div class="task-item pending">[ ] <strong>Layout responsivo:</strong> Mobile/tablet funcionais</div>
+                        <div class="task-item pending">[ ] <strong>Navegação:</strong> Todos os links funcionam</div>
+                        <div class="task-item pending">[ ] <strong>Carrinho:</strong> Adicionar/remover produtos</div>
+                        <div class="task-item pending">[ ] <strong>Checkout:</strong> Fluxo completo funcional</div>
+                        <div class="task-item pending">[ ] <strong>Admin:</strong> Painel acessível e funcional</div>
+                        <div class="task-item pending">[ ] <strong>Performance:</strong> Carregamento < 3s</div>
+                        <div class="task-item pending">[ ] <strong>JavaScript:</strong> Console sem erros</div>
+                    </div>
+
+                    <h3>Testes Automatizados</h3>
+                    <div class="code-block">
+                        <pre><code># Verificar se containers sobem
+docker-compose up -d
+docker-compose ps
+
+# Testar endpoints críticos
+curl -I http://localhost:8000
+curl -I http://localhost:8000/admin
+curl -I http://localhost:8000/checkout
+
+# Verificar logs de erro
+docker-compose logs app | grep ERROR
+docker-compose logs webserver | grep ERROR</code></pre>
+                    </div>
+                </div>
+
+                <!-- Implementação Prática -->
+                <div class="card">
+                    <h2>Implementação Prática - Redesign Homepage</h2>
+                    
+                    <h3>Passo a Passo Seguro</h3>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <strong>Backup Completo</strong>
+                                <p>Fazer backup de toda pasta vibegarb</p>
+                                <em>✅ Implementado</em>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <strong>Branch de Feature</strong>
+                                <p>Criar feature/redesign-homepage</p>
+                                <em>✅ Criada</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <strong>Mudanças Incrementais</strong>
+                                <p>Pequenas mudanças com commits frequentes</p>
+                                <em>🔄 Próximo passo</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <strong>Testes Contínuos</strong>
+                                <p>Verificar funcionalidade a cada mudança</p>
+                                <em>🔄 Processo contínuo</em>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <span class="step-number">5</span>
+                            <div class="step-content">
+                                <strong>Validação Final</strong>
+                                <p>Checklist completo antes do merge</p>
+                                <em>⏳ Aguardando</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Arquivos a Modificar (Redesign)</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">🎨</span>
+                            <div><strong>resources/views/welcome.blade.php</strong> - Template da homepage</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💄</span>
+                            <div><strong>resources/css/</strong> - Novos estilos CSS</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🖼️</span>
+                            <div><strong>public/images/</strong> - Novas imagens e assets</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <div><strong>resources/js/</strong> - Scripts de interação</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoramento -->
+                <div class="card">
+                    <h2>Monitoramento Durante Desenvolvimento</h2>
+                    
+                    <h3>Comandos de Verificação</h3>
+                    <div class="code-block">
+                        <pre><code># Verificar status constantemente
+git status
+
+# Ver diferenças antes do commit
+git diff
+
+# Logs em tempo real
+docker-compose logs -f app
+
+# Verificar performance
+curl -w "@curl-format.txt" -s -o /dev/null http://localhost:8000
+
+# Verificar responsividade (Chrome DevTools)
+# F12 > Toggle Device Toolbar</code></pre>
+                    </div>
+
+                    <h3>Pontos de Verificação</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">⏱️</span>
+                            <div><strong>A cada 30min:</strong> Commit das mudanças</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔍</span>
+                            <div><strong>A cada commit:</strong> Testar homepage no browser</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📱</span>
+                            <div><strong>A cada mudança CSS:</strong> Verificar mobile</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🛒</span>
+                            <div><strong>Ao final do dia:</strong> Testar fluxo de checkout</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contingência -->
+                <div class="card">
+                    <h2>Plano de Contingência</h2>
+                    
+                    <h3>Se Algo Der Errado</h3>
+                    <div class="error-box">
+                        <h4>Cenário 1: Layout Quebrado</h4>
+                        <div class="code-block">
+                            <pre><code># Rollback imediato para último commit funcional
+git log --oneline -5
+git reset --hard [hash-anterior]
+docker-compose restart</code></pre>
+                        </div>
+
+                        <h4>Cenário 2: Checkout Parou de Funcionar</h4>
+                        <div class="code-block">
+                            <pre><code># Voltar para develop imediatamente
+git checkout develop
+docker-compose restart
+# Verificar se checkout funciona
+# Investigar o que quebrou na feature</code></pre>
+                        </div>
+
+                        <h4>Cenário 3: Desastre Total</h4>
+                        <div class="code-block">
+                            <pre><code># Usar backup completo
+cd C:\projetos_2025
+rm -rf vibegarb
+cp -r vibegarb-backup-20250707 vibegarb
+cd vibegarb
+docker-compose up -d</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendações -->
+                <div class="card conclusion">
+                    <h2>Recomendações Finais</h2>
+                    
+                    <h3>✅ Faça Sempre</h3>
+                    <ul>
+                        <li>Backup completo antes de começar</li>
+                        <li>Commits pequenos e frequentes</li>
+                        <li>Testes a cada mudança</li>
+                        <li>Trabalhe na branch de feature</li>
+                        <li>Documente as mudanças</li>
+                    </ul>
+
+                    <h3>❌ Nunca Faça</h3>
+                    <ul>
+                        <li>Mudanças diretas na main ou develop</li>
+                        <li>Commits gigantes</li>
+                        <li>Alterações sem testes</li>
+                        <li>Deploy sem validação</li>
+                        <li>Trabalhar sem backup</li>
+                    </ul>
+
+                    <h3>🎯 Status Atual</h3>
+                    <p><strong>✅ Pronto para começar:</strong> Branch feature/redesign-homepage criada e ativa.</p>
+                    <p><strong>🛡️ Proteção ativada:</strong> develop e main protegidas com MVP v1.0.0.</p>
+                    <p><strong>🔄 Rollback garantido:</strong> Múltiplas estratégias de volta disponíveis.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html> 

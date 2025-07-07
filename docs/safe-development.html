@@ -37,44 +37,83 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="content-header">
-                <h1>Desenvolvimento Seguro</h1>
-                <p class="subtitle">Estratégias para Mudanças Críticas sem Quebrar o Projeto</p>
-                <p class="date">Criado: 07 de Julho de 2025</p>
+                <h1>🛡️ Desenvolvimento Seguro</h1>
+                <p class="subtitle">Guia completo para implementar mudanças significativas no código sem comprometer a estabilidade do sistema. Este documento define protocolos rigorosos para alterações críticas, estratégias de rollback, ambientes isolados e procedimentos de validação. Essencial para manter o MVP v1.0.0 operacional durante o desenvolvimento contínuo e preparação para ambiente de produção em cPanel.</p>
+                <p class="date">Atualizado: 07/07/2025 - Preparação para produção</p>
             </header>
 
             <div class="content-grid">
-                <!-- Problema a Resolver -->
+                <!-- Contexto e Objetivo -->
                 <div class="card">
-                    <h2>Cenário: Mudanças Significativas na Estilização</h2>
-                    <p><strong>Desafio:</strong> Precisamos fazer mudanças significativas na página inicial da loja, mas da última vez isso quebrou todo o projeto.</p>
+                    <h2>🎯 Contexto e Objetivo</h2>
+                    <p><strong>Situação Atual:</strong> O MVP v1.0.0 do Vibe Garb está 100% operacional e pronto para vendas comerciais. Com o sistema estável, precisamos implementar um protocolo rigoroso para futuras alterações.</p>
+                    
+                    <h3>🎯 Objetivo Principal</h3>
+                    <p>Estabelecer um processo seguro para modificações de código que <strong>garanta zero downtime</strong> e possibilite <strong>rollback imediato</strong> em caso de problemas.</p>
+
+                    <h3>🚀 Preparação para Produção</h3>
+                    <p>Como o próximo passo é subir o ambiente para hospedagem cPanel, todas as alterações devem ser testadas rigorosamente antes do deploy final.</p>
                     
                     <h3>Riscos Identificados</h3>
                     <div class="error-box">
                         <ul>
-                            <li><strong>CSS Breaking:</strong> Alterações podem quebrar layout existente</li>
-                            <li><strong>JavaScript Conflicts:</strong> Novos scripts podem conflitar</li>
+                            <li><strong>CSS Breaking:</strong> Alterações podem quebrar layout existente em produção</li>
+                            <li><strong>JavaScript Conflicts:</strong> Novos scripts podem conflitar e quebrar funcionalidades</li>
                             <li><strong>Responsividade:</strong> Mobile pode ficar comprometido</li>
-                            <li><strong>Performance:</strong> Assets grandes podem degradar performance</li>
-                            <li><strong>Funcionalidades:</strong> Checkout e carrinho podem parar de funcionar</li>
+                            <li><strong>Performance:</strong> Assets grandes podem degradar velocidade de carregamento</li>
+                            <li><strong>Funcionalidades Críticas:</strong> Checkout, carrinho e admin podem parar de funcionar</li>
+                            <li><strong>Database Changes:</strong> Migrations incorretas podem corromper dados</li>
+                            <li><strong>Session Issues:</strong> Problemas de autenticação e persistência de carrinho</li>
                         </ul>
                     </div>
+                </div>
 
-                    <h3>Solução: Desenvolvimento em Camadas</h3>
-                    <p>Implementaremos uma estratégia de <strong>3 ambientes</strong> com rollback seguro garantido.</p>
+                <!-- Protocolo Obrigatório -->
+                <div class="card">
+                    <h2>📋 Protocolo Obrigatório para Alterações</h2>
+                    
+                    <h3>✅ Checklist Pré-Desenvolvimento</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Backup Completo:</strong> Criar backup físico da pasta inteira</div>
+                        <div class="task-item pending">[ ] <strong>Git Status Clean:</strong> Verificar se não há alterações não commitadas</div>
+                        <div class="task-item pending">[ ] <strong>Feature Branch:</strong> Criar branch específica para a alteração</div>
+                        <div class="task-item pending">[ ] <strong>Ambiente Funcional:</strong> Confirmar que tudo está funcionando antes de começar</div>
+                        <div class="task-item pending">[ ] <strong>Documentar Objetivo:</strong> Definir claramente o que será alterado</div>
+                        <div class="task-item pending">[ ] <strong>Estimar Tempo:</strong> Definir duração máxima da alteração</div>
+                    </div>
+
+                    <h3>🔄 Durante o Desenvolvimento</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Commits Pequenos:</strong> Commit a cada 15-30 minutos de trabalho</div>
+                        <div class="task-item pending">[ ] <strong>Teste Contínuo:</strong> Verificar funcionalidade a cada alteração</div>
+                        <div class="task-item pending">[ ] <strong>Monitorar Logs:</strong> Verificar erros nos logs constantemente</div>
+                        <div class="task-item pending">[ ] <strong>Validar Mobile:</strong> Testar responsividade a cada mudança visual</div>
+                        <div class="task-item pending">[ ] <strong>Preservar Funcionalidades:</strong> Garantir que checkout/admin continuem funcionando</div>
+                    </div>
+
+                    <h3>✅ Validação Final</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Fluxo Completo:</strong> Testar jornada cliente do início ao fim</div>
+                        <div class="task-item pending">[ ] <strong>Painel Admin:</strong> Verificar todas as funcionalidades administrativas</div>
+                        <div class="task-item pending">[ ] <strong>Performance Test:</strong> Carregamento < 3 segundos</div>
+                        <div class="task-item pending">[ ] <strong>Cross-Browser:</strong> Testar em Chrome, Firefox, Safari</div>
+                        <div class="task-item pending">[ ] <strong>Dispositivos:</strong> Desktop, tablet, mobile</div>
+                        <div class="task-item pending">[ ] <strong>Console Clean:</strong> Zero erros JavaScript no console</div>
+                    </div>
                 </div>
 
                 <!-- Estratégia de Branches -->
                 <div class="card">
-                    <h2>Estratégia 1: Feature Branches (Recomendada)</h2>
+                    <h2>🌿 Estratégia de Branches Segura</h2>
                     
                     <h3>Estrutura de Branches</h3>
                     <div class="flow-steps">
                         <div class="flow-step">
                             <span class="step-number">1</span>
                             <div class="step-content">
-                                <strong>feature/redesign-homepage</strong>
-                                <p>Branch específica para mudanças de estilo</p>
-                                <em>✅ Criada e ativa</em>
+                                <strong>feature/[nome-alteracao]</strong>
+                                <p>Branch específica para cada alteração significativa</p>
+                                <em>🔧 Para desenvolvimento ativo</em>
                             </div>
                         </div>
                         
@@ -82,17 +121,17 @@
                             <span class="step-number">2</span>
                             <div class="step-content">
                                 <strong>develop</strong>
-                                <p>Código estável para desenvolvimento</p>
-                                <em>🔒 Protegida - MVP v1.0.0</em>
+                                <p>Código estável para desenvolvimento contínuo</p>
+                                <em>🔒 MVP v1.0.0 protegido</em>
                             </div>
                         </div>
 
                         <div class="flow-step">
                             <span class="step-number">3</span>
                             <div class="step-content">
-                                <strong>homolog</strong>
-                                <p>Branch de homologação para testes</p>
-                                <em>🚀 Será criada para testes</em>
+                                <strong>staging</strong>
+                                <p>Branch de homologação para testes finais</p>
+                                <em>🧪 Testes pré-produção</em>
                             </div>
                         </div>
 
@@ -100,362 +139,432 @@
                             <span class="step-number">4</span>
                             <div class="step-content">
                                 <strong>main</strong>
-                                <p>Produção estável</p>
-                                <em>🏆 MVP v1.0.0 protegido</em>
+                                <p>Produção estável - NUNCA ALTERAR DIRETAMENTE</p>
+                                <em>🏆 MVP v1.0.0 em produção</em>
                             </div>
                         </div>
                     </div>
 
-                    <h3>Fluxo de Trabalho Seguro</h3>
+                    <h3>Fluxo de Trabalho Rigoroso</h3>
                     <div class="code-block">
-                        <pre><code># 1. Trabalhar na feature
-git checkout feature/redesign-homepage
-# Fazer mudanças...
+                        <pre><code># 1. SEMPRE começar da develop limpa
+git checkout develop
+git pull origin develop
+git status  # Deve estar limpo
+
+# 2. Criar branch específica
+git checkout -b feature/redesign-homepage
+git push -u origin feature/redesign-homepage
+
+# 3. Desenvolvimento com commits pequenos
+# ... fazer mudanças pequenas ...
 git add .
-git commit -m "style: novo design da homepage"
-
-# 2. Testar localmente
-docker-compose up -d
-# Verificar se tudo funciona
-
-# 3. Push da feature
+git commit -m "style: ajustar header da homepage"
 git push origin feature/redesign-homepage
 
-# 4. Merge para homolog (quando pronto)
-git checkout homolog
-git merge feature/redesign-homepage
+# 4. Testar TUDO antes de prosseguir
+docker-compose restart
+# Verificar se checkout/admin funcionam
 
-# 5. Testar em homolog
-# Deploy em ambiente de teste
+# 5. Quando completo, merge para staging
+git checkout staging
+git merge feature/redesign-homepage
+# Testar novamente em staging
 
 # 6. Se aprovado, merge para develop
 git checkout develop
 git merge feature/redesign-homepage
 
-# 7. Se tudo ok, merge para main
+# 7. Apenas após testes extensivos, merge para main
 git checkout main
-git merge develop</code></pre>
+git merge develop
+git tag v1.1.0 -m "Homepage redesign completo"
+git push origin main --tags</code></pre>
                     </div>
                 </div>
 
-                <!-- Estratégia de Ambientes -->
+                <!-- Ambientes Isolados -->
                 <div class="card">
-                    <h2>Estratégia 2: Ambientes Duplicados (Mais Seguro)</h2>
+                    <h2>🏭 Ambientes Isolados</h2>
                     
-                    <h3>Estrutura de Diretórios</h3>
-                    <div class="file-tree">
-                        <pre>C:\projetos_2025\
-├── vibegarb\           # 🔧 Desenvolvimento
-├── vibegarb-homolog\   # 🧪 Homologação  
-└── vibegarb-prod\      # 🚀 Produção</pre>
-                    </div>
-
-                    <h3>Configuração dos Ambientes</h3>
+                    <h3>Configuração de Ambientes</h3>
                     <div class="config-grid">
                         <div class="config-item">
                             <div class="config-key">🔧 Desenvolvimento</div>
                             <div class="config-description">
-                                <strong>Porta:</strong> 8000<br>
+                                <strong>Porta:</strong> 8500<br>
                                 <strong>Banco:</strong> vibegarb_dev<br>
-                                <strong>Debug:</strong> Ativo
+                                <strong>Debug:</strong> Ativo<br>
+                                <strong>Cache:</strong> Desabilitado<br>
+                                <strong>Logs:</strong> Verbose
                             </div>
                         </div>
                         <div class="config-item">
-                            <div class="config-key">🧪 Homologação</div>
+                            <div class="config-key">🧪 Staging</div>
                             <div class="config-description">
-                                <strong>Porta:</strong> 8001<br>
-                                <strong>Banco:</strong> vibegarb_homolog<br>
-                                <strong>Debug:</strong> Limitado
+                                <strong>Porta:</strong> 8501<br>
+                                <strong>Banco:</strong> vibegarb_staging<br>
+                                <strong>Debug:</strong> Limitado<br>
+                                <strong>Cache:</strong> Ativo<br>
+                                <strong>Logs:</strong> Produção
                             </div>
                         </div>
                         <div class="config-item">
                             <div class="config-key">🚀 Produção</div>
                             <div class="config-description">
-                                <strong>Porta:</strong> 8002<br>
+                                <strong>URL:</strong> vibegarb.com<br>
                                 <strong>Banco:</strong> vibegarb_prod<br>
-                                <strong>Debug:</strong> Desativado
+                                <strong>Debug:</strong> OFF<br>
+                                <strong>Cache:</strong> Agressivo<br>
+                                <strong>Logs:</strong> Apenas erros
                             </div>
                         </div>
                     </div>
 
-                    <h3>Comandos para Criar Ambientes</h3>
+                    <h3>Comandos para Ambientes</h3>
                     <div class="code-block">
-                        <pre><code># Criar ambiente de homologação
-cd C:\projetos_2025
-git clone vibegarb vibegarb-homolog
-cd vibegarb-homolog
-
-# Configurar portas diferentes
-# Editar docker-compose.yml para usar porta 8001
-# Editar .env para banco vibegarb_homolog
-
-# Subir homolog
+                        <pre><code># Ambiente de Desenvolvimento (atual)
+cd C:\projetos_2025\vibegarb
 docker-compose up -d
+# http://localhost:8500
 
-# Criar ambiente de produção
-cd C:\projetos_2025
-git clone vibegarb vibegarb-prod
-cd vibegarb-prod
+# Criar Ambiente de Staging
+git clone . ../vibegarb-staging
+cd ../vibegarb-staging
+# Editar docker-compose.yml - alterar porta para 8501
+# Editar .env - DB_DATABASE=vibegarb_staging
+docker-compose up -d
+# http://localhost:8501
 
-# Configurar para produção
-# Porta 8002, banco vibegarb_prod</code></pre>
+# Deploy para Produção (cPanel)
+# Upload via FTP/FileManager
+# Configurar .env para produção
+# Executar migrations em produção
+# Verificar URL final</code></pre>
                     </div>
                 </div>
 
-                <!-- Rollback Strategies -->
+                <!-- Estratégias de Rollback -->
                 <div class="card">
-                    <h2>Estratégias de Rollback</h2>
+                    <h2>🔄 Estratégias de Rollback Múltiplas</h2>
                     
-                    <h3>Rollback por Git (Rápido)</h3>
+                    <h3>1️⃣ Rollback por Git (Mais Rápido)</h3>
                     <div class="code-block">
-                        <pre><code># Ver histórico de commits
+                        <pre><code># Ver histórico recente
 git log --oneline -10
 
-# Rollback para commit específico (soft)
+# Rollback soft (mantém mudanças como unstaged)
 git reset --soft HEAD~1
 
-# Rollback completo (hard) - CUIDADO!
+# Rollback mixed (mantém mudanças no working directory)
+git reset HEAD~1
+
+# Rollback hard (APAGA TUDO - CUIDADO!)
+git reset --hard HEAD~1
+
+# Rollback para commit específico
 git reset --hard [hash-do-commit]
 
-# Rollback de merge
-git revert -m 1 [hash-do-merge]
-
-# Voltar para develop segura
+# Voltar para última versão estável
 git checkout develop
-git branch -D feature/redesign-homepage</code></pre>
+git branch -D feature/problema</code></pre>
                     </div>
 
-                    <h3>Rollback por Backup (Seguro)</h3>
+                    <h3>2️⃣ Rollback por Backup Físico</h3>
                     <div class="code-block">
-                        <pre><code># Antes das mudanças - backup completo
-cp -r vibegarb vibegarb-backup-$(date +%Y%m%d)
+                        <pre><code># ANTES de qualquer alteração - OBRIGATÓRIO
+cd C:\projetos_2025
+cp -r vibegarb vibegarb-backup-$(date +%Y%m%d-%H%M%S)
 
-# Em caso de emergência
-rm -rf vibegarb
-mv vibegarb-backup-20250707 vibegarb
-cd vibegarb
-docker-compose up -d</code></pre>
-                    </div>
-
-                    <h3>Rollback por Branch</h3>
-                    <div class="code-block">
-                        <pre><code># Manter sempre branch estável
-git checkout develop  # Volta para versão estável
-git branch -D feature/redesign-homepage  # Remove branch problemática
-git push origin develop  # Atualiza remoto</code></pre>
-                    </div>
-                </div>
-
-                <!-- Processo de Testes -->
-                <div class="card">
-                    <h2>Processo de Testes Obrigatórios</h2>
-                    
-                    <h3>Checklist de Validação</h3>
-                    <div class="task-list">
-                        <div class="task-item pending">[ ] <strong>Homepage carrega:</strong> Sem erros 500/404</div>
-                        <div class="task-item pending">[ ] <strong>Layout responsivo:</strong> Mobile/tablet funcionais</div>
-                        <div class="task-item pending">[ ] <strong>Navegação:</strong> Todos os links funcionam</div>
-                        <div class="task-item pending">[ ] <strong>Carrinho:</strong> Adicionar/remover produtos</div>
-                        <div class="task-item pending">[ ] <strong>Checkout:</strong> Fluxo completo funcional</div>
-                        <div class="task-item pending">[ ] <strong>Admin:</strong> Painel acessível e funcional</div>
-                        <div class="task-item pending">[ ] <strong>Performance:</strong> Carregamento < 3s</div>
-                        <div class="task-item pending">[ ] <strong>JavaScript:</strong> Console sem erros</div>
-                    </div>
-
-                    <h3>Testes Automatizados</h3>
-                    <div class="code-block">
-                        <pre><code># Verificar se containers sobem
-docker-compose up -d
-docker-compose ps
-
-# Testar endpoints críticos
-curl -I http://localhost:8000
-curl -I http://localhost:8000/admin
-curl -I http://localhost:8000/checkout
-
-# Verificar logs de erro
-docker-compose logs app | grep ERROR
-docker-compose logs webserver | grep ERROR</code></pre>
-                    </div>
-                </div>
-
-                <!-- Implementação Prática -->
-                <div class="card">
-                    <h2>Implementação Prática - Redesign Homepage</h2>
-                    
-                    <h3>Passo a Passo Seguro</h3>
-                    <div class="flow-steps">
-                        <div class="flow-step">
-                            <span class="step-number">1</span>
-                            <div class="step-content">
-                                <strong>Backup Completo</strong>
-                                <p>Fazer backup de toda pasta vibegarb</p>
-                                <em>✅ Implementado</em>
-                            </div>
-                        </div>
-                        
-                        <div class="flow-step">
-                            <span class="step-number">2</span>
-                            <div class="step-content">
-                                <strong>Branch de Feature</strong>
-                                <p>Criar feature/redesign-homepage</p>
-                                <em>✅ Criada</em>
-                            </div>
-                        </div>
-
-                        <div class="flow-step">
-                            <span class="step-number">3</span>
-                            <div class="step-content">
-                                <strong>Mudanças Incrementais</strong>
-                                <p>Pequenas mudanças com commits frequentes</p>
-                                <em>🔄 Próximo passo</em>
-                            </div>
-                        </div>
-
-                        <div class="flow-step">
-                            <span class="step-number">4</span>
-                            <div class="step-content">
-                                <strong>Testes Contínuos</strong>
-                                <p>Verificar funcionalidade a cada mudança</p>
-                                <em>🔄 Processo contínuo</em>
-                            </div>
-                        </div>
-
-                        <div class="flow-step">
-                            <span class="step-number">5</span>
-                            <div class="step-content">
-                                <strong>Validação Final</strong>
-                                <p>Checklist completo antes do merge</p>
-                                <em>⏳ Aguardando</em>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>Arquivos a Modificar (Redesign)</h3>
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <span class="feature-icon">🎨</span>
-                            <div><strong>resources/views/welcome.blade.php</strong> - Template da homepage</div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">💄</span>
-                            <div><strong>resources/css/</strong> - Novos estilos CSS</div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🖼️</span>
-                            <div><strong>public/images/</strong> - Novas imagens e assets</div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">⚡</span>
-                            <div><strong>resources/js/</strong> - Scripts de interação</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Monitoramento -->
-                <div class="card">
-                    <h2>Monitoramento Durante Desenvolvimento</h2>
-                    
-                    <h3>Comandos de Verificação</h3>
-                    <div class="code-block">
-                        <pre><code># Verificar status constantemente
-git status
-
-# Ver diferenças antes do commit
-git diff
-
-# Logs em tempo real
-docker-compose logs -f app
-
-# Verificar performance
-curl -w "@curl-format.txt" -s -o /dev/null http://localhost:8000
-
-# Verificar responsividade (Chrome DevTools)
-# F12 > Toggle Device Toolbar</code></pre>
-                    </div>
-
-                    <h3>Pontos de Verificação</h3>
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <span class="feature-icon">⏱️</span>
-                            <div><strong>A cada 30min:</strong> Commit das mudanças</div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🔍</span>
-                            <div><strong>A cada commit:</strong> Testar homepage no browser</div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">📱</span>
-                            <div><strong>A cada mudança CSS:</strong> Verificar mobile</div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🛒</span>
-                            <div><strong>Ao final do dia:</strong> Testar fluxo de checkout</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contingência -->
-                <div class="card">
-                    <h2>Plano de Contingência</h2>
-                    
-                    <h3>Se Algo Der Errado</h3>
-                    <div class="error-box">
-                        <h4>Cenário 1: Layout Quebrado</h4>
-                        <div class="code-block">
-                            <pre><code># Rollback imediato para último commit funcional
-git log --oneline -5
-git reset --hard [hash-anterior]
-docker-compose restart</code></pre>
-                        </div>
-
-                        <h4>Cenário 2: Checkout Parou de Funcionar</h4>
-                        <div class="code-block">
-                            <pre><code># Voltar para develop imediatamente
-git checkout develop
-docker-compose restart
-# Verificar se checkout funciona
-# Investigar o que quebrou na feature</code></pre>
-                        </div>
-
-                        <h4>Cenário 3: Desastre Total</h4>
-                        <div class="code-block">
-                            <pre><code># Usar backup completo
+# Em caso de emergência total
 cd C:\projetos_2025
 rm -rf vibegarb
-cp -r vibegarb-backup-20250707 vibegarb
+mv vibegarb-backup-20250707-140000 vibegarb
 cd vibegarb
 docker-compose up -d</code></pre>
+                    </div>
+
+                    <h3>3️⃣ Rollback por Tag/Release</h3>
+                    <div class="code-block">
+                        <pre><code># Ver releases disponíveis
+git tag -l
+
+# Voltar para release específica
+git checkout v1.0.0
+
+# Criar branch a partir da tag estável
+git checkout -b hotfix/rollback-v1.0.0
+
+# Forçar main para tag específica (EMERGÊNCIA)
+git checkout main
+git reset --hard v1.0.0
+git push --force-with-lease origin main</code></pre>
+                    </div>
+                </div>
+
+                <!-- Testes Automatizados -->
+                <div class="card">
+                    <h2>🧪 Testes Automatizados Obrigatórios</h2>
+                    
+                    <h3>Testes de Funcionalidade</h3>
+                    <div class="code-block">
+                        <pre><code># Verificar se containers sobem corretamente
+docker-compose up -d
+docker-compose ps  # Todos devem estar "Up"
+
+# Testar endpoints críticos
+curl -I http://localhost:8500                 # Homepage
+curl -I http://localhost:8500/products        # Catálogo
+curl -I http://localhost:8500/cart           # Carrinho
+curl -I http://localhost:8500/checkout       # Checkout
+curl -I http://localhost:8500/admin          # Admin
+curl -I http://localhost:8500/admin/orders   # Gestão pedidos
+
+# Verificar bancos de dados
+docker-compose exec app php artisan migrate:status
+docker-compose exec app php artisan tinker
+>>> User::count()
+>>> Product::count()
+>>> Order::count()</code></pre>
+                    </div>
+
+                    <h3>Testes de Performance</h3>
+                    <div class="code-block">
+                        <pre><code># Criar arquivo de teste de performance
+cat > curl-format.txt << 'EOF'
+     time_namelookup:  %{time_namelookup}\n
+        time_connect:  %{time_connect}\n
+     time_appconnect:  %{time_appconnect}\n
+    time_pretransfer:  %{time_pretransfer}\n
+       time_redirect:  %{time_redirect}\n
+  time_starttransfer:  %{time_starttransfer}\n
+                     ----------\n
+          time_total:  %{time_total}\n
+EOF
+
+# Testar performance de páginas críticas
+curl -w "@curl-format.txt" -s -o /dev/null http://localhost:8500
+curl -w "@curl-format.txt" -s -o /dev/null http://localhost:8500/products
+curl -w "@curl-format.txt" -s -o /dev/null http://localhost:8500/checkout</code></pre>
+                    </div>
+
+                    <h3>Verificação de Logs</h3>
+                    <div class="code-block">
+                        <pre><code># Verificar logs em tempo real
+docker-compose logs -f app
+
+# Buscar por erros específicos
+docker-compose logs app | grep ERROR
+docker-compose logs app | grep CRITICAL
+docker-compose logs app | grep "500"
+
+# Logs do Nginx
+docker-compose logs webserver | grep "404"
+docker-compose logs webserver | grep "500"
+
+# Verificar logs do Laravel
+tail -f storage/logs/laravel.log</code></pre>
+                    </div>
+                </div>
+
+                <!-- Checklist Completo -->
+                <div class="card">
+                    <h2>✅ Checklist Completo de Validação</h2>
+                    
+                    <h3>🖥️ Interface e Layout</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] Homepage carrega sem erros visuais</div>
+                        <div class="task-item pending">[ ] Menu de navegação funcional</div>
+                        <div class="task-item pending">[ ] Footer com todos os links</div>
+                        <div class="task-item pending">[ ] Responsividade mobile perfeita</div>
+                        <div class="task-item pending">[ ] Imagens carregam corretamente</div>
+                        <div class="task-item pending">[ ] Fontes e ícones funcionais</div>
+                        <div class="task-item pending">[ ] Cores e espaçamentos corretos</div>
+                    </div>
+
+                    <h3>🛒 Funcionalidades de E-commerce</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] Catálogo de produtos acessível</div>
+                        <div class="task-item pending">[ ] Filtros de produto funcionam</div>
+                        <div class="task-item pending">[ ] Adicionar produto ao carrinho</div>
+                        <div class="task-item pending">[ ] Visualizar carrinho completo</div>
+                        <div class="task-item pending">[ ] Alterar quantidades no carrinho</div>
+                        <div class="task-item pending">[ ] Remover produtos do carrinho</div>
+                        <div class="task-item pending">[ ] Processo de checkout completo</div>
+                        <div class="task-item pending">[ ] Página de sucesso após compra</div>
+                    </div>
+
+                    <h3>🏢 Painel Administrativo</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] Login admin funcional</div>
+                        <div class="task-item pending">[ ] Dashboard carrega com métricas</div>
+                        <div class="task-item pending">[ ] Lista de pedidos acessível</div>
+                        <div class="task-item pending">[ ] Detalhes de pedido funcionais</div>
+                        <div class="task-item pending">[ ] Ações de pedido funcionam</div>
+                        <div class="task-item pending">[ ] Dashboard dropshipping operacional</div>
+                        <div class="task-item pending">[ ] Gestão de produtos funcional</div>
+                    </div>
+
+                    <h3>⚡ Performance e Qualidade</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] Carregamento < 3 segundos</div>
+                        <div class="task-item pending">[ ] Console JavaScript sem erros</div>
+                        <div class="task-item pending">[ ] Logs do servidor limpos</div>
+                        <div class="task-item pending">[ ] Assets otimizados</div>
+                        <div class="task-item pending">[ ] Cache funcionando corretamente</div>
+                        <div class="task-item pending">[ ] Sessões persistentes</div>
+                    </div>
+                </div>
+
+                <!-- Preparação para Produção -->
+                <div class="card">
+                    <h2>🚀 Preparação Específica para Produção cPanel</h2>
+                    
+                    <h3>Checklist Pré-Deploy Produção</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">[ ] <strong>Ambiente Staging:</strong> Testado 100% funcional</div>
+                        <div class="task-item pending">[ ] <strong>.env Produção:</strong> Configurado com dados reais</div>
+                        <div class="task-item pending">[ ] <strong>Database:</strong> Backup completo antes da migração</div>
+                        <div class="task-item pending">[ ] <strong>Assets:</strong> Compilados para produção (npm run build)</div>
+                        <div class="task-item pending">[ ] <strong>Cache:</strong> Configurado e otimizado</div>
+                        <div class="task-item pending">[ ] <strong>Logs:</strong> Configurados para produção</div>
+                        <div class="task-item pending">[ ] <strong>SSL:</strong> Certificado configurado</div>
+                        <div class="task-item pending">[ ] <strong>Domínio:</strong> DNS apontando corretamente</div>
+                        <div class="task-item pending">[ ] <strong>Backup:</strong> Sistema de backup automático ativo</div>
+                        <div class="task-item pending">[ ] <strong>Monitoramento:</strong> Alerts configurados</div>
+                    </div>
+
+                    <h3>Comandos para Deploy Produção</h3>
+                    <div class="code-block">
+                        <pre><code># 1. Preparar código para produção
+git checkout main
+git pull origin main
+npm run build
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# 2. Criar package para upload
+tar -czf vibegarb-prod.tar.gz --exclude=node_modules --exclude=.git .
+
+# 3. No cPanel:
+# - Upload via File Manager
+# - Extrair no public_html
+# - Configurar .env
+# - Executar migrations
+# - Configurar cron jobs se necessário
+
+# 4. Verificação pós-deploy
+curl -I https://vibegarb.com
+curl -I https://vibegarb.com/admin
+# Testar fluxo completo em produção</code></pre>
+                    </div>
+                </div>
+
+                <!-- Plano de Contingência -->
+                <div class="card">
+                    <h2>🚨 Plano de Contingência Avançado</h2>
+                    
+                    <h3>Cenários de Problema e Soluções</h3>
+                    <div class="error-box">
+                        <h4>🔴 Cenário 1: Layout Quebrado Completamente</h4>
+                        <div class="code-block">
+                            <pre><code># Rollback imediato - Opção 1 (Git)
+git checkout develop
+docker-compose restart
+
+# Rollback imediato - Opção 2 (Backup)
+cd C:\projetos_2025
+rm -rf vibegarb
+cp -r vibegarb-backup-[timestamp] vibegarb
+cd vibegarb && docker-compose up -d
+
+# Verificação pós-rollback
+curl -I http://localhost:8500</code></pre>
+                        </div>
+
+                        <h4>🟡 Cenário 2: Checkout Parou de Funcionar</h4>
+                        <div class="code-block">
+                            <pre><code># Identificar o problema
+docker-compose logs app | grep checkout
+tail -f storage/logs/laravel.log
+
+# Rollback para último commit estável
+git log --oneline -10
+git reset --hard [hash-ultimo-commit-funcional]
+docker-compose restart
+
+# Testar checkout imediatamente
+# Navegar para /checkout e tentar finalizar compra</code></pre>
+                        </div>
+
+                        <h4>🟠 Cenário 3: Banco de Dados Corrompido</h4>
+                        <div class="code-block">
+                            <pre><code># Parar aplicação
+docker-compose down
+
+# Restaurar backup do banco
+docker-compose exec db mysql -u root -p
+# Restaurar dump do backup
+
+# Verificar integridade
+docker-compose up -d
+docker-compose exec app php artisan migrate:status</code></pre>
+                        </div>
+
+                        <h4>🔴 Cenário 4: Desastre Total</h4>
+                        <div class="code-block">
+                            <pre><code># Ação de emergência completa
+cd C:\projetos_2025
+
+# 1. Parar tudo
+docker-compose down --remove-orphans
+
+# 2. Backup atual (mesmo quebrado) para análise
+mv vibegarb vibegarb-broken-$(date +%Y%m%d-%H%M%S)
+
+# 3. Restaurar último backup funcional
+cp -r vibegarb-backup-working vibegarb
+
+# 4. Subir sistema
+cd vibegarb
+docker-compose up -d
+
+# 5. Verificar TUDO
+curl -I http://localhost:8500
+# Testar checkout, admin, etc.</code></pre>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recomendações -->
+                <!-- Conclusão -->
                 <div class="card conclusion">
-                    <h2>Recomendações Finais</h2>
+                    <h2>🎯 Conclusão: Desenvolvimento Seguro Implementado</h2>
                     
-                    <h3>✅ Faça Sempre</h3>
+                    <h3>✅ Protocolos Implementados</h3>
                     <ul>
-                        <li>Backup completo antes de começar</li>
-                        <li>Commits pequenos e frequentes</li>
-                        <li>Testes a cada mudança</li>
-                        <li>Trabalhe na branch de feature</li>
-                        <li>Documente as mudanças</li>
+                        <li>✅ <strong>Backup Obrigatório:</strong> Antes de qualquer alteração</li>
+                        <li>✅ <strong>Feature Branches:</strong> Isolamento completo de mudanças</li>
+                        <li>✅ <strong>Testes Contínuos:</strong> Validação a cada etapa</li>
+                        <li>✅ <strong>Rollback Múltiplo:</strong> Git, backup físico e tags</li>
+                        <li>✅ <strong>Ambientes Isolados:</strong> Dev, staging, produção</li>
+                        <li>✅ <strong>Checklist Rigoroso:</strong> Validação de 40+ pontos</li>
                     </ul>
 
-                    <h3>❌ Nunca Faça</h3>
+                    <h3>🚀 Preparação para Produção</h3>
                     <ul>
-                        <li>Mudanças diretas na main ou develop</li>
-                        <li>Commits gigantes</li>
-                        <li>Alterações sem testes</li>
-                        <li>Deploy sem validação</li>
-                        <li>Trabalhar sem backup</li>
+                        <li>🎯 <strong>MVP v1.0.0 Protegido:</strong> Sistema estável preservado</li>
+                        <li>🔒 <strong>Branches Seguras:</strong> main e develop protegidas</li>
+                        <li>📋 <strong>Deploy Checklist:</strong> Protocolo cPanel definido</li>
+                        <li>🚨 <strong>Contingência:</strong> Planos para todos os cenários</li>
                     </ul>
 
-                    <h3>🎯 Status Atual</h3>
-                    <p><strong>✅ Pronto para começar:</strong> Branch feature/redesign-homepage criada e ativa.</p>
-                    <p><strong>🛡️ Proteção ativada:</strong> develop e main protegidas com MVP v1.0.0.</p>
-                    <p><strong>🔄 Rollback garantido:</strong> Múltiplas estratégias de volta disponíveis.</p>
+                    <h3>📊 Status Atual</h3>
+                    <p><strong>🟢 SISTEMA PROTEGIDO:</strong> Todas as estratégias de segurança implementadas e documentadas.</p>
+                    <p><strong>🎯 PRONTO PARA ALTERAÇÕES:</strong> Qualquer mudança pode ser feita com segurança total.</p>
+                    <p><strong>🚀 DEPLOY READY:</strong> Sistema preparado para subir para produção cPanel.</p>
+                    
+                    <p><em>Este protocolo garante que o Vibe Garb mantenha 100% de estabilidade durante todo o ciclo de desenvolvimento e deploy para produção.</em></p>
                 </div>
             </div>
         </main>

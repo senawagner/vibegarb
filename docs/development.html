@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia de Desenvolvimento - Vibe Garb</title>
+    <title>Desenvolvimento - Vibe Garb E-commerce</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -26,7 +26,10 @@
                     <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
                     <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
                     <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="session-implementations.html">📝 Implementações</a></li>
                     <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                    <li><a href="git-workflow.html">🔄 Git Workflow</a></li>
+                    <li><a href="safe-development.html">🛡️ Desenvolvimento Seguro</a></li>
                 </ul>
             </nav>
         </aside>
@@ -34,221 +37,848 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="content-header">
-                <h1>🚀 Guia de Desenvolvimento - Vibe Garb</h1>
-                <p class="subtitle">Workflows e práticas para desenvolvimento eficiente</p>
+                <h1>🚀 Desenvolvimento</h1>
+                <p class="subtitle">Guia completo de desenvolvimento para o Vibe Garb E-commerce. Este documento fornece workflows detalhados, práticas recomendadas, comandos essenciais e procedimentos para desenvolvimento eficiente. Inclui setup de ambiente, estrutura de código, debugging, testing e deploy. Essencial para desenvolvedores que trabalham no projeto, desde configuração inicial até implementação de novas funcionalidades.</p>
+                <p class="date">Atualizado: 07/07/2025 - Guia de Desenvolvimento v1.0.0</p>
             </header>
 
             <div class="content-grid">
-                <!-- Status do Desenvolvimento -->
+                <!-- Quick Start -->
                 <div class="card">
-                    <h2>🎯 Status do Desenvolvimento</h2>
+                    <h2>⚡ Quick Start</h2>
+                    <p><strong>Ambiente:</strong> Docker + Laravel + MySQL + Redis</p>
+                    <p><strong>Porta de Desenvolvimento:</strong> http://localhost:8500</p>
+                    <p><strong>Credenciais Admin:</strong> admin@vibegarb.com / admin123</p>
                     
-                    <div class="phase-status">
-                        <div class="phase completed">
-                            <h3>✅ FASE 1 - CONCLUÍDA (100%)</h3>
-                            <p><strong>Base Técnica Implementada</strong></p>
-                            <ul>
-                                <li>🗄️ Estrutura de banco completa</li>
-                                <li>🏗️ Models Eloquent funcionais</li>
-                                <li>🌱 Seeders com dados realistas</li>
-                                <li>🐳 Ambiente Docker estável</li>
-                                <li>🎨 Homepage moderna implementada</li>
-                            </ul>
+                    <h3>Comandos Essenciais</h3>
+                    <div class="command-grid">
+                        <div class="command-item">
+                            <strong>Subir ambiente:</strong> <code>docker-compose up -d</code>
                         </div>
-                        
-                        <div class="phase completed">
-                            <h3>✅ FASE 2 - CONCLUÍDA (100%)</h3>
-                            <p><strong>Sistema de Catálogo MVP</strong></p>
-                            <ul>
-                                <li>🛍️ ProductController com filtros avançados</li>
-                                <li>🎨 Pages Vue.js (Index + Show) funcionais</li>
-                                <li>🔍 Sistema de busca e filtros</li>
-                                <li>📱 Interface responsiva completa</li>
-                                <li>🔗 Integração homepage → catálogo</li>
-                            </ul>
+                        <div class="command-item">
+                            <strong>Ver logs:</strong> <code>docker-compose logs -f app</code>
                         </div>
-                        
-                        <div class="phase pending">
-                            <h3>🚧 FASE 3 - EM PLANEJAMENTO (0%)</h3>
-                            <p><strong>Carrinho e Checkout</strong></p>
-                            <ul>
-                                <li>🛒 Sistema de carrinho</li>
-                                <li>💳 Processo de checkout</li>
-                                <li>📧 E-mails transacionais</li>
-                                <li>🔗 Cálculo de frete</li>
-                            </ul>
+                        <div class="command-item">
+                            <strong>Executar migrations:</strong> <code>docker exec vibegarb_app php artisan migrate</code>
+                        </div>
+                        <div class="command-item">
+                            <strong>Build assets:</strong> <code>docker exec vibegarb_node npm run build</code>
+                        </div>
+                        <div class="command-item">
+                            <strong>Limpar cache:</strong> <code>docker exec vibegarb_app php artisan optimize:clear</code>
+                        </div>
+                        <div class="command-item">
+                            <strong>Acessar tinker:</strong> <code>docker exec -it vibegarb_app php artisan tinker</code>
                         </div>
                     </div>
                 </div>
 
-                <!-- Arquitetura Implementada -->
+                <!-- Setup de Ambiente -->
                 <div class="card">
-                    <h2>🏗️ Arquitetura Implementada</h2>
+                    <h2>🛠️ Setup de Ambiente</h2>
                     
-                    <h3>Models e Relacionamentos</h3>
-                    <div class="code-block">
-                        <pre><code>// ✅ IMPLEMENTADOS - Prontos para uso
-
-User::class          // Usuários (admin/customer)
-├── orders()         // 1:N - Pedidos do usuário
-└── reviews()        // 1:N - Avaliações feitas
-
-Category::class      // Categorias de produtos  
-└── products()       // 1:N - Produtos da categoria
-
-Supplier::class      // Fornecedores (dropshipping)
-└── products()       // 1:N - Produtos do fornecedor
-
-Product::class       // Produtos principais
-├── category()       // N:1 - Categoria
-├── supplier()       // N:1 - Fornecedor  
-├── variants()       // 1:N - Variações
-├── images()         // 1:N - Imagens
-└── reviews()        // 1:N - Avaliações
-
-Order::class         // Pedidos
-├── user()           // N:1 - Cliente
-├── items()          // 1:N - Itens do pedido
-├── payments()       // 1:N - Pagamentos
-└── coupon()         // N:1 - Cupom usado</code></pre>
-                    </div>
-
-                    <h3>Estrutura de Pastas Atual</h3>
-                    <div class="file-tree">
-                        <pre>app/
-├── 📁 Models/              # ✅ 11 Models implementados
-│   ├── User.php           # ✅ Roles, endereços
-│   ├── Category.php       # ✅ Slugs, hierarquia
-│   ├── Supplier.php       # ✅ Comissões
-│   ├── Product.php        # ✅ Preços, estoque, SKU
-│   ├── ProductVariant.php # ✅ Tamanhos, cores
-│   ├── ProductImage.php   # ✅ Múltiplas imagens
-│   ├── Order.php          # ✅ Status, endereços
-│   ├── OrderItem.php      # ✅ Snapshot preços
-│   ├── Payment.php        # ✅ Multi-gateway
-│   ├── Coupon.php         # ✅ Validações
-│   ├── ProductReview.php  # ✅ Verificação compra
-│   └── NewsletterSubscription.php # ✅ Email marketing
-│
-├── 📁 Http/
-│   ├── Controllers/       # 🚧 Para implementar
-│   └── Middleware/        # 🚧 Autenticação
-│
-└── 📁 Services/           # 🚧 Lógica de negócio</pre>
-                    </div>
-                </div>
-
-                <!-- Ambiente de Desenvolvimento -->
-                <div class="card">
-                    <h2>🔧 Ambiente de Desenvolvimento</h2>
-                    
-                    <h3>Stack Tecnológica Atual</h3>
+                    <h3>Pré-requisitos</h3>
                     <ul>
-                        <li><strong>Backend:</strong> Laravel 12.19.3 + PHP 8.2</li>
-                        <li><strong>Frontend:</strong> Blade Templates + Tailwind CSS</li>
-                        <li><strong>Banco:</strong> MySQL 8.0</li>
-                        <li><strong>Cache:</strong> Redis 7</li>
-                        <li><strong>Infraestrutura:</strong> Docker Compose</li>
+                        <li>🐳 <strong>Docker Desktop:</strong> Versão 4.0+ com Docker Compose</li>
+                        <li>📝 <strong>Editor:</strong> VS Code com extensões PHP/Laravel</li>
+                        <li>🌐 <strong>Git:</strong> Para controle de versão</li>
+                        <li>💻 <strong>Terminal:</strong> PowerShell (Windows) ou Terminal (macOS/Linux)</li>
                     </ul>
 
-                    <h3>Arquitetura MVC Tradicional</h3>
-                    <div class="architecture-flow">
-                        <p><strong>Request → Route → Controller → Model → View (Blade) → Response</strong></p>
-                    </div>
-                </div>
-
-                <!-- Setup Inicial -->
-                <div class="card">
-                    <h2>🛠️ Setup Inicial</h2>
-                    
-                    <h3>1. Pré-requisitos</h3>
-                    <ul>
-                        <li>Docker Desktop instalado</li>
-                        <li>Git configurado</li>
-                        <li>Editor de código (VS Code recomendado)</li>
-                    </ul>
-
-                    <h3>2. Primeira Instalação</h3>
+                    <h3>Primeira Instalação</h3>
                     <div class="code-block">
-                        <pre><code># Clone e entre no diretório
-git clone <repo> && cd vibegarb
+                        <pre><code># 1. Clonar repositório
+git clone &lt;repository-url&gt;
+cd vibegarb
 
-# Configure ambiente
+# 2. Configurar ambiente
 cp .env.example .env
 
-# Edite o .env com as configurações corretas:
+# 3. Configurações do .env
+APP_NAME="Vibe Garb"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8500
+
 DB_CONNECTION=mysql
 DB_HOST=db
-SESSION_DRIVER=file
-CACHE_DRIVER=redis
-APP_DEBUG=false
+DB_PORT=3306
+DB_DATABASE=vibegarb
+DB_USERNAME=vibegarb
+DB_PASSWORD=secret
 
-# Suba os containers
+CACHE_DRIVER=redis
+SESSION_DRIVER=file
+QUEUE_CONNECTION=sync
+
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+# 4. Subir containers
 docker-compose up -d
 
-# Instale dependências
-docker exec vibegarb_app composer install --optimize-autoloader
+# 5. Instalar dependências
+docker exec vibegarb_app composer install
 docker exec vibegarb_node npm install
 
-# Configure Laravel
+# 6. Configurar Laravel
 docker exec vibegarb_app php artisan key:generate
 docker exec vibegarb_app php artisan migrate --seed
 
-# Build assets
+# 7. Build assets
 docker exec vibegarb_node npm run build
 
-# Otimize para desenvolvimento
-docker exec vibegarb_app php artisan optimize</code></pre>
+# 8. Otimizar configurações
+docker exec vibegarb_app php artisan optimize
+
+# 9. Verificar instalação
+curl -I http://localhost:8500</code></pre>
                     </div>
                 </div>
 
-                <!-- Estrutura de Desenvolvimento -->
+                <!-- Estrutura do Projeto -->
                 <div class="card">
-                    <h2>🏗️ Estrutura de Desenvolvimento</h2>
+                    <h2>🏗️ Estrutura do Projeto</h2>
                     
-                    <h3>Controllers</h3>
-                    <div class="code-block">
-                        <pre><code>// app/Http/Controllers/ProductController.php
-class ProductController extends Controller
+                    <h3>Organização de Arquivos</h3>
+                    <div class="file-tree">
+                        <pre>vibegarb/
+├── 📁 app/
+│   ├── 📁 Http/
+│   │   ├── 📁 Controllers/       # Controllers MVC
+│   │   ├── 📁 Middleware/        # Interceptadores de request
+│   │   └── 📁 Requests/          # Form validations
+│   ├── 📁 Models/               # Eloquent models (13 implementados)
+│   ├── 📁 Services/             # Lógica de negócio
+│   └── 📁 Providers/            # Service providers
+│
+├── 📁 resources/
+│   ├── 📁 views/                # Blade templates
+│   ├── 📁 css/                  # Tailwind CSS
+│   └── 📁 js/                   # JavaScript assets
+│
+├── 📁 database/
+│   ├── 📁 migrations/           # 24 migrations implementadas
+│   └── 📁 seeders/              # Dados de teste
+│
+├── 📁 routes/
+│   ├── web.php                  # Rotas web
+│   └── api.php                  # Rotas API
+│
+├── 📁 public/                   # Assets públicos
+├── 📁 storage/                  # Logs e cache
+├── 📁 tests/                    # Testes automatizados
+└── 📁 docker/                   # Configurações Docker</pre>
+                    </div>
+
+                    <h3>Convenções de Nomenclatura</h3>
+                    <div class="naming-conventions">
+                        <div class="convention-item">
+                            <strong>Models:</strong> Singular, PascalCase (Product, OrderItem)
+                        </div>
+                        <div class="convention-item">
+                            <strong>Controllers:</strong> PascalCase + Controller (ProductController)
+                        </div>
+                        <div class="convention-item">
+                            <strong>Views:</strong> kebab-case (product-list.blade.php)
+                        </div>
+                        <div class="convention-item">
+                            <strong>Routes:</strong> kebab-case (/products/show-details)
+                        </div>
+                        <div class="convention-item">
+                            <strong>Migrations:</strong> snake_case com timestamp
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapa de Páginas e Arquivos -->
+                <div class="card card-full">
+                    <h2>🗺️ Mapa de Páginas e Arquivos</h2>
+                    <p><em>Referência completa para localizar e modificar qualquer página ou funcionalidade do sistema</em></p>
+
+                    <!-- Frontend Público -->
+                    <div class="page-mapping-section">
+                        <h3>🌐 Frontend Público (E-commerce)</h3>
+                        
+                        <div class="page-mapping-grid">
+                            <div class="page-map-item">
+                                <h4>🏠 Homepage Principal</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/HomeController.php</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/home.blade.php</code></p>
+                                    <p><strong>Route:</strong> <code>routes/web.php</code> → <code>Route::get('/', [HomeController::class, 'index'])</code></p>
+                                    <p><strong>Layout:</strong> <code>resources/views/layouts/app.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Hero section, produtos em destaque, textos promocionais</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🛍️ Catálogo de Produtos</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/products</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/ProductController.php</code> → <code>index()</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/products/index.blade.php</code></p>
+                                    <p><strong>Route:</strong> <code>routes/web.php</code> → <code>Route::get('/products', [ProductController::class, 'index'])</code></p>
+                                    <p><strong>Para alterar:</strong> Grid de produtos, filtros, paginação, botão "Ver Detalhes"</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>📦 Detalhes do Produto</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/products/{slug}</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/ProductController.php</code> → <code>show()</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/products/show.blade.php</code></p>
+                                    <p><strong>Route:</strong> <code>routes/web.php</code> → <code>Route::get('/products/{product:slug}', [ProductController::class, 'show'])</code></p>
+                                    <p><strong>Para alterar:</strong> Galeria de imagens, seletor de tamanho/cor, botão "Adicionar ao Carrinho"</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🛒 Carrinho de Compras</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/cart</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/CartController.php</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/cart/index.blade.php</code></p>
+                                    <p><strong>Service:</strong> <code>app/Services/CartService.php</code> (lógica de negócio)</p>
+                                    <p><strong>Routes:</strong>
+                                        <br>• <code>GET /cart</code> → <code>index()</code>
+                                        <br>• <code>POST /cart/add/{product}</code> → <code>store()</code>
+                                        <br>• <code>DELETE /cart/remove/{key}</code> → <code>destroy()</code>
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Layout do carrinho, cálculos de frete, botão finalizar</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>💳 Sistema de Checkout</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/checkout</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/CheckoutController.php</code></p>
+                                    <p><strong>Views:</strong>
+                                        <br>• <code>resources/views/checkout/index.blade.php</code> (formulário)
+                                        <br>• <code>resources/views/checkout/success.blade.php</code> (confirmação)
+                                    </p>
+                                    <p><strong>Service:</strong> <code>app/Services/OrderCreationService.php</code></p>
+                                    <p><strong>Request:</strong> <code>app/Http/Requests/ProcessCheckoutRequest.php</code> (validações)</p>
+                                    <p><strong>Para alterar:</strong> Formulário de dados, métodos de pagamento, campos obrigatórios</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sistema de Autenticação -->
+                    <div class="page-mapping-section">
+                        <h3>🔐 Sistema de Autenticação</h3>
+                        
+                        <div class="page-mapping-grid">
+                            <div class="page-map-item">
+                                <h4>🔑 Login</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/login</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/Auth/AuthenticatedSessionController.php</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/auth/login.blade.php</code></p>
+                                    <p><strong>Layout:</strong> <code>resources/views/layouts/guest.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Formulário de login, links de registro, "Esqueci senha"</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>📝 Registro</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/register</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/Auth/RegisteredUserController.php</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/auth/register.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Campos do formulário, validações, termos de uso</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>👤 Perfil do Usuário</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/profile</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/ProfileController.php</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/profile/edit.blade.php</code></p>
+                                    <p><strong>Partials:</strong>
+                                        <br>• <code>resources/views/profile/partials/update-profile-information-form.blade.php</code>
+                                        <br>• <code>resources/views/profile/partials/update-password-form.blade.php</code>
+                                        <br>• <code>resources/views/profile/partials/delete-user-form.blade.php</code>
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Dados pessoais, endereços, alteração de senha</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Painel Administrativo -->
+                    <div class="page-mapping-section">
+                        <h3>⚙️ Painel Administrativo</h3>
+                        
+                        <div class="page-mapping-grid">
+                            <div class="page-map-item">
+                                <h4>📊 Dashboard Principal</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/admin</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/AdminController.php</code> → <code>index()</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/admin/dashboard.blade.php</code></p>
+                                    <p><strong>Layout:</strong> <code>resources/views/admin/layouts/app.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Cards de métricas, gráficos, resumos financeiros</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>📦 Gestão de Produtos</h4>
+                                <div class="map-details">
+                                    <p><strong>URLs:</strong>
+                                        <br>• <code>/admin/products</code> (lista)
+                                        <br>• <code>/admin/products/create</code> (criar)
+                                        <br>• <code>/admin/products/{id}/edit</code> (editar)
+                                    </p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/Admin/ProductController.php</code></p>
+                                    <p><strong>Views:</strong>
+                                        <br>• <code>resources/views/admin/products/index.blade.php</code>
+                                        <br>• <code>resources/views/admin/products/create.blade.php</code>
+                                        <br>• <code>resources/views/admin/products/edit.blade.php</code>
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Formulários de produto, listagem, filtros, ações em lote</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>📂 Gestão de Categorias</h4>
+                                <div class="map-details">
+                                    <p><strong>URLs:</strong>
+                                        <br>• <code>/admin/categories</code> (lista)
+                                        <br>• <code>/admin/categories/create</code> (criar)
+                                        <br>• <code>/admin/categories/{id}/edit</code> (editar)
+                                    </p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/Admin/CategoryController.php</code></p>
+                                    <p><strong>Views:</strong>
+                                        <br>• <code>resources/views/admin/categories/index.blade.php</code>
+                                        <br>• <code>resources/views/admin/categories/create.blade.php</code>
+                                        <br>• <code>resources/views/admin/categories/edit.blade.php</code>
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Formulário de categoria, ordenação, ícones</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>📋 Gestão de Pedidos</h4>
+                                <div class="map-details">
+                                    <p><strong>URL:</strong> <code>http://localhost:8500/admin/orders</code></p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/AdminController.php</code> → <code>orders()</code></p>
+                                    <p><strong>View:</strong> <code>resources/views/admin/orders/index.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Lista de pedidos, filtros de status, ações individuais</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🏭 Dashboard Dropshipping</h4>
+                                <div class="map-details">
+                                    <p><strong>URLs:</strong>
+                                        <br>• <code>/admin/dropshipping</code> (dashboard)
+                                        <br>• <code>/admin/dropshipping/orders</code> (pedidos)
+                                        <br>• <code>/admin/dropshipping/orders/{id}</code> (detalhes)
+                                    </p>
+                                    <p><strong>Controller:</strong> <code>app/Http/Controllers/Admin/DropshippingController.php</code></p>
+                                    <p><strong>Views:</strong>
+                                        <br>• <code>resources/views/admin/dropshipping/dashboard.blade.php</code>
+                                        <br>• <code>resources/views/admin/dropshipping/orders.blade.php</code>
+                                        <br>• <code>resources/views/admin/dropshipping/show.blade.php</code>
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Status de produção, integração com fornecedores, rastreamento</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layouts e Componentes -->
+                    <div class="page-mapping-section">
+                        <h3>🎨 Layouts e Componentes</h3>
+                        
+                        <div class="page-mapping-grid">
+                            <div class="page-map-item">
+                                <h4>🎯 Layout Principal (Público)</h4>
+                                <div class="map-details">
+                                    <p><strong>Arquivo:</strong> <code>resources/views/layouts/app.blade.php</code></p>
+                                    <p><strong>Navegação:</strong> <code>resources/views/layouts/navigation.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Header, footer, menu principal, meta tags, scripts globais</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>👤 Layout de Autenticação</h4>
+                                <div class="map-details">
+                                    <p><strong>Arquivo:</strong> <code>resources/views/layouts/guest.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Design de login/registro, logo, cores, textos promocionais</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>⚙️ Layout Administrativo</h4>
+                                <div class="map-details">
+                                    <p><strong>Arquivo:</strong> <code>resources/views/admin/layouts/app.blade.php</code></p>
+                                    <p><strong>Para alterar:</strong> Sidebar admin, menu de navegação, header administrativo</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🧩 Componentes Reutilizáveis</h4>
+                                <div class="map-details">
+                                    <p><strong>Diretório:</strong> <code>resources/views/components/</code></p>
+                                    <p><strong>Componentes:</strong>
+                                        <br>• <code>application-logo.blade.php</code> - Logo da aplicação
+                                        <br>• <code>primary-button.blade.php</code> - Botão principal
+                                        <br>• <code>secondary-button.blade.php</code> - Botão secundário
+                                        <br>• <code>text-input.blade.php</code> - Campo de texto
+                                        <br>• <code>input-label.blade.php</code> - Label de campo
+                                        <br>• <code>input-error.blade.php</code> - Mensagem de erro
+                                        <br>• <code>modal.blade.php</code> - Modal genérico
+                                        <br>• <code>dropdown.blade.php</code> - Menu dropdown
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Estilos de botões, formulários, modais, componentes globais</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assets e Estilos -->
+                    <div class="page-mapping-section">
+                        <h3>🎨 Assets e Estilos</h3>
+                        
+                        <div class="page-mapping-grid">
+                            <div class="page-map-item">
+                                <h4>🎨 Estilos CSS</h4>
+                                <div class="map-details">
+                                    <p><strong>Arquivo Principal:</strong> <code>resources/css/app.css</code></p>
+                                    <p><strong>Configuração Tailwind:</strong> <code>tailwind.config.js</code></p>
+                                    <p><strong>Build Final:</strong> <code>public/build/assets/app-[hash].css</code></p>
+                                    <p><strong>Para alterar:</strong> Cores do tema, componentes customizados, classes utilitárias</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>⚡ JavaScript</h4>
+                                <div class="map-details">
+                                    <p><strong>Arquivo Principal:</strong> <code>resources/js/app.js</code></p>
+                                    <p><strong>Bootstrap:</strong> <code>resources/js/bootstrap.js</code></p>
+                                    <p><strong>Build Final:</strong> <code>public/build/assets/app-[hash].js</code></p>
+                                    <p><strong>Para alterar:</strong> Interações JavaScript, AJAX calls, validações frontend</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🖼️ Imagens e Assets</h4>
+                                <div class="map-details">
+                                    <p><strong>Diretório:</strong> <code>public/</code></p>
+                                    <p><strong>Arquivos:</strong>
+                                        <br>• <code>public/favicon.ico</code> - Ícone do site
+                                        <br>• <code>storage/app/public/</code> - Uploads de produtos
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Logo, favicon, imagens de produtos, assets estáticos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configurações e Funcionalidades -->
+                    <div class="page-mapping-section">
+                        <h3>⚙️ Configurações e Funcionalidades</h3>
+                        
+                        <div class="page-mapping-grid">
+                            <div class="page-map-item">
+                                <h4>🔧 Configurações do Sistema</h4>
+                                <div class="map-details">
+                                    <p><strong>Ambiente:</strong> <code>.env</code> (variáveis de ambiente)</p>
+                                    <p><strong>Configurações:</strong>
+                                        <br>• <code>config/app.php</code> - Configurações gerais
+                                        <br>• <code>config/database.php</code> - Banco de dados
+                                        <br>• <code>config/mail.php</code> - E-mails
+                                        <br>• <code>config/services.php</code> - APIs externas
+                                    </p>
+                                    <p><strong>Para alterar:</strong> Nome da aplicação, timezone, configurações de cache</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🛣️ Rotas do Sistema</h4>
+                                <div class="map-details">
+                                    <p><strong>Web Routes:</strong> <code>routes/web.php</code></p>
+                                    <p><strong>API Routes:</strong> <code>routes/api.php</code></p>
+                                    <p><strong>Auth Routes:</strong> <code>routes/auth.php</code></p>
+                                    <p><strong>Para alterar:</strong> URLs das páginas, middleware, nomes de rotas</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🗄️ Banco de Dados</h4>
+                                <div class="map-details">
+                                    <p><strong>Migrations:</strong> <code>database/migrations/</code></p>
+                                    <p><strong>Seeders:</strong> <code>database/seeders/</code></p>
+                                    <p><strong>Models:</strong> <code>app/Models/</code></p>
+                                    <p><strong>Para alterar:</strong> Estrutura de tabelas, dados iniciais, relacionamentos</p>
+                                </div>
+                            </div>
+
+                            <div class="page-map-item">
+                                <h4>🔒 Middleware e Segurança</h4>
+                                <div class="map-details">
+                                    <p><strong>Admin Middleware:</strong> <code>app/Http/Middleware/AdminMiddleware.php</code></p>
+                                    <p><strong>Inertia Middleware:</strong> <code>app/Http/Middleware/HandleInertiaRequests.php</code></p>
+                                    <p><strong>Para alterar:</strong> Controle de acesso, validações de segurança, headers</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guia Rápido de Modificações -->
+                    <div class="page-mapping-section quick-guide">
+                        <h3>🚀 Guia Rápido de Modificações Comuns</h3>
+                        
+                        <div class="quick-changes">
+                            <div class="quick-change-item">
+                                <h4>🎨 Alterar Cores do Tema</h4>
+                                <p><strong>Arquivo:</strong> <code>tailwind.config.js</code> → seção <code>theme.extend.colors</code></p>
+                                <p><strong>Rebuild:</strong> <code>npm run build</code></p>
+                            </div>
+
+                            <div class="quick-change-item">
+                                <h4>📝 Alterar Textos do Site</h4>
+                                <p><strong>Homepage:</strong> <code>resources/views/home.blade.php</code></p>
+                                <p><strong>Navegação:</strong> <code>resources/views/layouts/navigation.blade.php</code></p>
+                                <p><strong>Footer:</strong> <code>resources/views/layouts/app.blade.php</code></p>
+                            </div>
+
+                            <div class="quick-change-item">
+                                <h4>🖼️ Alterar Logo</h4>
+                                <p><strong>Componente:</strong> <code>resources/views/components/application-logo.blade.php</code></p>
+                                <p><strong>Arquivo:</strong> Substituir em <code>public/</code></p>
+                            </div>
+
+                            <div class="quick-change-item">
+                                <h4>💰 Alterar Cálculos de Preço</h4>
+                                <p><strong>Service:</strong> <code>app/Services/CartService.php</code> → método <code>calculateTotals()</code></p>
+                                <p><strong>Model:</strong> <code>app/Models/Product.php</code> → <code>getCurrentPriceAttribute()</code></p>
+                            </div>
+
+                            <div class="quick-change-item">
+                                <h4>📧 Configurar E-mails</h4>
+                                <p><strong>Config:</strong> <code>config/mail.php</code></p>
+                                <p><strong>Env:</strong> <code>.env</code> → variáveis <code>MAIL_*</code></p>
+                                <p><strong>Templates:</strong> <code>resources/views/emails/</code> (criar se necessário)</p>
+                            </div>
+
+                            <div class="quick-change-item">
+                                <h4>🔧 Adicionar Campo a Produto</h4>
+                                <p><strong>1. Migration:</strong> <code>php artisan make:migration add_field_to_products</code></p>
+                                <p><strong>2. Model:</strong> <code>app/Models/Product.php</code> → <code>$fillable</code></p>
+                                <p><strong>3. Views:</strong> Formulários admin e exibição pública</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workflow de Desenvolvimento -->
+                <div class="card">
+                    <h2>🔄 Workflow de Desenvolvimento</h2>
+                    
+                    <h3>1. Criando Nova Funcionalidade</h3>
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Criar Feature Branch</h4>
+                                <div class="code-block">
+                                    <pre><code>git checkout develop
+git pull origin develop
+git checkout -b feature/nova-funcionalidade</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>Migration (se necessário)</h4>
+                                <div class="code-block">
+                                    <pre><code>docker exec vibegarb_app php artisan make:migration create_nova_tabela
+# Editar arquivo migration
+docker exec vibegarb_app php artisan migrate</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>Criar Model</h4>
+                                <div class="code-block">
+                                    <pre><code>docker exec vibegarb_app php artisan make:model NovaEntidade
+# Definir fillable, casts, relacionamentos</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Criar Controller</h4>
+                                <div class="code-block">
+                                    <pre><code>docker exec vibegarb_app php artisan make:controller NovaEntidadeController --resource</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <div class="step-content">
+                                <h4>Criar Views</h4>
+                                <div class="code-block">
+                                    <pre><code>mkdir resources/views/nova-entidade
+touch resources/views/nova-entidade/index.blade.php
+touch resources/views/nova-entidade/show.blade.php</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">6</span>
+                            <div class="step-content">
+                                <h4>Definir Rotas</h4>
+                                <div class="code-block">
+                                    <pre><code>// routes/web.php
+Route::resource('nova-entidade', NovaEntidadeController::class);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <span class="step-number">7</span>
+                            <div class="step-content">
+                                <h4>Testar e Commit</h4>
+                                <div class="code-block">
+                                    <pre><code>git add .
+git commit -m "feat: implementar nova funcionalidade"
+git push origin feature/nova-funcionalidade</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>2. Padrão MVC Implementado</h3>
+                    <div class="mvc-pattern">
+                        <div class="mvc-item">
+                            <h4>📋 Model (Eloquent)</h4>
+                            <div class="code-block">
+                                <pre><code>class Product extends Model
+{
+    protected $fillable = ['name', 'price', 'category_id'];
+    
+    protected $casts = [
+        'price' => 'decimal:2',
+        'is_active' => 'boolean',
+    ];
+    
+    // Relacionamentos
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    
+    // Business Logic
+    public function getCurrentPriceAttribute()
+    {
+        return $this->sale_price ?? $this->price;
+    }
+    
+    // Query Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="mvc-item">
+                            <h4>🎮 Controller</h4>
+                            <div class="code-block">
+                                <pre><code>class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::with(['category', 'variants'])
+        $products = Product::active()
+            ->with(['category', 'productImages'])
             ->when($request->search, function($query, $search) {
                 $query->where('name', 'like', "%{$search}%");
             })
+            ->when($request->category, function($query, $category) {
+                $query->where('category_id', $category);
+            })
             ->paginate(12);
 
-        return view('products.index', compact('products'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('products.index', compact('products', 'categories'));
+    }
+    
+    public function show(Product $product)
+    {
+        $product->load(['category', 'productImages', 'variants']);
+        
+        return view('products.show', compact('product'));
     }
 }</code></pre>
-                    </div>
+                            </div>
+                        </div>
 
-                    <h3>Views (Blade Templates)</h3>
-                    <div class="code-block">
-                        <pre><code>{{-- resources/views/products/index.blade.php --}}
+                        <div class="mvc-item">
+                            <h4>🎨 View (Blade)</h4>
+                            <div class="code-block">
+                                <pre><code>{{-- resources/views/products/index.blade.php --}}
 @extends('layouts.app')
 
+@section('title', 'Produtos - Vibe Garb')
+
 @section('content')
-<div class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold mb-6">Produtos</h1>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Produtos</h1>
+        
+        <form method="GET" class="flex gap-4">
+            <input type="search" name="search" 
+                   value="{{ request('search') }}"
+                   placeholder="Buscar produtos..."
+                   class="px-4 py-2 border rounded-lg">
+            
+            <select name="category" class="px-4 py-2 border rounded-lg">
+                <option value="">Todas as categorias</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" 
+                            {{ request('category') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+            
+            <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                Filtrar
+            </button>
+        </form>
+    </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        @foreach($products as $product)
-            @include('products.card', ['product' => $product])
-        @endforeach
+        @forelse($products as $product)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <img src="{{ $product->primary_image_url ?? '/images/placeholder.jpg' }}" 
+                     alt="{{ $product->name }}"
+                     class="w-full h-48 object-cover">
+                
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg mb-2">{{ $product->name }}</h3>
+                    <p class="text-sm text-gray-600 mb-2">{{ $product->category->name }}</p>
+                    <p class="text-xl font-bold text-purple-600">{{ $product->formatted_price }}</p>
+                    
+                    <a href="{{ route('products.show', $product->slug) }}" 
+                       class="block mt-4 bg-purple-600 text-white text-center py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                        Ver Detalhes
+                    </a>
+                </div>
+            </div>
+        @empty
+            <div class="col-span-full text-center py-12">
+                <p class="text-gray-500 text-lg">Nenhum produto encontrado.</p>
+            </div>
+        @endforelse
+    </div>
+    
+    <div class="mt-8">
+        {{ $products->links() }}
     </div>
 </div>
 @endsection</code></pre>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <h3>Rotas</h3>
+                <!-- Services e Lógica de Negócio -->
+                <div class="card">
+                    <h2>⚙️ Services e Lógica de Negócio</h2>
+                    
+                    <h3>Padrão Service Layer</h3>
+                    <p>Para lógica complexa que não pertence aos Models ou Controllers, utilizamos Services:</p>
+                    
                     <div class="code-block">
-                        <pre><code>// routes/web.php
-Route::prefix('produtos')->name('products.')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('/{product:slug}', [ProductController::class, 'show'])->name('show');
-});</code></pre>
+                        <pre><code>// app/Services/CartService.php
+class CartService
+{
+    public function addItem(Product $product, array $options = []): void
+    {
+        $sessionKey = 'shopping_cart';
+        $cart = session()->get($sessionKey, []);
+        
+        $itemKey = $this->generateItemKey($product, $options);
+        
+        if (isset($cart[$itemKey])) {
+            $cart[$itemKey]['quantity'] += $options['quantity'] ?? 1;
+        } else {
+            $cart[$itemKey] = [
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->current_price,
+                'quantity' => $options['quantity'] ?? 1,
+                'size' => $options['size'] ?? null,
+                'color' => $options['color'] ?? null,
+            ];
+        }
+        
+        session()->put($sessionKey, $cart);
+    }
+    
+    public function getContents(): array
+    {
+        return session()->get('shopping_cart', []);
+    }
+    
+    public function calculateTotals(): array
+    {
+        $cart = $this->getContents();
+        $subtotal = 0;
+        
+        foreach ($cart as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+        
+        $shipping = $subtotal >= 200 ? 0 : 15.00;
+        $pixDiscount = $subtotal * 0.05; // 5% desconto PIX
+        
+        return [
+            'subtotal' => $subtotal,
+            'shipping' => $shipping,
+            'pix_discount' => $pixDiscount,
+            'total' => $subtotal + $shipping,
+            'total_with_pix' => $subtotal + $shipping - $pixDiscount,
+        ];
+    }
+}
+
+// Como usar no Controller:
+class CartController extends Controller
+{
+    public function __construct(
+        private CartService $cartService
+    ) {}
+    
+    public function store(Request $request, Product $product)
+    {
+        $this->cartService->addItem($product, $request->validated());
+        
+        return response()->json(['success' => true]);
+    }
+}</code></pre>
                     </div>
                 </div>
 
@@ -256,353 +886,418 @@ Route::prefix('produtos')->name('products.')->group(function () {
                 <div class="card">
                     <h2>🎨 Frontend Development</h2>
                     
+                    <h3>Stack Frontend</h3>
+                    <ul>
+                        <li><strong>Templates:</strong> Blade (server-side rendering)</li>
+                        <li><strong>CSS:</strong> Tailwind CSS 3.x</li>
+                        <li><strong>JavaScript:</strong> Vanilla JS (mínimo necessário)</li>
+                        <li><strong>Build Tool:</strong> Vite</li>
+                    </ul>
+
                     <h3>Asset Pipeline</h3>
                     <div class="code-block">
-                        <pre><code>// resources/js/app.js (simplificado)
-import './bootstrap';
-import '../css/app.css';
+                        <pre><code>// vite.config.js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
 
-// JavaScript vanilla para interações mínimas</code></pre>
-                    </div>
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+});
 
-                    <h3>Tailwind CSS</h3>
-                    <div class="code-block">
-                        <pre><code>/* resources/css/app.css */
+// resources/css/app.css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Componentes customizados */
 @layer components {
     .btn-primary {
-        @apply bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700;
+        @apply bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors;
+    }
+    
+    .card {
+        @apply bg-white rounded-lg shadow-md p-6;
+    }
+}
+
+// resources/js/app.js
+import './bootstrap';
+
+// JavaScript para interações específicas
+document.addEventListener('DOMContentLoaded', function() {
+    // Busca de CEP
+    const cepInput = document.getElementById('zipcode');
+    if (cepInput) {
+        cepInput.addEventListener('blur', function() {
+            const cep = this.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                fetchAddressByCep(cep);
+            }
+        });
+    }
+    
+    // Adicionar ao carrinho via AJAX
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            addToCart(this.dataset.productId);
+        });
+    });
+});
+
+async function fetchAddressByCep(cep) {
+    try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+        
+        if (!data.erro) {
+            document.getElementById('address').value = data.logradouro;
+            document.getElementById('neighborhood').value = data.bairro;
+            document.getElementById('city').value = data.localidade;
+            document.getElementById('state').value = data.uf;
+        }
+    } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
     }
 }</code></pre>
                     </div>
 
-                    <h3>Build Commands</h3>
+                    <h3>Comandos de Build</h3>
                     <div class="code-block">
                         <pre><code># Desenvolvimento (watch mode)
 docker exec vibegarb_node npm run dev
 
-# Produção (otimizado)
-docker exec vibegarb_node npm run build</code></pre>
-                    </div>
-                </div>
-
-                <!-- Desenvolvimento de Models -->
-                <div class="card">
-                    <h2>🗄️ Desenvolvimento de Models</h2>
-                    
-                    <h3>Model Base</h3>
-                    <div class="code-block">
-                        <pre><code>// app/Models/Product.php
-class Product extends Model
-{
-    protected $fillable = [
-        'name', 'slug', 'description', 'price', 'category_id'
-    ];
-
-    protected $casts = [
-        'price' => 'decimal:2',
-        'is_active' => 'boolean',
-    ];
-
-    // Relacionamentos
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
-
-    // Business Logic
-    public function getCurrentPriceAttribute()
-    {
-        return $this->sale_price ?? $this->price;
-    }
-
-    // Scopes
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
-}</code></pre>
-                    </div>
-                </div>
-
-                <!-- Workflows de Desenvolvimento -->
-                <div class="card">
-                    <h2>🔧 Workflows de Desenvolvimento</h2>
-                    
-                    <h3>1. Adicionando Nova Funcionalidade</h3>
-                    <div class="workflow-steps">
-                        <div class="step">
-                            <h4>1. Criar Migration</h4>
-                            <div class="code-block">
-                                <pre><code>docker exec vibegarb_app php artisan make:migration create_feature_table</code></pre>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <h4>2. Criar Model</h4>
-                            <div class="code-block">
-                                <pre><code>docker exec vibegarb_app php artisan make:model Feature</code></pre>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <h4>3. Criar Controller</h4>
-                            <div class="code-block">
-                                <pre><code>docker exec vibegarb_app php artisan make:controller FeatureController</code></pre>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <h4>4. Criar Views</h4>
-                            <div class="code-block">
-                                <pre><code>mkdir resources/views/features
-touch resources/views/features/index.blade.php</code></pre>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <h4>5. Adicionar Rotas</h4>
-                            <div class="code-block">
-                                <pre><code>Route::resource('features', FeatureController::class);</code></pre>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>2. Testando Funcionalidades</h3>
-                    <div class="code-block">
-                        <pre><code># Acessar tinker para testes
-docker exec -it vibegarb_app php artisan tinker
-
-# Exemplos de teste
->>> $product = Product::first()
->>> $product->variants
->>> User::factory(10)->create()</code></pre>
-                    </div>
-
-                    <h3>3. Debugging</h3>
-                    <div class="code-block">
-                        <pre><code># Ver logs Laravel
-docker exec vibegarb_app tail -f storage/logs/laravel.log
-
-# Ver logs Nginx
-docker logs vibegarb_webserver
-
-# Debug de queries
-# No .env: DB_QUERY_LOG=true</code></pre>
-                    </div>
-                </div>
-
-                <!-- Gerenciamento de Dependências -->
-                <div class="card">
-                    <h2>📦 Gerenciamento de Dependências</h2>
-                    
-                    <h3>PHP (Composer)</h3>
-                    <div class="code-block">
-                        <pre><code># Adicionar pacote
-docker exec vibegarb_app composer require package/name
-
-# Atualizar dependências
-docker exec vibegarb_app composer update
-
-# Autoload otimizado
-docker exec vibegarb_app composer dump-autoload -o</code></pre>
-                    </div>
-
-                    <h3>JavaScript (NPM)</h3>
-                    <div class="code-block">
-                        <pre><code># Adicionar pacote
-docker exec vibegarb_node npm install package-name
-
-# Atualizar pacotes
-docker exec vibegarb_node npm update</code></pre>
-                    </div>
-                </div>
-
-                <!-- Boas Práticas -->
-                <div class="card">
-                    <h2>🎯 Boas Práticas</h2>
-                    
-                    <h3>Code Style</h3>
-                    <div class="code-block">
-                        <pre><code># Instalar Pint (Laravel Formatter)
-docker exec vibegarb_app composer require laravel/pint --dev
-
-# Formatar código
-docker exec vibegarb_app ./vendor/bin/pint</code></pre>
-                    </div>
-
-                    <h3>Blade Templates</h3>
-                    <div class="code-block">
-                        <pre><code>{{-- Usar componentes para reutilização --}}
-@component('components.card')
-    @slot('title', $product->name)
-    @slot('content')
-        <p>{{ $product->description }}</p>
-    @endslot
-@endcomponent
-
-{{-- Escapar dados automaticamente --}}
-{{ $product->name }} <!-- Safe -->
-{!! $product->html_content !!} <!-- Unsafe, só use se necessário --></code></pre>
-                    </div>
-
-                    <h3>Controllers</h3>
-                    <div class="code-block">
-                        <pre><code>// Manter controllers enxutos
-class ProductController extends Controller
-{
-    public function index(Request $request)
-    {
-        $products = $this->getFilteredProducts($request);
-        return view('products.index', compact('products'));
-    }
-
-    private function getFilteredProducts(Request $request)
-    {
-        return Product::active()
-            ->filter($request->only(['search', 'category']))
-            ->paginate(12);
-    }
-}</code></pre>
-                    </div>
-                </div>
-
-                <!-- Deploy e Produção -->
-                <div class="card">
-                    <h2>🔄 Deploy e Produção</h2>
-                    
-                    <h3>Build para Produção</h3>
-                    <div class="code-block">
-                        <pre><code># 1. Otimizar assets
+# Produção (minificado)
 docker exec vibegarb_node npm run build
 
-# 2. Otimizar Laravel
+# Preview da build
+docker exec vibegarb_node npm run preview</code></pre>
+                    </div>
+                </div>
+
+                <!-- Testing -->
+                <div class="card">
+                    <h2>🧪 Testing</h2>
+                    
+                    <h3>Tipos de Teste</h3>
+                    <div class="test-types">
+                        <div class="test-type">
+                            <h4>Unit Tests</h4>
+                            <p>Testam métodos específicos dos Models e Services</p>
+                            <div class="code-block">
+                                <pre><code>// tests/Unit/ProductTest.php
+class ProductTest extends TestCase
+{
+    public function test_product_can_calculate_current_price()
+    {
+        $product = Product::factory()->create([
+            'price' => 100.00,
+            'sale_price' => 80.00
+        ]);
+        
+        $this->assertEquals(80.00, $product->current_price);
+    }
+    
+    public function test_product_uses_regular_price_when_no_sale_price()
+    {
+        $product = Product::factory()->create([
+            'price' => 100.00,
+            'sale_price' => null
+        ]);
+        
+        $this->assertEquals(100.00, $product->current_price);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="test-type">
+                            <h4>Feature Tests</h4>
+                            <p>Testam fluxos completos da aplicação</p>
+                            <div class="code-block">
+                                <pre><code>// tests/Feature/ProductBrowsingTest.php
+class ProductBrowsingTest extends TestCase
+{
+    public function test_user_can_browse_products()
+    {
+        $category = Category::factory()->create(['name' => 'Camisetas']);
+        $product = Product::factory()->create([
+            'name' => 'Camiseta Teste',
+            'category_id' => $category->id,
+            'is_active' => true
+        ]);
+        
+        $response = $this->get('/products');
+        
+        $response->assertStatus(200);
+        $response->assertSee('Camiseta Teste');
+        $response->assertSee('Camisetas');
+    }
+    
+    public function test_user_can_filter_products_by_category()
+    {
+        $category1 = Category::factory()->create(['name' => 'Camisetas']);
+        $category2 = Category::factory()->create(['name' => 'Moletons']);
+        
+        $product1 = Product::factory()->create(['category_id' => $category1->id]);
+        $product2 = Product::factory()->create(['category_id' => $category2->id]);
+        
+        $response = $this->get("/products?category={$category1->id}");
+        
+        $response->assertStatus(200);
+        $response->assertSee($product1->name);
+        $response->assertDontSee($product2->name);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Executando Testes</h3>
+                    <div class="code-block">
+                        <pre><code># Todos os testes
+docker exec vibegarb_app php artisan test
+
+# Apenas unit tests
+docker exec vibegarb_app php artisan test --testsuite=Unit
+
+# Apenas feature tests
+docker exec vibegarb_app php artisan test --testsuite=Feature
+
+# Testes específicos com coverage
+docker exec vibegarb_app php artisan test --coverage</code></pre>
+                    </div>
+                </div>
+
+                <!-- Debugging -->
+                <div class="card">
+                    <h2>🐛 Debugging</h2>
+                    
+                    <h3>Ferramentas de Debug</h3>
+                    <div class="debug-tools">
+                        <div class="debug-tool">
+                            <h4>Laravel Tinker</h4>
+                            <div class="code-block">
+                                <pre><code># Acessar REPL do Laravel
+docker exec -it vibegarb_app php artisan tinker
+
+# Exemplos de uso
+>>> $product = Product::first()
+>>> $product->variants
+>>> User::factory(5)->create()
+>>> DB::table('products')->count()
+>>> Cache::flush()</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="debug-tool">
+                            <h4>Logs do Laravel</h4>
+                            <div class="code-block">
+                                <pre><code># Ver logs em tempo real
+docker exec vibegarb_app tail -f storage/logs/laravel.log
+
+# Logs de query (no .env)
+DB_QUERY_LOG=true
+
+# No código para debug específico
+Log::info('Debug info', ['data' => $variable]);
+Log::error('Erro encontrado', ['exception' => $e->getMessage()]);
+
+# Dump and Die para debug
+dd($variable); // Para e mostra o conteúdo
+dump($variable); // Mostra sem parar</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="debug-tool">
+                            <h4>Query Debug</h4>
+                            <div class="code-block">
+                                <pre><code>// Ver queries executadas
+DB::enableQueryLog();
+$products = Product::with('category')->get();
+dd(DB::getQueryLog());
+
+// Explain de query específica
+$query = Product::with('category')->where('is_active', true);
+dd($query->explain());</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Debug de Performance</h3>
+                    <div class="code-block">
+                        <pre><code># Instalar Laravel Telescope (apenas desenvolvimento)
+docker exec vibegarb_app composer require laravel/telescope --dev
+docker exec vibegarb_app php artisan telescope:install
+docker exec vibegarb_app php artisan migrate
+
+# Acessar: http://localhost:8500/telescope
+
+# Monitoring de queries lentas no .env
+DB_LOG_SLOW_QUERIES=true
+DB_SLOW_QUERY_THRESHOLD=1000</code></pre>
+                    </div>
+                </div>
+
+                <!-- Performance -->
+                <div class="card">
+                    <h2>⚡ Performance</h2>
+                    
+                    <h3>Otimizações de Desenvolvimento</h3>
+                    <div class="optimization-list">
+                        <div class="optimization-item">
+                            <h4>Eager Loading</h4>
+                            <div class="code-block">
+                                <pre><code>// ❌ N+1 Problem
+foreach (Product::all() as $product) {
+    echo $product->category->name; // Query para cada produto
+}
+
+// ✅ Eager Loading
+foreach (Product::with('category')->get() as $product) {
+    echo $product->category->name; // Apenas 2 queries total
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="optimization-item">
+                            <h4>Query Scopes</h4>
+                            <div class="code-block">
+                                <pre><code>// Model Product
+public function scopeActiveWithDetails($query)
+{
+    return $query->where('is_active', true)
+                 ->with(['category', 'productImages'])
+                 ->orderBy('name');
+}
+
+// Usage
+$products = Product::activeWithDetails()->get();</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="optimization-item">
+                            <h4>Cache de Queries</h4>
+                            <div class="code-block">
+                                <pre><code>// Cache categorias por 1 hora
+$categories = Cache::remember('categories', 3600, function () {
+    return Category::orderBy('name')->get();
+});
+
+// Cache com invalidação
+Cache::forget('categories');
+Cache::put('categories', $categories, 3600);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Comandos de Otimização</h3>
+                    <div class="code-block">
+                        <pre><code># Otimização completa
 docker exec vibegarb_app php artisan optimize
+
+# Cache individual
 docker exec vibegarb_app php artisan config:cache
 docker exec vibegarb_app php artisan route:cache
 docker exec vibegarb_app php artisan view:cache
 
-# 3. Configurar .env para produção
+# Limpar cache
+docker exec vibegarb_app php artisan optimize:clear
+
+# Composer otimizado
+docker exec vibegarb_app composer dump-autoload -o</code></pre>
+                    </div>
+                </div>
+
+                <!-- Deploy -->
+                <div class="card">
+                    <h2>🚀 Deploy e Produção</h2>
+                    
+                    <h3>Preparação para Deploy</h3>
+                    <div class="deploy-checklist">
+                        <div class="checklist-item">
+                            <span class="check">✅</span>
+                            <strong>Configurar .env de produção</strong>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check">✅</span>
+                            <strong>Build de assets otimizado</strong>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check">✅</span>
+                            <strong>Cache de configurações</strong>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check">✅</span>
+                            <strong>Migrations atualizadas</strong>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check">✅</span>
+                            <strong>SSL configurado</strong>
+                        </div>
+                    </div>
+
+                    <h3>Comandos de Deploy</h3>
+                    <div class="code-block">
+                        <pre><code># 1. Configurar ambiente de produção
 APP_ENV=production
-APP_DEBUG=false</code></pre>
-                    </div>
-
-                    <h3>Configuração Docker Produção</h3>
-                    <div class="code-block">
-                        <pre><code># docker-compose.prod.yml
-services:
-  app:
-    environment:
-      - APP_ENV=production
-    volumes:
-      - ./:/var/www:cached,ro  # Read-only para segurança</code></pre>
-                    </div>
-                </div>
-
-                <!-- Troubleshooting -->
-                <div class="card">
-                    <h2>🚨 Troubleshooting</h2>
-                    
-                    <h3>Problemas Comuns</h3>
-                    
-                    <h4>1. Assets não carregando</h4>
-                    <div class="solution">
-                        <div class="code-block">
-                            <pre><code>rm -rf public/build
-docker exec vibegarb_node npm run build</code></pre>
-                        </div>
-                    </div>
-
-                    <h4>2. Erro de permissão</h4>
-                    <div class="solution">
-                        <div class="code-block">
-                            <pre><code>docker exec vibegarb_app chown -R www-data:www-data storage</code></pre>
-                        </div>
-                    </div>
-
-                    <h4>3. Cache problems</h4>
-                    <div class="solution">
-                        <div class="code-block">
-                            <pre><code>docker exec vibegarb_app php artisan optimize:clear</code></pre>
-                        </div>
-                    </div>
-
-                    <h4>4. Performance lenta</h4>
-                    <div class="solution">
-                        <div class="code-block">
-                            <pre><code># Verificar se .env tem configurações otimizadas:
 APP_DEBUG=false
-SESSION_DRIVER=file
-CACHE_DRIVER=redis</code></pre>
-                        </div>
+APP_URL=https://vibegarb.com
+
+# 2. Build otimizado
+docker exec vibegarb_node npm run build
+
+# 3. Otimizar Laravel
+docker exec vibegarb_app php artisan optimize
+docker exec vibegarb_app composer install --optimize-autoloader --no-dev
+
+# 4. Executar migrations
+docker exec vibegarb_app php artisan migrate --force
+
+# 5. Limpar storages
+docker exec vibegarb_app php artisan storage:link
+
+# 6. Verificar funcionamento
+curl -I https://vibegarb.com</code></pre>
                     </div>
                 </div>
 
-                <!-- Monitoramento -->
-                <div class="card">
-                    <h2>📊 Monitoramento</h2>
+                <!-- Boas Práticas -->
+                <div class="card conclusion">
+                    <h2>🎯 Boas Práticas de Desenvolvimento</h2>
                     
-                    <h3>Logs Importantes</h3>
-                    <div class="code-block">
-                        <pre><code># Laravel logs
-docker exec vibegarb_app tail -f storage/logs/laravel.log
-
-# Nginx access logs
-docker logs vibegarb_webserver
-
-# Container status
-docker-compose ps</code></pre>
-                    </div>
-
-                    <h3>Performance Metrics</h3>
-                    <div class="code-block">
-                        <pre><code># Tempo de inicialização
-docker exec vibegarb_app php artisan tinker --execute="echo microtime(true) - LARAVEL_START;"
-
-# Status dos containers
-docker stats --no-stream</code></pre>
-                    </div>
-                </div>
-
-                <!-- Configurações IDE -->
-                <div class="card">
-                    <h2>🔧 Configurações IDE</h2>
-                    
-                    <h3>VS Code Extensions Recomendadas</h3>
+                    <h3>✅ Faça Sempre</h3>
                     <ul>
-                        <li>Laravel Blade Snippets</li>
-                        <li>Laravel Extra Intellisense</li>
-                        <li>PHP Intelephense</li>
-                        <li>Tailwind CSS IntelliSense</li>
-                        <li>Docker</li>
+                        <li>💾 <strong>Commit frequente:</strong> Pequenos commits com mensagens descritivas</li>
+                        <li>🧪 <strong>Testes primeiro:</strong> Escreva testes antes de implementar</li>
+                        <li>📝 <strong>Documentação:</strong> Comente código complexo e atualize docs</li>
+                        <li>🔒 <strong>Validação:</strong> Sempre valide dados de entrada</li>
+                        <li>⚡ <strong>Performance:</strong> Use eager loading e cache quando apropriado</li>
+                        <li>🎨 <strong>Padrões:</strong> Siga convenções do Laravel e PSR</li>
                     </ul>
 
-                    <h3>Settings.json</h3>
-                    <div class="code-block">
-                        <pre><code>{
-    "blade.format.enable": true,
-    "tailwindCSS.includeLanguages": {
-        "blade": "html"
-    }
-}</code></pre>
-                    </div>
-                </div>
+                    <h3>❌ Evite</h3>
+                    <ul>
+                        <li>🚫 <strong>N+1 queries:</strong> Use with() para relacionamentos</li>
+                        <li>🚫 <strong>Lógica em views:</strong> Mantenha Blade templates simples</li>
+                        <li>🚫 <strong>Controllers gordos:</strong> Use Services para lógica complexa</li>
+                        <li>🚫 <strong>Hard-coding:</strong> Use config() e env() apropriadamente</li>
+                        <li>🚫 <strong>SQL direto:</strong> Prefira Eloquent quando possível</li>
+                        <li>🚫 <strong>Debug em produção:</strong> Sempre APP_DEBUG=false</li>
+                    </ul>
 
-                <!-- Conclusão -->
-                <div class="card conclusion">
-                    <h2>✅ Base Sólida Pronta - Desenvolvimento Ágil Possível</h2>
-                    <p><em>📝 Última atualização: Julho 2025</em></p>
-                    <p><em>🎯 Foco: Desenvolvimento com Blade Templates + Laravel MVC</em></p>
+                    <h3>📊 Status do Ambiente</h3>
+                    <p><strong>🟢 AMBIENTE OTIMIZADO:</strong> Setup completo e configurado para desenvolvimento eficiente.</p>
+                    <p><strong>🎯 WORKFLOW ESTABELECIDO:</strong> Processos definidos para desenvolvimento seguro e produtivo.</p>
+                    <p><strong>🚀 DEPLOY READY:</strong> Pipeline preparado para deploy em produção cPanel.</p>
                 </div>
             </div>
         </main>
     </div>
-
-    <script src="js/main.js"></script>
 </body>
 </html> 

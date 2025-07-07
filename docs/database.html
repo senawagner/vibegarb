@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentação do Banco de Dados - Vibe Garb</title>
+    <title>Banco de Dados - Vibe Garb E-commerce</title>
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -27,7 +26,10 @@
                     <li><a href="mvp-plan.html">📋 Plano MVP</a></li>
                     <li><a href="mvp-migrations.html">🔧 Migrações MVP</a></li>
                     <li><a href="troubleshooting.html">🛠️ Troubleshooting</a></li>
+                    <li><a href="session-implementations.html">📝 Implementações</a></li>
                     <li><a href="dropshipping-model.html">📦 Modelo Dropshipping</a></li>
+                    <li><a href="git-workflow.html">🔄 Git Workflow</a></li>
+                    <li><a href="safe-development.html">🛡️ Desenvolvimento Seguro</a></li>
                 </ul>
             </nav>
         </aside>
@@ -35,553 +37,575 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="content-header">
-                <h1>🗄️ Documentação do Banco de Dados - Vibe Garb</h1>
-                <p class="subtitle">Estrutura completa e relacionamentos implementados</p>
+                <h1>🗄️ Banco de Dados</h1>
+                <p class="subtitle">Estrutura completa do banco de dados MySQL 8.0 do Vibe Garb E-commerce. Este documento detalha todas as tabelas, campos, relacionamentos, índices e constraints implementados. Inclui a modelagem de dados otimizada para dropshipping, estrutura de produtos com variações, sistema de pedidos e painel administrativo completo. Essencial para desenvolvedores que precisam entender a arquitetura de dados do sistema.</p>
+                <p class="date">Atualizado: 07/07/2025 - Estrutura Real v1.0.0</p>
             </header>
 
             <div class="content-grid">
                 <!-- Visão Geral -->
                 <div class="card">
-                    <h2>📊 Visão Geral</h2>
-                    <div class="overview-grid">
-                        <div class="overview-item">
-                            <strong>Sistema:</strong> MySQL 8.0
-                        </div>
-                        <div class="overview-item">
-                            <strong>Configuração:</strong> Docker Container
-                        </div>
-                        <div class="overview-item">
-                            <strong>Conexão:</strong> DB_CONNECTION=mysql
-                        </div>
-                        <div class="overview-item">
-                            <strong>Charset:</strong> utf8mb4_unicode_ci
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Arquitetura do Banco -->
-                <div class="card">
-                    <h2>🏗️ Arquitetura do Banco</h2>
+                    <h2>📊 Visão Geral do Banco</h2>
+                    <p><strong>Sistema:</strong> MySQL 8.0 com InnoDB</p>
+                    <p><strong>Database:</strong> vibegarb</p>
+                    <p><strong>Charset:</strong> utf8mb4_unicode_ci</p>
+                    <p><strong>Migrations:</strong> 24 migrations aplicadas</p>
                     
                     <h3>Estatísticas Atuais</h3>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-number">12</span>
-                            <span class="stat-label">tabelas implementadas</span>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <strong>15+ tabelas</strong> implementadas
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">11</span>
-                            <span class="stat-label">models Eloquent ativos</span>
+                        <div class="data-item">
+                            <strong>13 models</strong> Eloquent
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">34</span>
-                            <span class="stat-label">variações cadastradas</span>
+                        <div class="data-item">
+                            <strong>7 produtos</strong> cadastrados
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">7</span>
-                            <span class="stat-label">produtos com dados completos</span>
+                        <div class="data-item">
+                            <strong>34 variações</strong> de produtos
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">6</span>
-                            <span class="stat-label">categorias organizadas</span>
+                        <div class="data-item">
+                            <strong>6 categorias</strong> organizadas
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">4</span>
-                            <span class="stat-label">fornecedores para dropshipping</span>
-                        </div>
-                    </div>
-
-                    <h3>Configuração Docker</h3>
-                    <div class="code-block">
-                        <pre><code># docker-compose.yml
-db:
-  image: mysql:8.0
-  container_name: vibegarb_db
-  environment:
-    MYSQL_DATABASE: vibegarb
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_PASSWORD: vibegarb123
-    MYSQL_USER: vibegarb
-  ports:
-    - "3350:3306"</code></pre>
-                    </div>
-
-                    <h3>Configuração Laravel</h3>
-                    <div class="code-block">
-                        <pre><code># .env
-DB_CONNECTION=mysql
-DB_HOST=db
-DB_PORT=3306
-DB_DATABASE=vibegarb
-DB_USERNAME=vibegarb
-DB_PASSWORD=vibegarb123</code></pre>
-                    </div>
-                </div>
-
-                <!-- Estrutura das Tabelas -->
-                <div class="card">
-                    <h2>📋 Estrutura das Tabelas</h2>
-                    
-                    <h3>1. users - Usuários do Sistema</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE users (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    phone VARCHAR(20),
-    birth_date DATE,
-    role ENUM('customer', 'admin') DEFAULT 'customer',
-    address TEXT,
-    city VARCHAR(100),
-    state VARCHAR(2),
-    zip_code VARCHAR(10),
-    email_verified_at TIMESTAMP NULL,
-    remember_token VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);</code></pre>
-                        </div>
-                        <p><strong>Índices:</strong> email (unique), role</p>
-                        <p><strong>Dados:</strong> 3 usuários (1 admin, 2 clientes)</p>
-                    </div>
-
-                    <h3>2. categories - Categorias de Produtos</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE categories (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) UNIQUE NOT NULL,
-    description TEXT,
-    image VARCHAR(255),
-    parent_id BIGINT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    sort_order INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL
-);</code></pre>
-                        </div>
-                        <p><strong>Índices:</strong> slug (unique), parent_id, is_active</p>
-                        <p><strong>Dados:</strong> 6 categorias ativas</p>
-                    </div>
-
-                    <h3>3. suppliers - Fornecedores Dropshipping</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE suppliers (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    company_name VARCHAR(255),
-    email VARCHAR(255),
-    phone VARCHAR(20),
-    address TEXT,
-    commission_rate DECIMAL(5,2) DEFAULT 0.00,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);</code></pre>
-                        </div>
-                        <p><strong>Dados:</strong> 4 fornecedores ativos</p>
-                    </div>
-
-                    <h3>4. products - Produtos Principais</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE products (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) UNIQUE NOT NULL,
-    description TEXT,
-    short_description TEXT,
-    sku VARCHAR(100) UNIQUE NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    sale_price DECIMAL(10,2) NULL,
-    category_id BIGINT NOT NULL,
-    supplier_id BIGINT NOT NULL,
-    quality_line ENUM('premium', 'standard', 'basic') DEFAULT 'standard',
-    target_audience ENUM('masculino', 'feminino', 'unissex') DEFAULT 'unissex',
-    weight DECIMAL(8,2),
-    dimensions JSON,
-    manage_stock BOOLEAN DEFAULT TRUE,
-    stock_quantity INT DEFAULT 0,
-    min_stock_level INT DEFAULT 5,
-    is_active BOOLEAN DEFAULT TRUE,
-    is_featured BOOLEAN DEFAULT FALSE,
-    meta_title VARCHAR(255),
-    meta_description TEXT,
-    images JSON,
-    attributes JSON,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id),
-    FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
-);</code></pre>
-                        </div>
-                        <p><strong>Índices:</strong> slug (unique), sku (unique), category_id, supplier_id, is_active, is_featured</p>
-                        <p><strong>Dados:</strong> 7 produtos com variações completas</p>
-                    </div>
-
-                    <h3>5. product_variants - Variações de Produtos</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE product_variants (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    product_id BIGINT NOT NULL,
-    sku VARCHAR(100) UNIQUE NOT NULL,
-    size VARCHAR(10),
-    color VARCHAR(50),
-    price DECIMAL(10,2),
-    stock_quantity INT DEFAULT 0,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-);</code></pre>
-                        </div>
-                        <p><strong>Índices:</strong> sku (unique), product_id, is_active</p>
-                        <p><strong>Dados:</strong> 34 variações (P, M, G, GG para cada produto)</p>
-                    </div>
-
-                    <h3>6. product_images - Imagens dos Produtos</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE product_images (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    product_id BIGINT NOT NULL,
-    image_path VARCHAR(255) NOT NULL,
-    alt_text VARCHAR(255),
-    sort_order INT DEFAULT 0,
-    is_primary BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-);</code></pre>
-                        </div>
-                        <p><strong>Estrutura:</strong> Pronta para múltiplas imagens por produto</p>
-                    </div>
-
-                    <h3>7. cart_items - Itens do Carrinho</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE cart_items (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    session_id VARCHAR(255) NOT NULL,
-    product_id BIGINT NOT NULL,
-    product_variant_id BIGINT,
-    quantity INT NOT NULL DEFAULT 1,
-    price DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE
-);</code></pre>
-                        </div>
-                        <p><strong>Índices:</strong> session_id, product_id</p>
-                        <p><strong>Funcionalidade:</strong> Carrinho persistente por sessão</p>
-                    </div>
-
-                    <h3>8. orders - Pedidos</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE orders (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT,
-    order_number VARCHAR(50) UNIQUE NOT NULL,
-    status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
-    total_amount DECIMAL(10,2) NOT NULL,
-    shipping_amount DECIMAL(10,2) DEFAULT 0.00,
-    discount_amount DECIMAL(10,2) DEFAULT 0.00,
-    coupon_id BIGINT NULL,
-    shipping_address JSON NOT NULL,
-    billing_address JSON,
-    notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
-    FOREIGN KEY (coupon_id) REFERENCES coupons(id) ON DELETE SET NULL
-);</code></pre>
-                        </div>
-                        <p><strong>Estrutura:</strong> Pronta para processamento de pedidos</p>
-                    </div>
-
-                    <h3>9. order_items - Itens dos Pedidos</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE order_items (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    order_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    product_variant_id BIGINT,
-    quantity INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    total DECIMAL(10,2) NOT NULL,
-    product_snapshot JSON,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id)
-);</code></pre>
-                        </div>
-                    </div>
-
-                    <h3>10. payments - Pagamentos</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE payments (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    order_id BIGINT NOT NULL,
-    payment_method ENUM('pix', 'credit_card', 'debit_card', 'boleto', 'paypal') NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    status ENUM('pending', 'completed', 'failed', 'refunded') DEFAULT 'pending',
-    gateway VARCHAR(50),
-    transaction_id VARCHAR(255),
-    gateway_response JSON,
-    paid_at TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
-);</code></pre>
-                        </div>
-                    </div>
-
-                    <h3>11. coupons - Cupons de Desconto</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE coupons (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    code VARCHAR(50) UNIQUE NOT NULL,
-    type ENUM('percentage', 'fixed') NOT NULL,
-    value DECIMAL(10,2) NOT NULL,
-    minimum_amount DECIMAL(10,2) DEFAULT 0.00,
-    usage_limit INT NULL,
-    used_count INT DEFAULT 0,
-    expires_at TIMESTAMP NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);</code></pre>
-                        </div>
-                    </div>
-
-                    <h3>12. product_reviews - Avaliações</h3>
-                    <div class="table-structure">
-                        <div class="code-block">
-                            <pre><code>CREATE TABLE product_reviews (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    product_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    order_id BIGINT,
-    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-    title VARCHAR(255),
-    comment TEXT,
-    is_verified BOOLEAN DEFAULT FALSE,
-    is_approved BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL
-);</code></pre>
+                        <div class="data-item">
+                            <strong>4 fornecedores</strong> dropshipping
                         </div>
                     </div>
                 </div>
 
-                <!-- Relacionamentos Implementados -->
+                <!-- Estrutura de Tabelas -->
+                <div class="card card-full">
+                    <h2>🗂️ Estrutura de Tabelas</h2>
+
+                    <h3>📋 Tabelas Principais</h3>
+                    <div class="table-list">
+                        <div class="table-item">
+                            <strong>users</strong> - Usuários (clientes e administradores)
+                        </div>
+                        <div class="table-item">
+                            <strong>categories</strong> - Categorias de produtos
+                        </div>
+                        <div class="table-item">
+                            <strong>suppliers</strong> - Fornecedores para dropshipping
+                        </div>
+                        <div class="table-item">
+                            <strong>products</strong> - Produtos do catálogo
+                        </div>
+                        <div class="table-item">
+                            <strong>product_images</strong> - Imagens dos produtos
+                        </div>
+                        <div class="table-item">
+                            <strong>product_variants</strong> - Variações de produtos (cor/tamanho)
+                        </div>
+                        <div class="table-item">
+                            <strong>product_reviews</strong> - Avaliações de produtos
+                        </div>
+                        <div class="table-item">
+                            <strong>cart_items</strong> - Itens do carrinho
+                        </div>
+                        <div class="table-item">
+                            <strong>orders</strong> - Pedidos dos clientes
+                        </div>
+                        <div class="table-item">
+                            <strong>order_items</strong> - Itens dos pedidos
+                        </div>
+                        <div class="table-item">
+                            <strong>payments</strong> - Pagamentos realizados
+                        </div>
+                        <div class="table-item">
+                            <strong>coupons</strong> - Cupons de desconto
+                        </div>
+                        <div class="table-item">
+                            <strong>newsletter_subscriptions</strong> - Assinantes da newsletter
+                        </div>
+                    </div>
+
+                    <h3>🔧 Tabelas do Sistema</h3>
+                    <div class="table-list">
+                        <div class="table-item">
+                            <strong>cache</strong> - Cache do Laravel
+                        </div>
+                        <div class="table-item">
+                            <strong>jobs</strong> - Queue jobs
+                        </div>
+                        <div class="table-item">
+                            <strong>migrations</strong> - Controle de migrations
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhamento das Tabelas -->
+                <div class="card card-full">
+                    <h2>📝 Detalhamento das Tabelas</h2>
+
+                    <!-- Users -->
+                    <div class="table-detail">
+                        <h3>👤 users</h3>
+                        <div class="table-info">
+                            <p><strong>Função:</strong> Armazena dados de usuários, clientes e administradores</p>
+                            <p><strong>Modelo:</strong> App\Models\User</p>
+                        </div>
+                        <div class="fields-grid">
+                            <div class="field-group">
+                                <h4>Campos Básicos</h4>
+                                <ul>
+                                    <li><code>id</code> - bigint (PK)</li>
+                                    <li><code>name</code> - varchar(255)</li>
+                                    <li><code>email</code> - varchar(255) unique</li>
+                                    <li><code>email_verified_at</code> - timestamp</li>
+                                    <li><code>password</code> - varchar(255)</li>
+                                    <li><code>remember_token</code> - varchar(100)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Campos E-commerce</h4>
+                                <ul>
+                                    <li><code>phone</code> - varchar(20)</li>
+                                    <li><code>birth_date</code> - date</li>
+                                    <li><code>document</code> - varchar(20)</li>
+                                    <li><code>gender</code> - enum('M','F','other')</li>
+                                    <li><code>is_admin</code> - boolean</li>
+                                    <li><code>status</code> - enum('active','inactive','banned')</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Endereços</h4>
+                                <ul>
+                                    <li><code>address</code> - varchar(255)</li>
+                                    <li><code>address_number</code> - varchar(10)</li>
+                                    <li><code>address_complement</code> - varchar(100)</li>
+                                    <li><code>neighborhood</code> - varchar(100)</li>
+                                    <li><code>city</code> - varchar(100)</li>
+                                    <li><code>state</code> - varchar(2)</li>
+                                    <li><code>zipcode</code> - varchar(10)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products -->
+                    <div class="table-detail">
+                        <h3>🛍️ products</h3>
+                        <div class="table-info">
+                            <p><strong>Função:</strong> Catálogo completo de produtos com informações para dropshipping</p>
+                            <p><strong>Modelo:</strong> App\Models\Product</p>
+                        </div>
+                        <div class="fields-grid">
+                            <div class="field-group">
+                                <h4>Identificação</h4>
+                                <ul>
+                                    <li><code>id</code> - bigint (PK)</li>
+                                    <li><code>name</code> - varchar(255)</li>
+                                    <li><code>slug</code> - varchar(255) unique</li>
+                                    <li><code>sku</code> - varchar(100) unique</li>
+                                    <li><code>category_id</code> - bigint (FK)</li>
+                                    <li><code>supplier_id</code> - bigint (FK)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Conteúdo</h4>
+                                <ul>
+                                    <li><code>description</code> - text</li>
+                                    <li><code>short_description</code> - varchar(500)</li>
+                                    <li><code>images</code> - json</li>
+                                    <li><code>attributes</code> - json</li>
+                                    <li><code>meta_title</code> - varchar(255)</li>
+                                    <li><code>meta_description</code> - text</li>
+                                    <li><code>meta_keywords</code> - varchar(255)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Preços e Produção</h4>
+                                <ul>
+                                    <li><code>price</code> - decimal(10,2)</li>
+                                    <li><code>sale_price</code> - decimal(10,2)</li>
+                                    <li><code>cost_price</code> - decimal(10,2)</li>
+                                    <li><code>production_days</code> - int</li>
+                                    <li><code>weight</code> - decimal(8,2)</li>
+                                    <li><code>dimensions</code> - varchar(100)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Dropshipping</h4>
+                                <ul>
+                                    <li><code>quality_line</code> - enum('classic','quality','prime','pima','estonada','dry_sport')</li>
+                                    <li><code>target_audience</code> - enum('masculino','feminino','infantil','unissex')</li>
+                                    <li><code>available_colors</code> - text</li>
+                                    <li><code>available_sizes</code> - text</li>
+                                    <li><code>stock_quantity</code> - int (sempre 0 para dropshipping)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Status e Flags</h4>
+                                <ul>
+                                    <li><code>is_active</code> - boolean</li>
+                                    <li><code>is_featured</code> - boolean</li>
+                                    <li><code>featured</code> - boolean</li>
+                                    <li><code>active</code> - boolean</li>
+                                    <li><code>created_at</code> - timestamp</li>
+                                    <li><code>updated_at</code> - timestamp</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orders -->
+                    <div class="table-detail">
+                        <h3>📦 orders</h3>
+                        <div class="table-info">
+                            <p><strong>Função:</strong> Pedidos dos clientes com suporte a checkout anônimo</p>
+                            <p><strong>Modelo:</strong> App\Models\Order</p>
+                        </div>
+                        <div class="fields-grid">
+                            <div class="field-group">
+                                <h4>Identificação</h4>
+                                <ul>
+                                    <li><code>id</code> - bigint (PK)</li>
+                                    <li><code>order_number</code> - varchar(100) unique</li>
+                                    <li><code>user_id</code> - bigint nullable (FK)</li>
+                                    <li><code>status</code> - enum('pending','confirmed','processing','shipped','delivered','cancelled')</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Dados do Cliente</h4>
+                                <ul>
+                                    <li><code>customer_name</code> - varchar(255)</li>
+                                    <li><code>customer_email</code> - varchar(255)</li>
+                                    <li><code>customer_phone</code> - varchar(20)</li>
+                                    <li><code>customer_document</code> - varchar(20)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Endereço de Entrega</h4>
+                                <ul>
+                                    <li><code>shipping_address</code> - varchar(255)</li>
+                                    <li><code>shipping_number</code> - varchar(10)</li>
+                                    <li><code>shipping_complement</code> - varchar(100)</li>
+                                    <li><code>shipping_neighborhood</code> - varchar(100)</li>
+                                    <li><code>shipping_city</code> - varchar(100)</li>
+                                    <li><code>shipping_state</code> - varchar(2)</li>
+                                    <li><code>shipping_zipcode</code> - varchar(10)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Valores e Pagamento</h4>
+                                <ul>
+                                    <li><code>subtotal</code> - decimal(10,2)</li>
+                                    <li><code>shipping_cost</code> - decimal(10,2)</li>
+                                    <li><code>discount_amount</code> - decimal(10,2)</li>
+                                    <li><code>total_amount</code> - decimal(10,2)</li>
+                                    <li><code>payment_method</code> - enum('pix','boleto','credit_card')</li>
+                                    <li><code>payment_status</code> - enum('pending','paid','failed','cancelled')</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Dropshipping</h4>
+                                <ul>
+                                    <li><code>dropshipping_status</code> - enum('pending','sent_to_production','in_production','shipped','delivered')</li>
+                                    <li><code>production_order_id</code> - varchar(100)</li>
+                                    <li><code>supplier_order_id</code> - varchar(100)</li>
+                                    <li><code>tracking_code</code> - varchar(100)</li>
+                                    <li><code>estimated_delivery</code> - date</li>
+                                    <li><code>supplier_notes</code> - text</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Variants -->
+                    <div class="table-detail">
+                        <h3>🎨 product_variants</h3>
+                        <div class="table-info">
+                            <p><strong>Função:</strong> Variações de produtos (cor, tamanho, preços adicionais)</p>
+                            <p><strong>Modelo:</strong> App\Models\ProductVariant</p>
+                        </div>
+                        <div class="fields-grid">
+                            <div class="field-group">
+                                <h4>Relacionamento</h4>
+                                <ul>
+                                    <li><code>id</code> - bigint (PK)</li>
+                                    <li><code>product_id</code> - bigint (FK)</li>
+                                </ul>
+                            </div>
+                            <div class="field-group">
+                                <h4>Variações</h4>
+                                <ul>
+                                    <li><code>size</code> - varchar(10)</li>
+                                    <li><code>color</code> - varchar(50)</li>
+                                    <li><code>additional_price</code> - decimal(8,2)</li>
+                                    <li><code>is_available</code> - boolean</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relacionamentos -->
+                <div class="card card-full">
+                    <h2>🔗 Relacionamentos do Banco</h2>
+
+                    <h3>Relacionamentos Principais</h3>
+                    <div class="relationship-grid">
+                        <div class="relationship-item">
+                            <h4>👤 Users → Orders</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> orders.user_id → users.id (nullable)</p>
+                            <p><strong>Constraint:</strong> ON DELETE SET NULL</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>📂 Categories → Products</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> products.category_id → categories.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE CASCADE</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>🏭 Suppliers → Products</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> products.supplier_id → suppliers.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE RESTRICT</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>🛍️ Products → Product Images</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> product_images.product_id → products.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE CASCADE</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>🛍️ Products → Product Variants</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> product_variants.product_id → products.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE CASCADE</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>📦 Orders → Order Items</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> order_items.order_id → orders.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE CASCADE</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>🛍️ Products → Order Items</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> order_items.product_id → products.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE RESTRICT</p>
+                        </div>
+
+                        <div class="relationship-item">
+                            <h4>📦 Orders → Payments</h4>
+                            <p><strong>Tipo:</strong> One to Many (1:N)</p>
+                            <p><strong>FK:</strong> payments.order_id → orders.id</p>
+                            <p><strong>Constraint:</strong> ON DELETE CASCADE</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Índices e Performance -->
                 <div class="card">
-                    <h2>🔄 Relacionamentos Implementados</h2>
-                    
-                    <h3>Relacionamentos 1:N</h3>
-                    <div class="relationships">
-                        <div class="relationship-item">
-                            <code>users → orders (1:N)</code>
+                    <h2>⚡ Índices e Performance</h2>
+
+                    <h3>Índices Principais</h3>
+                    <div class="index-list">
+                        <div class="index-item">
+                            <strong>users_email_unique</strong> - users(email)
                         </div>
-                        <div class="relationship-item">
-                            <code>categories → products (1:N)</code>
+                        <div class="index-item">
+                            <strong>products_slug_unique</strong> - products(slug)
                         </div>
-                        <div class="relationship-item">
-                            <code>suppliers → products (1:N)</code>
+                        <div class="index-item">
+                            <strong>products_sku_unique</strong> - products(sku)
                         </div>
-                        <div class="relationship-item">
-                            <code>products → product_variants (1:N)</code>
+                        <div class="index-item">
+                            <strong>orders_order_number_unique</strong> - orders(order_number)
                         </div>
-                        <div class="relationship-item">
-                            <code>products → product_images (1:N)</code>
+                        <div class="index-item">
+                            <strong>idx_products_active</strong> - products(is_active)
                         </div>
-                        <div class="relationship-item">
-                            <code>orders → order_items (1:N)</code>
+                        <div class="index-item">
+                            <strong>idx_products_category</strong> - products(category_id)
                         </div>
-                        <div class="relationship-item">
-                            <code>orders → payments (1:N)</code>
+                        <div class="index-item">
+                            <strong>idx_orders_status</strong> - orders(status)
+                        </div>
+                        <div class="index-item">
+                            <strong>idx_orders_user</strong> - orders(user_id)
                         </div>
                     </div>
 
-                    <h3>Relacionamentos N:M</h3>
-                    <div class="relationships">
-                        <div class="relationship-item">
-                            <code>products ↔ cart_items (via session)</code>
-                        </div>
-                        <div class="relationship-item">
-                            <code>users ↔ products (via product_reviews)</code>
-                        </div>
-                    </div>
-
-                    <h3>Relacionamentos Polimórficos</h3>
+                    <h3>Otimizações Implementadas</h3>
                     <ul>
-                        <li>Preparado para newsletter_subscriptions</li>
+                        <li>✅ <strong>Eager Loading:</strong> Relacionamentos carregados com with()</li>
+                        <li>✅ <strong>Índices em FKs:</strong> Todas as foreign keys indexadas</li>
+                        <li>✅ <strong>Campos Únicos:</strong> email, slug, sku, order_number</li>
+                        <li>✅ <strong>Campos JSON:</strong> Para dados flexíveis (images, attributes)</li>
+                        <li>✅ <strong>Campos Decimais:</strong> Precisão monetária garantida</li>
+                        <li>✅ <strong>Campos Nullable:</strong> user_id para checkout anônimo</li>
                     </ul>
                 </div>
 
-                <!-- Dados de Seed Implementados -->
+                <!-- Migrations Aplicadas -->
                 <div class="card">
-                    <h2>📊 Dados de Seed Implementados</h2>
-                    
-                    <h3>Categorias (6)</h3>
-                    <ol>
-                        <li>Camisetas Básicas</li>
-                        <li>Camisetas Premium</li>
-                        <li>Edições Limitadas</li>
-                        <li>Camisetas Oversized</li>
-                        <li>Linha Feminina</li>
-                        <li>Linha Masculina</li>
-                    </ol>
+                    <h2>📋 Migrations Aplicadas</h2>
 
-                    <h3>Produtos (7)</h3>
-                    <ul>
-                        <li>Cada produto tem 4-6 variações de tamanho</li>
-                        <li>Preços de R$ 39,90 a R$ 89,90</li>
-                        <li>Diferentes linhas de qualidade</li>
-                        <li>SKUs únicos gerados automaticamente</li>
-                    </ul>
-
-                    <h3>Usuários (3)</h3>
-                    <ul>
-                        <li>1 administrador (admin@vibegarb.com)</li>
-                        <li>2 clientes de teste</li>
-                        <li>Senhas hasheadas com bcrypt</li>
-                    </ul>
-
-                    <h3>Fornecedores (4)</h3>
-                    <ul>
-                        <li>Dados completos com comissões</li>
-                        <li>Endereços e contatos</li>
-                        <li>Taxas de comissão configuradas</li>
-                    </ul>
+                    <h3>Ordem de Execução</h3>
+                    <div class="migration-list">
+                        <div class="migration-item">
+                            <code>0001_01_01_000000_create_users_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>0001_01_01_000001_create_cache_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>0001_01_01_000002_create_jobs_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_051656_create_categories_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_051801_create_suppliers_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_051839_create_products_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_052001_create_product_images_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_052424_create_product_variants_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_052539_create_coupons_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_052540_create_orders_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_052710_create_order_items_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_052746_create_payments_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_053358_create_newsletter_subscriptions_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_053705_create_product_reviews_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_053947_update_users_table_add_ecommerce_fields</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_27_074138_create_cart_items_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_06_29_153728_add_quality_line_to_products_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_03_180640_add_checkout_fields_to_orders_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_03_195942_add_dropshipping_fields_to_orders_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_05_023143_add_display_order_to_categories_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_05_114448_change_status_column_in_orders_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_05_154506_change_status_column_in_orders_table_v2</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_05_200515_add_supplier_fields_to_orders_table</code>
+                        </div>
+                        <div class="migration-item">
+                            <code>2025_07_07_032019_make_user_id_nullable_in_orders_table</code>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Comandos Úteis -->
                 <div class="card">
-                    <h2>🔧 Comandos Úteis</h2>
-                    
-                    <h3>Conexão ao Banco</h3>
-                    <div class="code-block">
-                        <pre><code># Via Docker
-docker exec -it vibegarb_db mysql -u vibegarb -p vibegarb
-
-# Via Laravel Tinker
-docker exec -it vibegarb_app php artisan tinker</code></pre>
-                    </div>
+                    <h2>⚡ Comandos Úteis</h2>
 
                     <h3>Migrations</h3>
                     <div class="code-block">
-                        <pre><code># Executar migrations
-docker exec vibegarb_app php artisan migrate
+                        <pre><code># Verificar status das migrations
+php artisan migrate:status
 
-# Reset completo
-docker exec vibegarb_app php artisan migrate:fresh --seed
+# Executar migrations pendentes
+php artisan migrate
 
-# Status das migrations
-docker exec vibegarb_app php artisan migrate:status</code></pre>
+# Rollback última migration
+php artisan migrate:rollback
+
+# Criar nova migration
+php artisan make:migration create_nova_tabela</code></pre>
                     </div>
 
-                    <h3>Seeders</h3>
+                    <h3>Banco de Dados</h3>
                     <div class="code-block">
-                        <pre><code># Executar todos os seeders
-docker exec vibegarb_app php artisan db:seed
+                        <pre><code># Acessar MySQL via Docker
+docker-compose exec db mysql -u root -p
+
+# Backup do banco
+docker-compose exec db mysqldump -u root -p vibegarb > backup.sql
+
+# Restaurar backup
+docker-compose exec -T db mysql -u root -p vibegarb < backup.sql
+
+# Verificar conexão
+php artisan tinker
+>>> DB::connection()->getPdo();</code></pre>
+                    </div>
+
+                    <h3>Dados de Teste</h3>
+                    <div class="code-block">
+                        <pre><code># Executar seeders
+php artisan db:seed
 
 # Seeder específico
-docker exec vibegarb_app php artisan db:seed --class=ProductSeeder</code></pre>
-                    </div>
+php artisan db:seed --class=ProductSeeder
 
-                    <h3>Backup e Restore</h3>
-                    <div class="code-block">
-                        <pre><code># Backup
-docker exec vibegarb_db mysqldump -u vibegarb -p vibegarb > backup.sql
-
-# Restore
-docker exec -i vibegarb_db mysql -u vibegarb -p vibegarb < backup.sql</code></pre>
+# Resetar banco com seeders
+php artisan migrate:fresh --seed</code></pre>
                     </div>
                 </div>
 
-                <!-- Segurança e Performance -->
-                <div class="card">
-                    <h2>🔒 Segurança e Performance</h2>
-                    
-                    <h3>Índices Otimizados</h3>
-                    <ul>
-                        <li>Primary keys em todas as tabelas</li>
-                        <li>Foreign keys com índices automáticos</li>
-                        <li>Unique constraints para campos críticos</li>
-                        <li>Índices compostos onde necessário</li>
-                    </ul>
-
-                    <h3>Validações</h3>
-                    <ul>
-                        <li>CHECK constraints para ratings</li>
-                        <li>ENUM types para campos limitados</li>
-                        <li>NOT NULL para campos obrigatórios</li>
-                        <li>Unique constraints para evitar duplicatas</li>
-                    </ul>
-
-                    <h3>Configurações MySQL</h3>
-                    <div class="code-block">
-                        <pre><code># my.cnf otimizações
-innodb_buffer_pool_size = 256M
-max_connections = 100
-query_cache_size = 64M
-query_cache_type = 1</code></pre>
-                    </div>
-                </div>
-
-                <!-- Estatísticas Finais -->
-                <div class="card">
-                    <h2>📊 Estatísticas Atuais</h2>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-number">~50</span>
-                            <span class="stat-label">registros totais</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">~2MB</span>
-                            <span class="stat-label">tamanho do banco</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">< 50ms</span>
-                            <span class="stat-label">performance consultas</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100%</span>
-                            <span class="stat-label">integridade consistente</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conclusão -->
+                <!-- Considerações para Produção -->
                 <div class="card conclusion">
-                    <h2>✅ Banco de Dados Implementado com Sucesso</h2>
-                    <p><em>📝 Última atualização: Julho 2025</em></p>
-                    <p><em>🔧 Próxima versão: Implementação completa de pedidos e pagamentos</em></p>
+                    <h2>🚀 Considerações para Produção</h2>
+                    
+                    <h3>✅ Otimizações Implementadas</h3>
+                    <ul>
+                        <li>✅ <strong>Índices Estratégicos:</strong> Em campos de busca e relacionamentos</li>
+                        <li>✅ <strong>Constraints Adequadas:</strong> Integridade referencial garantida</li>
+                        <li>✅ <strong>Campos Nullable:</strong> Flexibilidade para checkout anônimo</li>
+                        <li>✅ <strong>Tipos Apropriados:</strong> Decimais para valores monetários</li>
+                        <li>✅ <strong>JSON para Flexibilidade:</strong> Images e attributes</li>
+                        <li>✅ <strong>Enums para Consistência:</strong> Status e tipos bem definidos</li>
+                    </ul>
+
+                    <h3>🔧 Próximas Otimizações</h3>
+                    <ul>
+                        <li>🎯 <strong>Particionamento:</strong> Para tabelas com grande volume</li>
+                        <li>🎯 <strong>Read Replicas:</strong> Para consultas de alto volume</li>
+                        <li>🎯 <strong>Cache de Query:</strong> Redis para consultas frequentes</li>
+                        <li>🎯 <strong>Índices Compostos:</strong> Para queries complexas específicas</li>
+                    </ul>
+
+                    <h3>📊 Status Atual</h3>
+                    <p><strong>🟢 BANCO OTIMIZADO:</strong> Estrutura completamente funcional e otimizada para dropshipping e e-commerce.</p>
+                    <p><strong>🎯 PRONTO PARA ESCALA:</strong> Arquitetura preparada para crescimento e alto volume de transações.</p>
+                    <p><strong>🚀 PRODUÇÃO READY:</strong> Database pronto para ambiente de produção cPanel.</p>
                 </div>
             </div>
         </main>
     </div>
-
-    <script src="js/main.js"></script>
-    <script>
-        mermaid.initialize({ startOnLoad: true });
-    </script>
 </body>
 </html> 

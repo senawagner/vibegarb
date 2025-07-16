@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Banner;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,6 +12,9 @@ class HomeController extends Controller
     public function index()
     {
         try {
+            // Banners ativos para o carousel
+            $banners = Banner::active()->ordered()->get();
+
             // Produtos em destaque (otimizado)
             $featuredProducts = Product::where('is_active', true)
                 ->where('is_featured', true)
@@ -42,6 +46,7 @@ class HomeController extends Controller
             ];
 
             return view('home', compact(
+                'banners',
                 'featuredProducts',
                 'categories', 
                 'latestProducts',
@@ -52,6 +57,7 @@ class HomeController extends Controller
             
             // Fallback com dados mínimos
             return view('home', [
+                'banners' => collect([]),
                 'featuredProducts' => collect([]),
                 'categories' => collect([]),
                 'latestProducts' => collect([]),

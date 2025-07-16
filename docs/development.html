@@ -580,6 +580,797 @@ curl -I http://localhost:8500</code></pre>
                     </div>
                 </div>
 
+                <!-- Mapa Mental do Sistema -->
+                <div class="card card-full">
+                    <h2>🧠 Mapa Mental do Sistema</h2>
+                    <p><em>Diagrama interativo mostrando o fluxo completo desde o usuário final até os componentes do sistema</em></p>
+
+                    <div class="mind-map-container">
+                        <div class="mind-map">
+                            <!-- Nó Central -->
+                            <div class="center-hub">
+                                <div class="center-node">
+                                    <h3>🎯 VIBE GARB</h3>
+                                    <p>E-commerce System</p>
+                                </div>
+                            </div>
+
+                            <!-- Camada 1: Usuários -->
+                            <div class="layer layer-users">
+                                <div class="branch-card user-card">
+                                    <div class="card-header primary">
+                                        <h4>👤 USUÁRIO FINAL</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="feature-item">
+                                            <span class="icon">🏠</span>
+                                            <div class="details">
+                                                <strong>Homepage</strong>
+                                                <small>HomeController.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🛍️</span>
+                                            <div class="details">
+                                                <strong>Catálogo</strong>
+                                                <small>ProductController.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🛒</span>
+                                            <div class="details">
+                                                <strong>Carrinho</strong>
+                                                <small>CartController.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">💳</span>
+                                            <div class="details">
+                                                <strong>Checkout</strong>
+                                                <small>CheckoutController.php</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="branch-card admin-card">
+                                    <div class="card-header admin">
+                                        <h4>⚙️ ADMINISTRADOR</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="feature-item">
+                                            <span class="icon">📊</span>
+                                            <div class="details">
+                                                <strong>Dashboard</strong>
+                                                <small>AdminController.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">📦</span>
+                                            <div class="details">
+                                                <strong>Produtos</strong>
+                                                <small>Admin/ProductController.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">📂</span>
+                                            <div class="details">
+                                                <strong>Categorias</strong>
+                                                <small>Admin/CategoryController.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🏭</span>
+                                            <div class="details">
+                                                <strong>Dropshipping</strong>
+                                                <small>Admin/DropshippingController.php</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Camada 2: Backend -->
+                            <div class="layer layer-backend">
+                                <div class="branch-card backend-card">
+                                    <div class="card-header backend">
+                                        <h4>🔧 BACKEND CORE</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="feature-item">
+                                            <span class="icon">📋</span>
+                                            <div class="details">
+                                                <strong>Models</strong>
+                                                <small>app/Models/ (Product, Order, User...)</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">⚙️</span>
+                                            <div class="details">
+                                                <strong>Services</strong>
+                                                <small>CartService, OrderCreationService</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🔒</span>
+                                            <div class="details">
+                                                <strong>Middleware</strong>
+                                                <small>AdminMiddleware.php</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">✅</span>
+                                            <div class="details">
+                                                <strong>Validation</strong>
+                                                <small>ProcessCheckoutRequest.php</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="branch-card frontend-card">
+                                    <div class="card-header frontend">
+                                        <h4>🎨 FRONTEND</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="feature-item">
+                                            <span class="icon">🖼️</span>
+                                            <div class="details">
+                                                <strong>Blade Templates</strong>
+                                                <small>resources/views/ (Server-side)</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🎨</span>
+                                            <div class="details">
+                                                <strong>Tailwind CSS</strong>
+                                                <small>resources/css/app.css</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">⚡</span>
+                                            <div class="details">
+                                                <strong>JavaScript</strong>
+                                                <small>resources/js/app.js</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🔨</span>
+                                            <div class="details">
+                                                <strong>Vite Build</strong>
+                                                <small>Asset compilation</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Camada 3: Infrastructure & External -->
+                            <div class="layer layer-infrastructure">
+                                <div class="branch-card infrastructure-card">
+                                    <div class="card-header infrastructure">
+                                        <h4>🏗️ INFRAESTRUTURA</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="feature-item">
+                                            <span class="icon">🗄️</span>
+                                            <div class="details">
+                                                <strong>MySQL Database</strong>
+                                                <small>15+ tabelas relacionais</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">⚡</span>
+                                            <div class="details">
+                                                <strong>Redis Cache</strong>
+                                                <small>Sessions & Performance</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🐳</span>
+                                            <div class="details">
+                                                <strong>Docker</strong>
+                                                <small>Containerização completa</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">🌐</span>
+                                            <div class="details">
+                                                <strong>Nginx</strong>
+                                                <small>Web Server (Porta 8500)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="branch-card external-card">
+                                    <div class="card-header external">
+                                        <h4>🌐 EXTERNAL APIs</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="feature-item">
+                                            <span class="icon">🏭</span>
+                                            <div class="details">
+                                                <strong>Dimona API</strong>
+                                                <small>DimonaService.php (Dropshipping)</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">💳</span>
+                                            <div class="details">
+                                                <strong>Payment Gateways</strong>
+                                                <small>Mercado Pago, PIX</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">📮</span>
+                                            <div class="details">
+                                                <strong>Correios API</strong>
+                                                <small>Frete & Rastreamento</small>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="icon">📍</span>
+                                            <div class="details">
+                                                <strong>ViaCEP</strong>
+                                                <small>Busca de endereços</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conexões Visuais -->
+                            <div class="connections">
+                                <div class="connection-line layer1-to-center"></div>
+                                <div class="connection-line layer2-to-center"></div>
+                                <div class="connection-line layer3-to-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legenda -->
+                    <div class="mind-map-legend">
+                        <h3>📋 Legenda do Mapa Mental</h3>
+                        <div class="legend-grid">
+                            <div class="legend-item">
+                                <div class="legend-color primary"></div>
+                                <span><strong>Usuário Final:</strong> Interface pública do e-commerce</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color admin"></div>
+                                <span><strong>Administrador:</strong> Painel de gestão e controle</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color backend"></div>
+                                <span><strong>Backend Core:</strong> Lógica de negócio e processamento</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color infrastructure"></div>
+                                <span><strong>Infraestrutura:</strong> Banco de dados e serviços base</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color frontend"></div>
+                                <span><strong>Frontend:</strong> Interface, estilos e assets</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color external"></div>
+                                <span><strong>External APIs:</strong> Integrações com serviços externos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fluxo de Dados -->
+                    <div class="data-flow-section">
+                        <h3>🔄 Fluxo de Dados Principal</h3>
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <span class="step-number">1</span>
+                                <div class="step-content">
+                                    <strong>Usuário acessa página</strong>
+                                    <small>Browser → Nginx (8500) → Laravel Routes</small>
+                                </div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">2</span>
+                                <div class="step-content">
+                                    <strong>Controller processa</strong>
+                                    <small>Controller → Service/Model → Database</small>
+                                </div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">3</span>
+                                <div class="step-content">
+                                    <strong>View renderiza</strong>
+                                    <small>Blade Template → CSS/JS → HTML Final</small>
+                                </div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">4</span>
+                                <div class="step-content">
+                                    <strong>Resposta ao usuário</strong>
+                                    <small>HTML + Assets → Nginx → Browser</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        /* Mind Map Container - Versão Limpa */
+                        .mind-map-container {
+                            margin: 2rem 0;
+                            padding: 3rem 2rem;
+                            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                            border-radius: 20px;
+                            position: relative;
+                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+                        }
+
+                        .mind-map {
+                            position: relative;
+                            width: 100%;
+                            max-width: 1400px;
+                            margin: 0 auto;
+                        }
+
+                        /* Centro do Mapa - Melhorado */
+                        .center-hub {
+                            display: flex;
+                            justify-content: center;
+                            margin-bottom: 4rem;
+                            position: relative;
+                            z-index: 10;
+                        }
+
+                        .center-node {
+                            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+                            color: white;
+                            padding: 2.5rem 3rem;
+                            border-radius: 25px;
+                            text-align: center;
+                            box-shadow: 
+                                0 15px 35px rgba(139, 92, 246, 0.3),
+                                0 5px 15px rgba(0, 0, 0, 0.1);
+                            border: 4px solid rgba(255, 255, 255, 0.2);
+                            animation: gentle-pulse 4s ease-in-out infinite;
+                            backdrop-filter: blur(10px);
+                        }
+
+                        .center-node h3 {
+                            margin: 0 0 0.8rem 0;
+                            font-size: 1.8rem;
+                            font-weight: 800;
+                            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .center-node p {
+                            margin: 0;
+                            font-size: 1.1rem;
+                            opacity: 0.95;
+                            font-weight: 500;
+                        }
+
+                        /* Camadas do Sistema - Reorganizadas */
+                        .layer {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 3rem;
+                            margin-bottom: 4rem;
+                            position: relative;
+                        }
+
+                        /* Conectores entre camadas */
+                        .layer::before {
+                            content: '';
+                            position: absolute;
+                            top: -3rem;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 4px;
+                            height: 3rem;
+                            background: linear-gradient(to bottom, #8b5cf6, rgba(139, 92, 246, 0.2));
+                            border-radius: 3px;
+                            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+                        }
+
+                        /* Cards dos Componentes - Redesenhados */
+                        .branch-card {
+                            background: white;
+                            border-radius: 16px;
+                            box-shadow: 
+                                0 8px 25px rgba(0, 0, 0, 0.08),
+                                0 3px 10px rgba(0, 0, 0, 0.05);
+                            overflow: hidden;
+                            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                            border: 2px solid #f1f5f9;
+                            position: relative;
+                        }
+
+                        .branch-card::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 4px;
+                            background: var(--card-color, #8b5cf6);
+                            opacity: 0.8;
+                        }
+
+                        .branch-card:hover {
+                            transform: translateY(-8px) scale(1.02);
+                            box-shadow: 
+                                0 20px 40px rgba(0, 0, 0, 0.12),
+                                0 8px 16px rgba(0, 0, 0, 0.08);
+                            border-color: var(--card-color, #8b5cf6);
+                        }
+
+                        .card-header {
+                            padding: 2rem 1.5rem 1rem 1.5rem;
+                            text-align: center;
+                            position: relative;
+                        }
+
+                        .card-header h4 {
+                            margin: 0;
+                            font-size: 1.3rem;
+                            font-weight: 700;
+                            background: var(--card-color, #8b5cf6);
+                            background-clip: text;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            text-shadow: none;
+                        }
+
+                        /* Cores específicas para cada tipo */
+                        .user-card {
+                            --card-color: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                        }
+                        
+                        .admin-card {
+                            --card-color: linear-gradient(135deg, #ef4444, #dc2626);
+                        }
+                        
+                        .backend-card {
+                            --card-color: linear-gradient(135deg, #10b981, #059669);
+                        }
+                        
+                        .frontend-card {
+                            --card-color: linear-gradient(135deg, #ec4899, #be185d);
+                        }
+                        
+                        .infrastructure-card {
+                            --card-color: linear-gradient(135deg, #f59e0b, #d97706);
+                        }
+                        
+                        .external-card {
+                            --card-color: linear-gradient(135deg, #6366f1, #4f46e5);
+                        }
+
+                        .card-content {
+                            padding: 0 2rem 2rem 2rem;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 1.2rem;
+                        }
+
+                        /* Feature Items - Melhorados */
+                        .feature-item {
+                            display: flex;
+                            align-items: flex-start;
+                            gap: 1.2rem;
+                            padding: 1.2rem 1.5rem;
+                            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                            border-radius: 12px;
+                            border: 1px solid #e2e8f0;
+                            transition: all 0.3s ease;
+                            position: relative;
+                            overflow: hidden;
+                        }
+
+                        .feature-item::before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            bottom: 0;
+                            width: 4px;
+                            background: var(--card-color, #8b5cf6);
+                            opacity: 0.7;
+                            transition: opacity 0.3s ease;
+                        }
+
+                        .feature-item:hover {
+                            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                            border-color: rgba(139, 92, 246, 0.3);
+                            transform: translateX(4px);
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .feature-item:hover::before {
+                            opacity: 1;
+                        }
+
+                        .feature-item .icon {
+                            font-size: 1.8rem;
+                            flex-shrink: 0;
+                            margin-top: 0.2rem;
+                            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+                        }
+
+                        .feature-item .details strong {
+                            display: block;
+                            color: #1f2937;
+                            font-size: 1.1rem;
+                            margin-bottom: 0.4rem;
+                            font-weight: 700;
+                            line-height: 1.3;
+                        }
+
+                        .feature-item .details small {
+                            color: #6b7280;
+                            font-size: 0.9rem;
+                            line-height: 1.5;
+                            font-weight: 500;
+                        }
+
+                        /* Conectores Visuais - Simplificados */
+                        .connections {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            pointer-events: none;
+                            z-index: 1;
+                        }
+
+                        /* Animações Suaves */
+                        @keyframes gentle-pulse {
+                            0%, 100% { 
+                                transform: scale(1);
+                                box-shadow: 
+                                    0 15px 35px rgba(139, 92, 246, 0.3),
+                                    0 5px 15px rgba(0, 0, 0, 0.1);
+                            }
+                            50% { 
+                                transform: scale(1.03);
+                                box-shadow: 
+                                    0 20px 45px rgba(139, 92, 246, 0.4),
+                                    0 8px 20px rgba(0, 0, 0, 0.15);
+                            }
+                        }
+
+                        /* Legenda Atualizada */
+                        .mind-map-legend {
+                            margin-top: 3rem;
+                            padding: 2rem;
+                            background: white;
+                            border-radius: 16px;
+                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+                            border: 1px solid #e2e8f0;
+                        }
+
+                        .mind-map-legend h3 {
+                            margin: 0 0 1.5rem 0;
+                            color: #1f2937;
+                            font-size: 1.4rem;
+                            font-weight: 700;
+                        }
+
+                        .legend-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                            gap: 1.5rem;
+                        }
+
+                        .legend-item {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            padding: 1rem 1.5rem;
+                            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                            border-radius: 12px;
+                            border: 1px solid #e2e8f0;
+                            transition: all 0.3s ease;
+                        }
+
+                        .legend-item:hover {
+                            background: white;
+                            border-color: #d1d5db;
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .legend-color {
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 6px;
+                            flex-shrink: 0;
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .legend-color.primary { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+                        .legend-color.admin { background: linear-gradient(135deg, #ef4444, #dc2626); }
+                        .legend-color.backend { background: linear-gradient(135deg, #10b981, #059669); }
+                        .legend-color.infrastructure { background: linear-gradient(135deg, #f59e0b, #d97706); }
+                        .legend-color.frontend { background: linear-gradient(135deg, #ec4899, #be185d); }
+                        .legend-color.external { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+
+                        .legend-item span {
+                            font-size: 0.95rem;
+                            color: #374151;
+                            font-weight: 500;
+                        }
+
+                        /* Fluxo de Dados */
+                        .data-flow-section {
+                            margin-top: 3rem;
+                            padding: 2rem;
+                            background: white;
+                            border-radius: 16px;
+                            border: 2px solid #e2e8f0;
+                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+                        }
+
+                        .data-flow-section h3 {
+                            margin: 0 0 2rem 0;
+                            color: #1f2937;
+                            font-size: 1.4rem;
+                            font-weight: 700;
+                            text-align: center;
+                        }
+
+                        .flow-steps {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 1.5rem;
+                            flex-wrap: wrap;
+                        }
+
+                        .flow-step {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                            padding: 1.5rem 2rem;
+                            border-radius: 12px;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                            border: 2px solid #e2e8f0;
+                            border-top: 4px solid #8b5cf6;
+                            min-width: 200px;
+                            transition: all 0.3s ease;
+                        }
+
+                        .flow-step:hover {
+                            background: white;
+                            border-color: #8b5cf6;
+                            transform: translateY(-4px);
+                            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.15);
+                        }
+
+                        .step-number {
+                            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                            color: white;
+                            width: 36px;
+                            height: 36px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: 800;
+                            flex-shrink: 0;
+                            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+                        }
+
+                        .step-content strong {
+                            display: block;
+                            color: #1f2937;
+                            font-size: 1rem;
+                            margin-bottom: 0.4rem;
+                            font-weight: 700;
+                        }
+
+                        .step-content small {
+                            color: #6b7280;
+                            font-size: 0.85rem;
+                            font-weight: 500;
+                        }
+
+                        .flow-arrow {
+                            color: #8b5cf6;
+                            font-size: 2rem;
+                            font-weight: bold;
+                            filter: drop-shadow(0 2px 4px rgba(139, 92, 246, 0.3));
+                        }
+
+                        /* Design Responsivo Melhorado */
+                        @media (max-width: 1024px) {
+                            .mind-map {
+                                padding: 0.5rem;
+                            }
+                            
+                            .center-node {
+                                padding: 2rem;
+                            }
+                        }
+
+                        @media (max-width: 768px) {
+                            .mind-map-container {
+                                padding: 2rem 1rem;
+                            }
+                            
+                            .layer {
+                                grid-template-columns: 1fr;
+                                gap: 2rem;
+                                margin-bottom: 3rem;
+                            }
+                            
+                            .card-content {
+                                padding: 0 1.5rem 1.5rem 1.5rem;
+                            }
+                            
+                            .flow-steps {
+                                flex-direction: column;
+                                gap: 1rem;
+                            }
+                            
+                            .flow-arrow {
+                                transform: rotate(90deg);
+                                font-size: 1.5rem;
+                            }
+
+                            .center-node h3 {
+                                font-size: 1.4rem;
+                            }
+
+                            .center-node p {
+                                font-size: 1rem;
+                            }
+                        }
+
+                        @media (max-width: 480px) {
+                            .feature-item {
+                                flex-direction: column;
+                                text-align: center;
+                                gap: 0.8rem;
+                                padding: 1rem;
+                            }
+                            
+                            .feature-item .icon {
+                                margin-top: 0;
+                                font-size: 1.5rem;
+                            }
+
+                            .center-node {
+                                padding: 1.5rem 2rem;
+                            }
+                        }
+
+                        /* Efeitos extras para interatividade */
+                        .branch-card {
+                            will-change: transform;
+                        }
+
+                        .feature-item {
+                            will-change: transform;
+                        }
+
+                        /* Melhor contraste e legibilidade */
+                        .feature-item .details strong {
+                            color: #111827;
+                        }
+
+                        .feature-item .details small {
+                            color: #4b5563;
+                        }
+                    </style>
+                </div>
+
                 <!-- Workflow de Desenvolvimento -->
                 <div class="card">
                     <h2>🔄 Workflow de Desenvolvimento</h2>

@@ -108,6 +108,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     
     // Pedidos
     Route::get('/pedidos', [AdminController::class, 'orders'])->name('orders');
+    
+    // Banners
+    Route::resource('banners', App\Http\Controllers\Admin\BannerController::class);
+    Route::post('/banners/{banner}/toggle-status', [App\Http\Controllers\Admin\BannerController::class, 'toggleStatus'])->name('banners.toggle_status');
 });
 
 // API Routes para funcionalidades do catálogo e carrinho

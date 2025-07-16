@@ -3,30 +3,63 @@
 @section('title', 'Vibe Garb - Sua Vibe, Seu Style')
 
 @section('content')
-<!-- Status da Fase 2 -->
-<section class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-8">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-2xl font-bold mb-4">🚀 Fase 2 Implementada com Sucesso!</h2>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-            <div class="bg-white/20 rounded-lg p-3">
-                <div class="font-semibold">✅ Interface Moderna</div>
-                <div>Blade + Tailwind CSS</div>
+<!-- Banner Carousel -->
+@if($banners->count() > 0)
+<section class="relative overflow-hidden">
+    <div class="banner-carousel relative h-96 md:h-[500px]">
+        @foreach($banners as $index => $banner)
+        <div class="banner-slide absolute inset-0 transition-all duration-500 ease-in-out {{ $index === 0 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full' }}" 
+             data-slide="{{ $index }}">
+            @if($banner->link)
+                <a href="{{ $banner->link }}" class="block w-full h-full">
+            @endif
+            <img src="{{ $banner->image_url }}" 
+                 alt="{{ $banner->title }}" 
+                 class="w-full h-full object-cover">
+            
+            @if($banner->title || $banner->description)
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div class="text-center text-white px-4">
+                    @if($banner->title)
+                        <h2 class="text-3xl md:text-5xl font-bold mb-4">{{ $banner->title }}</h2>
+                    @endif
+                    @if($banner->description)
+                        <p class="text-lg md:text-xl">{{ $banner->description }}</p>
+                    @endif
+                </div>
             </div>
-            <div class="bg-white/20 rounded-lg p-3">
-                <div class="font-semibold">✅ Catálogo Completo</div>
-                <div>Filtros & Busca</div>
-            </div>
-            <div class="bg-white/20 rounded-lg p-3">
-                <div class="font-semibold">✅ Carrinho Funcional</div>
-                <div>Cálculos & Sessão</div>
-            </div>
-            <div class="bg-white/20 rounded-lg p-3">
-                <div class="font-semibold">✅ Sistema Auth</div>
-                <div>Laravel Breeze</div>
-            </div>
+            @endif
+            
+            @if($banner->link)
+                </a>
+            @endif
         </div>
+        @endforeach
+        
+        @if($banners->count() > 1)
+        <!-- Navigation Arrows -->
+        <button class="banner-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200 z-10">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        <button class="banner-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200 z-10">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+        
+        <!-- Dots Indicator -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            @foreach($banners as $index => $banner)
+            <button class="banner-dot w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white bg-opacity-50' }} transition-all duration-200" 
+                    data-slide="{{ $index }}"></button>
+            @endforeach
+        </div>
+        @endif
     </div>
 </section>
+@endif
 
 <!-- Hero Section -->
 <section class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20">

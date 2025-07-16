@@ -282,10 +282,112 @@ const FormSystem = {
 };
 
 // =====================================================
+// SISTEMA DE CAROUSEL DE BANNERS
+// =====================================================
+const BannerCarousel = {
+    currentSlide: 0,
+    totalSlides: 0,
+    autoPlayInterval: null,
+    autoPlayDelay: 5000, // 5 segundos
+
+    init() {
+        const carousel = document.querySelector('.banner-carousel');
+        if (!carousel) return;
+
+        this.totalSlides = document.querySelectorAll('.banner-slide').length;
+        if (this.totalSlides <= 1) return;
+
+        this.setupEventListeners();
+        this.startAutoPlay();
+    },
+
+    setupEventListeners() {
+        // Botões de navegação
+        const prevBtn = document.querySelector('.banner-prev');
+        const nextBtn = document.querySelector('.banner-next');
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.prevSlide());
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+
+        // Dots de navegação
+        const dots = document.querySelectorAll('.banner-dot');
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => this.goToSlide(index));
+        });
+
+        // Pausar auto-play ao passar o mouse
+        const carousel = document.querySelector('.banner-carousel');
+        if (carousel) {
+            carousel.addEventListener('mouseenter', () => this.stopAutoPlay());
+            carousel.addEventListener('mouseleave', () => this.startAutoPlay());
+        }
+    },
+
+    goToSlide(slideIndex) {
+        if (slideIndex < 0 || slideIndex >= this.totalSlides) return;
+
+        // Atualizar slides
+        const slides = document.querySelectorAll('.banner-slide');
+        slides.forEach((slide, index) => {
+            slide.classList.remove('opacity-100', 'translate-x-0', 'opacity-0', 'translate-x-full', '-translate-x-full');
+            
+            if (index === slideIndex) {
+                slide.classList.add('opacity-100', 'translate-x-0');
+            } else if (index < slideIndex) {
+                slide.classList.add('opacity-0', '-translate-x-full');
+            } else {
+                slide.classList.add('opacity-0', 'translate-x-full');
+            }
+        });
+
+        // Atualizar dots
+        const dots = document.querySelectorAll('.banner-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.remove('bg-white', 'bg-white/50');
+            dot.classList.add(index === slideIndex ? 'bg-white' : 'bg-white/50');
+        });
+
+        this.currentSlide = slideIndex;
+    },
+
+    nextSlide() {
+        const nextIndex = (this.currentSlide + 1) % this.totalSlides;
+        this.goToSlide(nextIndex);
+    },
+
+    prevSlide() {
+        const prevIndex = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.goToSlide(prevIndex);
+    },
+
+    startAutoPlay() {
+        this.stopAutoPlay(); // Limpa qualquer interval existente
+        this.autoPlayInterval = setInterval(() => {
+            this.nextSlide();
+        }, this.autoPlayDelay);
+    },
+
+    stopAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+};
+
+// =====================================================
 // INICIALIZAÇÃO E EVENT LISTENERS
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 ViteGarb App.js carregado com sucesso!');
+
+    // ===== BANNER CAROUSEL =====
+    BannerCarousel.init();
 
     // ===== CARRINHO =====
     
@@ -414,6 +516,84 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // ===== MOBILE MENU =====
+    
+    // Toggle do menu mobile
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            const isHidden = mobileMenu.style.display === 'none' || !mobileMenu.style.display;
+            
+            if (isHidden) {
+                mobileMenu.style.display = 'block';
+                // Animação de entrada
+                setTimeout(() => {
+                    mobileMenu.classList.add('animate-in');
+                }, 10);
+            } else {
+                mobileMenu.classList.remove('animate-in');
+                setTimeout(() => {
+                    mobileMenu.style.display = 'none';
+                }, 150);
+            }
+        });
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(e) {
+            if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.style.display = 'none';
+                mobileMenu.classList.remove('animate-in');
+            }
+        });
+    }
+
+    // ===== HEADER SCROLL BEHAVIOR =====
+    
+    // Controla o efeito de scroll em camadas
+    let lastScrollTop = 0;
+    let isScrolling = false;
+    const productMenu = document.getElementById('product-menu');
+    const mainContent = document.querySelector('main');
+    
+    if (productMenu && mainContent) {
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Evita muitas execuções durante o scroll
+            if (!isScrolling) {
+                window.requestAnimationFrame(function() {
+                    // Primeiro efeito: linha de menu desliza
+                    if (scrollTop > 50 && scrollTop > lastScrollTop) {
+                        // Rolando para baixo - deslizar menu para trás da header
+                        productMenu.style.transform = 'translateY(-100%)';
+                        
+                        // Segundo efeito: conteúdo principal com atraso sutil
+                        setTimeout(() => {
+                            mainContent.style.transform = 'translateY(-10px)';
+                            mainContent.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        }, 150); // Atraso de 150ms
+                        
+                    } else if (scrollTop < lastScrollTop || scrollTop <= 50) {
+                        // Rolando para cima ou no topo
+                        productMenu.style.transform = 'translateY(0)';
+                        
+                        // Restaurar posição do conteúdo
+                        setTimeout(() => {
+                            mainContent.style.transform = 'translateY(0)';
+                        }, 100); // Atraso menor para volta
+                    }
+                    
+                    lastScrollTop = scrollTop;
+                    isScrolling = false;
+                });
+                
+                isScrolling = true;
+            }
+        }, { passive: true });
+    }
 
     console.log('✅ Todos os event listeners foram configurados!');
 });
